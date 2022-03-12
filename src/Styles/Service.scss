@@ -1,0 +1,27 @@
+#root[data-appearance='dark'] > .service {
+	background: #000;
+	color: #FFF;
+}
+
+.service {
+	display: none;
+	height: 100%;
+	background: var(--background);
+
+	.buttons {
+		height: var(--nav-height);
+		display: block;
+		margin: 0px 5vw;
+	}
+}
+
+#root[data-service='true'] {
+	> * {
+		display: none;
+	}
+	
+	.service {
+		display: block;
+	}
+}
+

@@ -1,39 +1,50 @@
 // import logo from './logo.svg';
 import { Component, createRef } from 'react';
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
+import './Styles/App.scss';
+import ServiceFrame from './ServiceFrame.js';
 import Home from './Pages/Home.js';
 import Theatre from './Pages/Theatre.js';
 import Support from './Pages/Support.js';
 import NotFound from './Pages/NotFound.js';
+import SearchBar from './SearchBar.js';
 import { ReactComponent as IconSVG } from './Assets/nav-icon.svg';
-import { ReactComponent as SearchSVG } from './Assets/nav-search.svg';
-import { ReactComponent as SubmitSVG } from './Assets/nav-submit.svg';
-import { ReactComponent as CancelSVG } from './Assets/nav-cancel.svg';
-import ProxyFrame from './ProxyFrame.js';
+import { ReactComponent as LightswitchSVG } from './Assets/nav-lightswitch.svg';
 // import { ThemeProvider } from 'styled-components';
-import './Styles/App.scss';
 import root from './root.js';
+
+const themes = ['light','dark'];
 
 class Layout extends Component {
 	nav = createRef();
 	search_bar = createRef();
-	proxy_frame = createRef();
-	componentDidMount(){
-		if(localStorage.getItem('theme') === null){
-			localStorage.setItem('theme', 'light');
+	service_frame = createRef();
+	get theme(){
+		if(!themes.includes(localStorage.getItem('theme'))){
+			localStorage.setItem('theme', themes[0]);
 		}
 
-		root.dataset.theme = localStorage.getItem('theme');
+		return localStorage.getItem('theme');
 	}
-	open_search(){
-		this.nav.current.dataset.search = true;
+	set theme(value){
+		if(!themes.includes(value)){
+			throw new RangeError('Bad theme');
+		}
+
+		localStorage.setItem('theme', value);
+		root.dataset.theme = value;
+
+		return value;
 	}
-	close_search(){
-		this.nav.current.dataset.search = false;
+	componentDidMount(){
+		root.dataset.theme = this.theme;
 	}
-	search_submit(event){
-		event.preventDefault();
-		this.proxy_frame.load(this.search_bar.value);
+	lightswitch(){
+		if(this.theme === 'light'){
+			this.theme = 'dark';
+		}else{
+			this.theme = 'light';
+		}
 	}
 	render(){
 		return (
@@ -45,21 +56,16 @@ class Layout extends Component {
 						<Link to='/theatre' className='entry text'>Theatre</Link>
 						<Link to='/support' className='entry text'>Support</Link>
 					</div>
-					<form className='search-bar' onSubmit={this.search_submit.bind(this)}>
-						<input className='bar' placeholder='Search the web' list='suggested' ref={this.search_bar} required></input>
-						<datalist id='suggested'></datalist>
-						<button className='submit' type='submit'><SubmitSVG /></button>
-						<button className='cancel' onClick={this.close_search.bind(this)}><CancelSVG /></button>
-						
-					</form>
 					<div className='shift-right'></div>
-					<button className='entry search svg button' onClick={this.open_search.bind(this)}><SearchSVG /></button>
+					<SearchBar service_frame={this.service_frame} nav={this.nav} />
+					<button className='entry lightswitch svg button' onClick={this.lightswitch.bind(this)}><LightswitchSVG /></button>
 				</nav>
 				<Outlet />
-				<ProxyFrame ref={this.proxy_frame} />
+				<ServiceFrame ref={this.service_frame} />
 				<footer>
 					<Link to='/contact'>Contact</Link>
 					<Link to='/privacy'>Privacy Policy</Link>
+					<span>SystemYA {new Date().getUTCFullYear()}</span>
 				</footer>
 			</>
 		);

@@ -1,0 +1,138 @@
+nav {
+	display: flex;
+	min-height: var(--nav-height);
+	align-content: center;
+	position: relative;
+	color: var(--slate);
+	border-bottom: var(--border) 1px solid;
+	padding: 0px 5vw;
+	z-index: 10;
+	text-align: center;
+	background: var(--background);
+
+	.collapsable {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+	}
+	
+	.entry {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: var(--nav-height);
+		text-decoration: none;
+		padding: 0px 15px;
+		color: inherit;
+		
+		:hover {
+			text-decoration: underline;
+		}
+	}
+	
+	.svg > svg {
+		height: 30px;
+		width: 30px;
+	}
+	
+	.separator {
+		background: var(--subtle);
+		height: 30px;
+		width: 2px;
+		margin: auto 8px;
+	}
+	
+	.button {
+		box-sizing: content-box;
+		border: none;
+		background: none;
+		width: 25px;
+		height: 25px;
+		margin: auto 0px auto 10px;
+		border-radius: 2px;
+		padding: 5px;
+		position: relative;
+		flex: none;
+		cursor: pointer;
+
+		:hover {
+			background: var(--accent);
+		}	
+	}
+	
+	.shift-right {
+		margin-left: auto;
+	}
+	
+	:last-child {
+		margin-right: 0px;
+	}
+	
+	.search-bar {
+		width: 100%;
+		padding: 6px 0px;
+		display: none;
+	
+		> * {
+			border: 1px solid var(--border);
+			border-radius: 5px;
+			background: var(--background);
+			color: var(--subtle);
+		}
+	
+		button {
+			cursor: pointer;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		.bar {
+			width: 100%;
+			padding: 0px 12px;
+			font-family: inherit;
+			border-right: none;
+			border-top-right-radius: 0px;
+			border-bottom-right-radius: 0px;
+		}
+		.submit {
+			flex: none;
+			width: 38px;
+			border-top-left-radius: 0px;
+			border-bottom-left-radius: 0px;
+			background: var(--blue);
+			color: #FFF;
+			padding: 2px;
+		}
+		
+		.submit:hover {
+			background-color: var(--blue-accent-hover);
+		}
+		
+		.submit:active {
+			background-color: var(--blue-accent-active);
+		}
+		
+		.cancel {
+			margin-left: 5px;
+			color: var(--slate);
+			padding: 0px 8px;
+			width: 38px;
+		}
+		
+		.cancel:hover {
+			background-color: var(--accent);
+		}
+	}
+	
+}
+
+nav[data-search='true'] {
+	> * {
+		display: none;
+	}
+
+	.logo, .search-bar {
+		display: flex;
+	}
+}
