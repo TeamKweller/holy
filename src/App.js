@@ -36,8 +36,17 @@ class Layout extends Component {
 
 		return value;
 	}
+	get fullscreen(){
+		return document.fullscreenElement !== null;
+	}
 	componentDidMount(){
 		root.dataset.theme = this.theme;
+		
+		root.dataset.fullscreen = this.fullscreen;
+
+		document.addEventListener('fullscreenchange', () => {
+			root.dataset.fullscreen = this.fullscreen;
+		});
 	}
 	lightswitch(){
 		if(this.theme === 'light'){
@@ -50,15 +59,15 @@ class Layout extends Component {
 		return (
 			<>
 				<nav ref={this.nav}>
-					<Link to='/' className='entry logo svg'><IconSVG /></Link>
+					<Link to='/' className='entry logo'><IconSVG /></Link>
 					<div className='separator'></div>
 					<div className='collapsable'>
-						<Link to='/theatre' className='entry text'>Theatre</Link>
-						<Link to='/support' className='entry text'>Support</Link>
+						<Link to='/theatre' className='entry text'><span>Theatre</span></Link>
+						<Link to='/support' className='entry text'><span>Support</span></Link>
 					</div>
 					<div className='shift-right'></div>
 					<SearchBar service_frame={this.service_frame} nav={this.nav} />
-					<button className='entry lightswitch svg button' onClick={this.lightswitch.bind(this)}><LightswitchSVG /></button>
+					<button className='lightswitch' onClick={this.lightswitch.bind(this)}><LightswitchSVG /></button>
 				</nav>
 				<Outlet />
 				<ServiceFrame ref={this.service_frame} />

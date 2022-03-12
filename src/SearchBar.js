@@ -1,5 +1,4 @@
 import { Component, createRef } from 'react';
-import { ReactComponent as SubmitSVG } from './Assets/nav-submit.svg';
 import { ReactComponent as CancelSVG } from './Assets/nav-cancel.svg';
 import { ReactComponent as SearchSVG } from './Assets/nav-search.svg';
 
@@ -24,10 +23,10 @@ export default class ProxyFrame extends Component {
 				<form name='nav-search' className='search-bar' onSubmit={this.search_submit.bind(this)}>
 					<input className='bar' placeholder='Search the web' list='suggested' ref={this.search_bar} required></input>
 					<datalist id='suggested'></datalist>
-					<button className='submit' type='submit'><SubmitSVG /></button>
+					<button className='submit' type='submit'><SearchSVG /></button>
 					<button className='cancel' onClick={this.close_search.bind(this)} type='button'><CancelSVG /></button>
 				</form>
-				<button className='entry search svg button' onClick={this.open_search.bind(this)}><SearchSVG /></button>
+				<button className='search' onClick={this.open_search.bind(this)}><SearchSVG /></button>
 			</>
 		)
 	}

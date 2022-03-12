@@ -10,10 +10,29 @@ nav {
 	text-align: center;
 	background: var(--background);
 
-	.collapsable {
+	> .collapsable {
 		display: flex;
 		flex-direction: row;
 		width: 100%;
+	}
+	
+	> button {
+		box-sizing: content-box;
+		border: none;
+		background: none;
+		width: 25px;
+		height: 25px;
+		margin: auto 5px;
+		border-radius: 2px;
+		padding: 5px;
+		position: relative;
+		flex: none;
+		cursor: pointer;
+		color: inherit;
+
+		&:hover {
+			background: var(--accent);
+		}	
 	}
 	
 	.entry {
@@ -21,18 +40,36 @@ nav {
 		align-items: center;
 		justify-content: center;
 		height: var(--nav-height);
-		text-decoration: none;
 		padding: 0px 15px;
 		color: inherit;
 		
-		:hover {
-			text-decoration: underline;
+		> svg {
+			height: 25px;
+			width: 25px;
+			color: inherit;
 		}
-	}
-	
-	.svg > svg {
-		height: 30px;
-		width: 30px;
+
+		span {
+			position: relative;
+		}
+
+		span::after {
+			display: none;
+			content: '';
+			position: absolute;
+			border-bottom: 2px solid var(--slate);
+			left: 0;
+			right: 0;
+			bottom: -.125rem;
+		}
+
+		&:hover {
+			text-decoration: none;
+
+			span::after {
+				display: block;
+			}
+		}
 	}
 	
 	.separator {
@@ -42,33 +79,11 @@ nav {
 		margin: auto 8px;
 	}
 	
-	.button {
-		box-sizing: content-box;
-		border: none;
-		background: none;
-		width: 25px;
-		height: 25px;
-		margin: auto 0px auto 10px;
-		border-radius: 2px;
-		padding: 5px;
-		position: relative;
-		flex: none;
-		cursor: pointer;
-
-		:hover {
-			background: var(--accent);
-		}	
-	}
-	
-	.shift-right {
+	> .shift-right {
 		margin-left: auto;
 	}
 	
-	:last-child {
-		margin-right: 0px;
-	}
-	
-	.search-bar {
+	> .search-bar {
 		width: 100%;
 		padding: 6px 0px;
 		display: none;
@@ -80,14 +95,20 @@ nav {
 			color: var(--subtle);
 		}
 	
-		button {
+		> button {
 			cursor: pointer;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			
+			> svg {
+				height: 25px;
+				width: 25px;
+			}
+
 		}
 		
-		.bar {
+		> .bar {
 			width: 100%;
 			padding: 0px 12px;
 			font-family: inherit;
@@ -95,33 +116,33 @@ nav {
 			border-top-right-radius: 0px;
 			border-bottom-right-radius: 0px;
 		}
-		.submit {
+
+		> .submit {
 			flex: none;
 			width: 38px;
 			border-top-left-radius: 0px;
 			border-bottom-left-radius: 0px;
 			background: var(--blue);
 			color: #FFF;
-			padding: 2px;
+			
+			&:hover {
+				background-color: var(--blue-accent-hover);
+			}
+			
+			&:active {
+				background-color: var(--blue-accent-active);
+			}
 		}
 		
-		.submit:hover {
-			background-color: var(--blue-accent-hover);
-		}
-		
-		.submit:active {
-			background-color: var(--blue-accent-active);
-		}
-		
-		.cancel {
-			margin-left: 5px;
+		> .cancel {
+			margin: 0px 5px;
 			color: var(--slate);
 			padding: 0px 8px;
 			width: 38px;
-		}
-		
-		.cancel:hover {
-			background-color: var(--accent);
+			
+			&:hover {
+				background-color: var(--accent);
+			}
 		}
 	}
 	
