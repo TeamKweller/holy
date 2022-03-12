@@ -63,10 +63,12 @@ class Layout extends Component {
 			<>
 				<nav ref={this.nav}>
 					<div className='collapse' onClick={this.collapse.bind(this)}>
-						<span></span>
-						<span></span>
-						<span></span>
-						<span></span>
+						<div>
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
 					</div>
 					<Link to='/' className='entry logo'><IconSVG /></Link>
 					<div className='separator'></div>
