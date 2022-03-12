@@ -55,17 +55,20 @@ class Layout extends Component {
 			this.theme = 'light';
 		}
 	}
+	collapse(){
+		this.nav.current.dataset.collapsed ^= 1;
+	}
 	render(){
 		return (
 			<>
 				<nav ref={this.nav}>
-					<Link to='/' className='entry logo'><IconSVG /></Link>
-					<div className='collapse'>
+					<div className='collapse' onClick={this.collapse.bind(this)}>
 						<span></span>
 						<span></span>
 						<span></span>
 						<span></span>
 					</div>
+					<Link to='/' className='entry logo'><IconSVG /></Link>
 					<div className='separator'></div>
 					<div className='collapsable'>
 						<Link to='/theatre' className='entry text'><span>Theatre</span></Link>
