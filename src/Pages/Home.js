@@ -1,8 +1,5 @@
 import logo from '../logo.svg';
-import test from '../App.css';
 import { Component } from 'react';
-
-console.log(test); // lol
 
 export default class Home extends Component {
 	render(){

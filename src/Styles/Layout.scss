@@ -1,0 +1,135 @@
+nav {
+	display: flex;
+	min-height: var(--nav-height);
+	align-content: center;
+	position: relative;
+	color: var(--slate);
+	border-bottom: var(--border) 1px solid;
+	padding: 0px 5vw;
+	z-index: 10;
+	text-align: center;
+}
+
+nav .collapsable {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
+nav .entry {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: var(--nav-height);
+	text-decoration: none;
+	padding: 0px 15px;
+	color: inherit;
+}
+
+nav .entry:hover {
+	text-decoration: underline;
+}
+
+nav .svg > svg {
+	height: 30px;
+	width: 30px;
+}
+
+nav > .separator {
+	background: var(--subtle);
+	height: 30px;
+	width: 2px;
+	margin: auto 8px;
+}
+
+nav .button {
+	box-sizing: content-box;
+	border: none;
+	background: none;
+	width: 25px;
+	height: 25px;
+	margin: auto 0px auto 10px;
+	border-radius: 2px;
+	padding: 5px;
+	position: relative;
+	flex: none;
+	cursor: pointer;
+}
+
+nav > .button:hover {
+	background: var(--accent);
+}
+
+nav .shift-right {
+	margin-left: auto;
+}
+
+nav:last-child {
+	margin-right: 0px;
+}
+
+nav > .search-bar {
+	width: 100%;
+	padding: 6px 0px;
+	display: none;
+}
+
+nav[data-search='true'] > * {
+	display: none;
+}
+
+nav[data-search='true'] > .logo, nav[data-search='true'] > .search-bar {
+	display: flex;
+}
+
+nav > .search-bar > * {
+	border: 1px solid var(--border);
+	border-radius: 5px;
+	background: var(--background);
+	color: var(--subtle);
+}
+
+nav > .search-bar > button {
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+nav > .search-bar > .bar {
+	width: 100%;
+	padding: 0px 12px;
+	font-family: inherit;
+	border-right: none;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+nav > .search-bar > .submit {
+	flex: none;
+	width: 38px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	background: var(--blue);
+	color: #FFF;
+	padding: 2px;
+}
+
+nav > .search-bar > .submit:hover {
+	background-color: var(--blue-accent-hover);
+}
+
+nav > .search-bar > .submit:active {
+	background-color: var(--blue-accent-active);
+}
+
+nav > .search-bar > .cancel {
+	margin-left: 5px;
+	color: var(--slate);
+	padding: 0px 8px;
+	width: 38px;
+}
+
+nav > .search-bar > .cancel:hover {
+	background-color: var(--accent);
+}

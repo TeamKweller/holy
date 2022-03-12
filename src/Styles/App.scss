@@ -1,0 +1,64 @@
+@use './Segoe-UI.scss';
+@use './Layout.scss';
+
+body {
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+#root {
+	font-family: Segoe UI, SegoeUI, Helvetica Neue, Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+body {
+	--footer-height: 70px;
+	--nav-height: 50px;
+	--slate: #111;
+	--slate-text: #eee;
+	--slate-accent: #333;
+	--accent: #e0e0e0;
+	--subtle: #555;
+	--background-accent: #f2f2f2;
+	--border: #ccc;
+	--blue-link: #1a0dab;
+	--blue: #0078d4;
+	--blue-accent-active: #1683d8;
+	--blue-accent-hover: #006cbe;
+	--background: #fff;
+	--contrast-background: 0, 0, 0;
+	--contrast-text: #fff;
+	--shadow: #0004;
+}
+
+body[data-theme="dark"] {
+	--blue-link: #006cbe;
+	--background: #000;
+	--slate: #ddd;
+	--slate-text: #333;
+	--accent: #222;
+	--background-accent: #111;
+	--subtle: #ddd;
+	--border: #555;
+	--blue: #0078d4;
+	--contrast-background: 255, 255, 255;
+	--contrast-text: #000;
+	--shadow: #fff4;
+}
+
+* {
+	outline: none;
+}
+
+a {
+	color: var(--blue-link);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
