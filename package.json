@@ -10,9 +10,11 @@
 		"react-router-dom": "^6.2.2",
 		"react-scripts": "5.0.0",
 		"sass": "^1.49.9",
+		"tomp": "github:sysce/tomp",
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
+		"build-tomp": "node ./node_modules/tomp/app.js build ./public/tomp/",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
