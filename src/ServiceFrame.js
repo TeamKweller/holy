@@ -7,13 +7,13 @@ export default class ServiceFrame extends Component {
 	iframe = createRef();
 	container = createRef();
 	proxy(url){
-		root.dataset.service = true;
-		this.container.current.dataset.proxy = true;
+		root.dataset.service = 1;
+		this.container.current.dataset.proxy = 1;
 	}
 	close(){
-		root.dataset.service = false;
-		this.container.current.dataset.proxy = false;
-		this.container.current.dataset.theatre = false;
+		root.dataset.service = 0;
+		this.container.current.dataset.proxy = 0;
+		this.container.current.dataset.theatre = 0;
 	}
 	fullscreen(){
 		root.requestFullscreen();

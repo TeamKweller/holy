@@ -41,7 +41,7 @@
 	}
 }
 
-#root[data-service='true'] {
+#root[data-service='1'] {
 	> * {
 		display: none;
 	}
@@ -59,7 +59,7 @@
 	}	
 }
 
-#root[data-fullscreen='true'] {
+#root[data-fullscreen='1'] {
 	.service {
 		.buttons {
 			display: none;

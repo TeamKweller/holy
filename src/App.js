@@ -42,10 +42,10 @@ class Layout extends Component {
 	componentDidMount(){
 		root.dataset.theme = this.theme;
 		
-		root.dataset.fullscreen = this.fullscreen;
+		root.dataset.fullscreen = Number(this.fullscreen);
 
 		document.addEventListener('fullscreenchange', () => {
-			root.dataset.fullscreen = this.fullscreen;
+			root.dataset.fullscreen = Number(this.fullscreen);
 		});
 	}
 	lightswitch(){
@@ -60,6 +60,12 @@ class Layout extends Component {
 			<>
 				<nav ref={this.nav}>
 					<Link to='/' className='entry logo'><IconSVG /></Link>
+					<div className='collapse'>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
 					<div className='separator'></div>
 					<div className='collapsable'>
 						<Link to='/theatre' className='entry text'><span>Theatre</span></Link>

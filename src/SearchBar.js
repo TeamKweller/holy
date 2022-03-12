@@ -12,10 +12,10 @@ export default class ProxyFrame extends Component {
 	}
 	open_search(){
 		this.search_bar.current.value = '';
-		this.props.nav.current.dataset.search = true;
+		this.props.nav.current.dataset.search = 1;
 	}
 	close_search(){
-		this.props.nav.current.dataset.search = false;
+		this.props.nav.current.dataset.search = 0;
 	}
 	render(){
 		return (
