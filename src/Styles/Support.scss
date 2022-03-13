@@ -1,0 +1,63 @@
+#root[data-page='support'] {
+	> .banner {
+		width: 100%;
+		display: block;
+		background: var(--grid-inverted) var(--slate) center;
+		color: var(--slate-text);
+		padding: 60px 0px 80px 0px;
+		text-align: center;
+
+		> .search {
+			position: relative;
+			width: 200px;
+			height: 30px;
+			display: flex;
+		}
+		
+		> .search > .icon {
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			padding: 5px;
+			color: #111;
+			pointer-events: none;
+			left: 0px;
+			color: var(--subtle);
+		}
+		
+		> .search > .bar {
+			width: 100%;
+			padding-left: 32px;
+			padding-right: 16px;
+			border-radius: 2px;
+			font-size: 14px;
+			border: 1px solid var(--border);
+			font-family: inherit;
+			transition: 0.1s ease box-shadow;
+			outline: none;
+			background: var(--background);
+			color: var(--subtle);
+		}
+		
+		> .search > .bar:hover {
+			border-color: var(--blue);
+		}
+		
+		> .search > .bar:focus {
+			box-shadow: 0 0 0 .125rem var(--blue);
+			border-color: var(--blue);
+		}
+		
+		> .search {
+			width: 410px;
+			margin: auto;
+		}
+	}
+
+	main {
+		> .note {
+			margin-top: 30px;
+			opacity: 0.75;
+		}
+	}
+}

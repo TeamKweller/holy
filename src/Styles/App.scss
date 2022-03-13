@@ -4,6 +4,7 @@
 @use './Service.scss';
 @use './Home.scss';
 @use './Theatre.scss';
+@use './Support.scss';
 
 html, body, #root {
 	margin: 0px;
@@ -41,6 +42,7 @@ html, body, #root {
 	--contrast-text: #fff;
 	--shadow: #0004;
 	--grid: url('../Assets/light.svg');
+	--grid-inverted: url('../Assets/dark.svg');
 }
 
 #root[data-theme='dark'] {
@@ -57,6 +59,7 @@ html, body, #root {
 	--contrast-text: #000;
 	--shadow: #fff4;
 	--grid: url('../Assets/dark.svg');
+	--grid-inverted: url('../Assets/light.svg');
 }
 
 * {

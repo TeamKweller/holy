@@ -6,6 +6,7 @@
 		"@testing-library/jest-dom": "^5.16.2",
 		"@testing-library/react": "^12.1.4",
 		"@testing-library/user-event": "^13.5.0",
+		"anchor-js": "^4.3.1",
 		"random-seed": "^0.3.0",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
@@ -18,9 +19,8 @@
 	},
 	"scripts": {
 		"build-tomp": "node ../tomp/app.js build ./public/tomp/",
-		"start": "craco start",
+		"start": "NODE_ENV=development craco start",
 		"build": "NODE_ENV=production craco build",
-		"dev": "NODE_ENV=development craco build",
 		"test": "craco test",
 		"eject": "craco eject"
 	},
