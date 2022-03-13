@@ -8,6 +8,7 @@ import Theatre from './Pages/Theatre.js';
 import Support from './Pages/Support.js';
 import Contact from './Pages/Contact.js';
 import Privacy from './Pages/Privacy.js';
+import NotFound from './Pages/NotFound.js';
 import SearchBar from './SearchBar.js';
 import { ReactComponent as IconSVG } from './Assets/nav-icon.svg';
 import { ReactComponent as LightswitchSVG } from './Assets/nav-lightswitch.svg';
@@ -105,6 +106,7 @@ export default class App extends Component {
 					<Route path="support" element={<Support layout={this.layout} />} />
 					<Route path="contact" element={<Contact layout={this.layout} />} />
 					<Route path="privacy" element={<Privacy layout={this.layout} />} />
+					<Route path="*" element={<NotFound layout={this.layout} />} />
 				</Route>
 			</Routes>
 		);

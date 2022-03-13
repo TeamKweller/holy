@@ -14,7 +14,7 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
-		"build-tomp": "node ./node_modules/tomp/app.js build ./public/tomp/",
+		"build-tomp": "node ../tomp/app.js build ./public/tomp/",
 		"start": "react-scripts start",
 		"build": "GENERATE_SOURCEMAP=false react-scripts build",
 		"test": "react-scripts test",
