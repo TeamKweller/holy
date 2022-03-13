@@ -5,6 +5,7 @@ import { createRef } from 'react';
 import { ReactComponent as FullscreenSVG } from './Assets/frame-fullscreen.svg';
 import { ReactComponent as BackSVG } from './Assets/frame-back.svg';
 import { render } from 'react-dom';
+import obfuscate from './obfuscate.js';
 
 const local = global.location.hostname === 'localhost';
 
@@ -17,7 +18,6 @@ export default class ServiceFrame extends SleepingComponent {
 	icon = createRef();
 	// headless client for serviceworker
 	headless = createRef();
-	last_query = '';
 	boot = new global.TOMPBoot({
 		directory: '/tomp/',
 		loglevel: local ? global.TOMPBoot.LOG_TRACE : global.TOMPBoot.LOG_ERROR,
@@ -31,8 +31,18 @@ export default class ServiceFrame extends SleepingComponent {
 		this.container.current.dataset.proxy = 1;
 		this.title.current.textContent = query;
 		await this.boot.ready;
+		this.last_title = '';
 		this.last_query = query;
 		this.proxy.current.src = this.boot.html(query);
+	}
+	set_title(title){
+		if(this.last_title === title){
+			return;
+		}
+
+		this.last_title = title;
+
+		render(obfuscate(<>{this.last_query}</>), this.title.current);
 	}
 	async componentDidMount(){
 		await this.boot.ready;
@@ -115,9 +125,7 @@ export default class ServiceFrame extends SleepingComponent {
 		const location = new this.proxy.current.contentWindow.Function('return location')();
 
 		if(location === this.proxy.current.contentWindow.location){
-			if(this.title.current.title !== this.last_query){
-				this.title.current.title = this.last_query;
-			}
+			this.set_title(this.last_query);
 			
 			if(this.icon.current.src !== GenericGlobeSVG){
 				this.icon.current.src = GenericGlobeSVG;
@@ -126,13 +134,9 @@ export default class ServiceFrame extends SleepingComponent {
 			const current_title = this.proxy.current.contentDocument.title;
 			
 			if(current_title === ''){
-				if(this.title.current.title !== location.href){
-					this.title.current.title = location.href;
-				}
+				this.set_title(location.href);
 			}else{
-				if(this.title.current.title !== current_title){
-					this.title.current.textContent = current_title;
-				}
+				this.set_title(current_title);
 			}
 
 			const selector = this.proxy.current.contentDocument.querySelector(`link[rel*='icon']`);
