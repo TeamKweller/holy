@@ -21,6 +21,8 @@ export default class ProxyFrame extends Component {
 	}
 	open_search(){
 		this.props.layout.current.nav.current.dataset.search = 1;
+		this.input.current.value = '';
+		this.on_input();
 	}
 	close_search(){
 		this.props.layout.current.nav.current.dataset.search = 0;
