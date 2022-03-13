@@ -20,6 +20,7 @@
 		width: auto;
 		height: var(--nav-height);
 		margin: 0px 5vw;
+		user-select: none;
 
 		> .icon {
 			width: 24px;
@@ -29,7 +30,6 @@
 	
 		> .title {
 			margin: auto 5px;
-			user-select: none;
 		}
 
 		> .shift-right {
