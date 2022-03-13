@@ -1,4 +1,5 @@
 import root from './root.js';
+import process from 'process';
 import GenericGlobeSVG from './Assets/generic-globe.svg';
 import SleepingComponent from './SleepingComponent';
 import { createRef } from 'react';
@@ -189,7 +190,6 @@ export default class ServiceFrame extends SleepingComponent {
 		root.requestFullscreen();
 	}
 	render() {
-		global.sf = this;
 		return (
 			<div className='service' ref={this.container}>
 				<div className='buttons'>
