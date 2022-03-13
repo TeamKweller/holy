@@ -19,7 +19,7 @@
 	"scripts": {
 		"build-tomp": "node ../tomp/app.js build ./public/tomp/",
 		"start": "craco start",
-		"build": "GENERATE_SOURCEMAP=false craco build",
+		"build": "NODE_ENV=production craco build",
 		"test": "craco test",
 		"eject": "craco eject"
 	},
