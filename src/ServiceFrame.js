@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import root from './root.js';
 import SleepingComponent from './SleepingComponent';
 
-const default_fields = [ 'google.com', 'invidious.tube', 'wolframalpha.com', 'discord.com', 'reddit.com', '1v1.lol', 'krunker.io' ];
+const default_fields = [ 'google.com', 'invidio.xamh.de', 'wolframalpha.com', 'discord.com', 'reddit.com', '1v1.lol', 'krunker.io' ];
 
 export default class ServiceFrame extends SleepingComponent {
 	proxy = createRef();
@@ -145,13 +145,13 @@ export default class ServiceFrame extends SleepingComponent {
 
 		const load = () => {
 			URL.revokeObjectURL(obj_url);
-			
+
 			this.icon.removeEventListener('load', load);
 			this.icon.removeEventListener('error', load);
 		};
 
-		this.icon.addEventListener('load', load);
-		this.icon.addEventListener('error', load);
+		this.icon.current.addEventListener('load', load);
+		this.icon.current.addEventListener('error', load);
 	}
 	on_icon_error(event){
 		this.icon.current.src = GenericGlobeSVG;
