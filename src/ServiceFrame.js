@@ -20,6 +20,7 @@ export default class ServiceFrame extends SleepingComponent {
 	last_query = '';
 	boot = new global.TOMPBoot({
 		directory: '/tomp/',
+		loglevel: local ? global.TOMPBoot.LOG_TRACE : global.TOMPBoot.LOG_ERROR,
 		bare: local ? 'http://localhost:8001/' : '/bare/',
 	});
 	search = new global.TOMPBoot.SearchBuilder('https://www.google.com/search?q=%s');
@@ -72,7 +73,9 @@ export default class ServiceFrame extends SleepingComponent {
 				this.add_fields(datalist, results);
 			}catch(error){
 				// likely abort error
-				if(error.message !== 'The user aborted a request.'){
+				if(error.message === 'Failed to fetch'){
+					console.error('Error fetching TOMP/Bare server.');
+				}else if(error.message !== 'The user aborted a request.'){
 					throw error;
 				}
 			}
@@ -97,8 +100,12 @@ export default class ServiceFrame extends SleepingComponent {
 		})), {
 			signal: this.abort.signal,	
 		});
-		
-		return await outgoing.json();
+
+		if(outgoing.ok){
+			return await outgoing.json();
+		}else{
+			throw await outgoing.json();
+		}
 	}
 	// icon resolving
 	links_tried = new WeakMap();
