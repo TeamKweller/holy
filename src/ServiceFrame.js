@@ -19,6 +19,7 @@ export default class ServiceFrame extends SleepingComponent {
 		directory: '/tomp/',
 		bare: 'http://localhost:8001/'
 	});
+	last_query = '';
 	search = new global.TOMPBoot.SearchBuilder('https://www.google.com/search?q=%s');
 	async query(input){
 		const query = this.search.query(input);
@@ -27,7 +28,7 @@ export default class ServiceFrame extends SleepingComponent {
 		this.container.current.dataset.proxy = 1;
 		this.title.current.textContent = query;
 		await this.boot.ready;
-		this.query = query;
+		this.last_query = query;
 		this.proxy.current.src = this.boot.html(query);
 	}
 	async componentDidMount(){
@@ -105,8 +106,8 @@ export default class ServiceFrame extends SleepingComponent {
 		const location = new this.proxy.current.contentWindow.Function('return location')();
 
 		if(location === this.proxy.current.contentWindow.location){
-			if(this.title.current.title !== this.query){
-				this.title.current.title = this.query;
+			if(this.title.current.title !== this.last_query){
+				this.title.current.title = this.last_query;
 			}
 			
 			if(this.icon.current.src !== GenericGlobeSVG){
