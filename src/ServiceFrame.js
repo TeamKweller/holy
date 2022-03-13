@@ -15,9 +15,10 @@ export default class ServiceFrame extends SleepingComponent {
 	icon = createRef();
 	// headless client for serviceworker
 	headless = createRef();
+	local = global.location.hostname === 'localhost';
 	boot = new global.TOMPBoot({
 		directory: '/tomp/',
-		bare: 'http://localhost:8001/'
+		bare: this.local ? 'http://localhost:8001/' : '/bare/',
 	});
 	last_query = '';
 	search = new global.TOMPBoot.SearchBuilder('https://www.google.com/search?q=%s');
