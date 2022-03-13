@@ -6,7 +6,8 @@ import ServiceFrame from './ServiceFrame.js';
 import Home from './Pages/Home.js';
 import Theatre from './Pages/Theatre.js';
 import Support from './Pages/Support.js';
-import NotFound from './Pages/NotFound.js';
+import Contact from './Pages/Contact.js';
+import Privacy from './Pages/Privacy.js';
 import SearchBar from './SearchBar.js';
 import { ReactComponent as IconSVG } from './Assets/nav-icon.svg';
 import { ReactComponent as LightswitchSVG } from './Assets/nav-lightswitch.svg';
@@ -102,7 +103,8 @@ export default class App extends Component {
 					<Route index element={<Home layout={this.layout} />} />
 					<Route path="theatre" element={<Theatre layout={this.layout} />} />
 					<Route path="support" element={<Support layout={this.layout} />} />
-					<Route path="*" element={<NotFound layout={this.layout} />} />
+					<Route path="contact" element={<Contact layout={this.layout} />} />
+					<Route path="privacy" element={<Privacy layout={this.layout} />} />
 				</Route>
 			</Routes>
 		);

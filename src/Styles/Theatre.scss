@@ -1,3 +1,7 @@
 #root[data-page='theatre'] {
-	display: block;
+	main {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: flex-start;
+	}
 }

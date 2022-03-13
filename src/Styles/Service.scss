@@ -14,14 +14,18 @@
 		height: 100%;
 	}
 
-
-
 	> .buttons {
 		display: flex;
 		width: auto;
 		height: var(--nav-height);
 		margin: 0px 5vw;
 
+		> .icon {
+			width: 24px;
+			height: 24px;
+			margin: auto 5px;
+		}
+	
 		> .title {
 			margin: auto 5px;
 			user-select: none;

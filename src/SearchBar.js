@@ -14,7 +14,7 @@ export default class ProxyFrame extends Component {
 	}
 	search_submit(event){
 		event.preventDefault();
-		this.props.service_frame.current.proxy(this.input.current.value);
+		this.props.service_frame.current.query(this.input.current.value);
 		this.close_search();
 		this.on_input();
 	}

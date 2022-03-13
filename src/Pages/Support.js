@@ -6,7 +6,9 @@ export default class Support extends Component {
 		root.dataset.page = 'support';
 
 		return (
-			<h1>TesSupportt</h1>
+			<main>
+				<h1>Todo.</h1>
+			</main>
 		);
 	}
 };

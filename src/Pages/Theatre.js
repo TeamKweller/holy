@@ -6,7 +6,9 @@ export default class Theatre extends Component {
 		root.dataset.page = 'theatre';
 		
 		return (
-			<h1>Test</h1>
+			<main>
+				<h1>Todo.</h1>
+			</main>
 		);
 	}
 }
