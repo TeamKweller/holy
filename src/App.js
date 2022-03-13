@@ -94,14 +94,15 @@ class Layout extends Component {
 
 // https://reactrouter.com/docs/en/v6/getting-started/overview
 export default class App extends Component {
+	layout = createRef();
 	render(){
 		return (
 			<Routes>
-				<Route path="/" element={<Layout />}>
-					<Route index element={<Home />} />
-					<Route path="theatre" element={<Theatre />} />
-					<Route path="support" element={<Support />} />
-					<Route path="*" element={<NotFound />} />
+				<Route path="/" element={<Layout ref={this.layout} />}>
+					<Route index element={<Home layout={this.layout} />} />
+					<Route path="theatre" element={<Theatre layout={this.layout} />} />
+					<Route path="support" element={<Support layout={this.layout} />} />
+					<Route path="*" element={<NotFound layout={this.layout} />} />
 				</Route>
 			</Routes>
 		);

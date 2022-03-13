@@ -4,23 +4,34 @@
 	flex-direction: column;
 	background: var(--background);
 
-	.proxy {
+	> .headless {
+		display: none;
+	}
+
+	> .proxy {
 		border: none;
 		width: 100%;
 		height: 100%;
 	}
 
-	.buttons {
+
+
+	> .buttons {
 		display: flex;
 		width: auto;
 		height: var(--nav-height);
 		margin: 0px 5vw;
 
-		.shift-right {
+		> .title {
+			margin: auto 5px;
+			user-select: none;
+		}
+
+		> .shift-right {
 			margin-left: auto;
 		}
 		
-		.button {
+		> .button {
 			height: 35px;
 			width: 35px;
 			display: flex;
