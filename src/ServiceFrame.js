@@ -42,18 +42,31 @@ export default class ServiceFrame extends SleepingComponent {
 			directory: '/tomp/',
 		};
 
+		const TOMPBoot = await new Promise(resolve => {
+			if(global.TOMPBoot){
+				resolve(global.TOMPBoot);
+			}else{
+				const interval = setInterval(() => {
+					if(typeof global.TOMPBoot === 'function'){
+						resolve(global.TOMPBoot);
+						clearInterval(interval);
+					}
+				}, 75);
+			}
+		});
+
 		if(process.env.NODE_ENV === 'development'){
 			config.bare = 'http://localhost:8001/';
-			config.loglevel = global.TOMPBoot.LOG_TRACE;
-			config.codec = global.TOMPBoot.CODEC_PLAIN;
+			config.loglevel = TOMPBoot.LOG_TRACE;
+			config.codec = TOMPBoot.CODEC_PLAIN;
 		}else{
 			config.bare = '/bare/';
-			config.loglevel = global.TOMPBoot.LOG_ERROR;
-			config.codec = global.TOMPBoot.CODEC_XOR;
+			config.loglevel = TOMPBoot.LOG_ERROR;
+			config.codec = TOMPBoot.CODEC_XOR;
 		}
 
-		this.boot = new global.TOMPBoot(config);
-		this.search = new global.TOMPBoot.SearchBuilder('https://www.google.com/search?q=%s');
+		this.boot = new TOMPBoot(config);
+		this.search = new TOMPBoot.SearchBuilder('https://www.google.com/search?q=%s');
 
 		await this.boot.ready;
 
