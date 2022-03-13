@@ -10,10 +10,12 @@ import Contact from './Pages/Contact.js';
 import Privacy from './Pages/Privacy.js';
 import NotFound from './Pages/NotFound.js';
 import SearchBar from './SearchBar.js';
+import { ObfuscateStyle } from './obfuscate.js';
 import { ReactComponent as IconSVG } from './Assets/nav-icon.svg';
 import { ReactComponent as LightswitchSVG } from './Assets/nav-lightswitch.svg';
 // import { ThemeProvider } from 'styled-components';
 import root from './root.js';
+import obfuscate from './obfuscate';
 
 const themes = ['light','dark'];
 
@@ -63,6 +65,7 @@ class Layout extends Component {
 	render(){
 		return (
 			<>
+				<ObfuscateStyle />
 				<nav ref={this.nav}>
 					<div className='collapse' onClick={this.collapse.bind(this)}>
 						<div>
@@ -87,7 +90,7 @@ class Layout extends Component {
 				<footer>
 					<Link to='/contact'>Contact</Link>
 					<Link to='/privacy'>Privacy Policy</Link>
-					<span>SystemYA {new Date().getUTCFullYear()}</span>
+					<span>{obfuscate(<>SystemYA</>)} {new Date().getUTCFullYear()}</span>
 				</footer>
 			</>
 		);
