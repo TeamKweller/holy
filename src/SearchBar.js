@@ -16,10 +16,10 @@ export default class ProxyFrame extends Component {
 		event.preventDefault();
 		this.props.service_frame.current.query(this.input.current.value);
 		this.close_search();
+		this.input.current.value = '';
 		this.on_input();
 	}
 	open_search(){
-		this.input.current.value = '';
 		this.props.layout.current.nav.current.dataset.search = 1;
 	}
 	close_search(){

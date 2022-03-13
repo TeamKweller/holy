@@ -16,6 +16,7 @@ export default class Home extends Component {
 	search_submit(event){
 		event.preventDefault();
 		this.props.layout.current.service_frame.current.query(this.input.current.value);
+		this.input.current.value = '';
 		this.on_input();
 	}
 	render() {
