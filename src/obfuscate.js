@@ -79,12 +79,14 @@ export default function obfuscate(input){
 	const context = new ObfuscateContext(text);
 
 	const output = [];
-	
-	for(let word of text.split(' ')){
+	const words = text.split(' ');
+
+	for(let wi = 0; wi < words.length; wi++){
+		const word = words[wi];
 		const chars = word.split('');
 
-		for(let i = 0; i < chars.length; i++){
-			const char = chars[i];
+		for(let ci = 0; ci < chars.length; ci++){
+			const char = chars[ci];
 
 			let content = [];
 			
@@ -93,13 +95,13 @@ export default function obfuscate(input){
 			
 			for(let i = 0; i < add_chars; i++){
 				if(i === real_at_i){
-					content.push(<s key={i} className={context.real_class()}>{char}</s>);
+					content.push(<s key={`${wi}${ci}${i}`} className={context.real_class()}>{char}</s>);
 				}else{
 					content.push(context.random(chars, char, i));
 				}
 			}
 
-			output.push(<s key={i} className={char_class}>{content}</s>);
+			output.push(<s key={`${wi}${ci}`} className={char_class}>{content}</s>);
 		}
 
 		output.push(' ');
