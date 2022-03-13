@@ -20,6 +20,7 @@
 		"build-tomp": "node ../tomp/app.js build ./public/tomp/",
 		"start": "craco start",
 		"build": "NODE_ENV=production craco build",
+		"dev": "NODE_ENV=development craco build",
 		"test": "craco test",
 		"eject": "craco eject"
 	},
