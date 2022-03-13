@@ -20,7 +20,7 @@ export default class ServiceFrame extends SleepingComponent {
 	last_query = '';
 	boot = new global.TOMPBoot({
 		directory: '/tomp/',
-		bare: this.local ? 'http://localhost:8001/' : '/bare/',
+		bare: local ? 'http://localhost:8001/' : '/bare/',
 	});
 	search = new global.TOMPBoot.SearchBuilder('https://www.google.com/search?q=%s');
 	async query(input){
