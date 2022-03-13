@@ -14,6 +14,13 @@ export default class TypeWriter extends SleepingComponent {
 
 		while(!this.unmounting){
 			for(let string of strings){
+				// initial value (strings[0])
+				if(string === element.textContent){
+					continue;
+				}
+				
+				await this.sleep(delay);
+
 				while(element.textContent.length){
 					element.textContent = element.textContent.slice(0, -1);
 					await this.sleep(speed);
@@ -23,8 +30,6 @@ export default class TypeWriter extends SleepingComponent {
 					element.textContent += string[i];
 					await this.sleep(speed, this);
 				}
-
-				await this.sleep(delay);
 			}
 		}
 	}
