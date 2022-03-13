@@ -2,16 +2,10 @@ import root from '../root.js';
 import { Component, createRef } from 'react';
 import { ReactComponent as SearchSVG } from '../Assets/nav-search.svg';
 import { Link } from 'react-router-dom';
-import AnchorJS from 'anchor-js';
 
 export default class Support extends Component {
-	anchors = new AnchorJS();
 	main = createRef();
 	input = createRef();
-	componentDidMount(){
-		console.log([...this.main.current.children]);
-		this.anchors.add('section > h1');	
-	}
 	on_input(){
 		const { value } = this.input.current;
 
@@ -38,18 +32,8 @@ export default class Support extends Component {
 			</form>
 			<main ref={this.main}>
 				<section>
-					<h1>The page is stuck on a white frame or says "SystemYA, error at GET /etc"</h1>
-					<span>Our proxy script is either restarting or under load OR the entered page is not available.</span>
-				</section>
-				
-				<section>
 					<h1>My page does not function or work</h1>
-					<span>The page may be still loading due to high load or the page is not supported by our proxy.</span>
-				</section>
-				
-				<section>
-					<h1>Can I sign into Discord?</h1>
-					<span>Yes but you need to already have an account. You can sign in using a login token or the QR code login on a mobile device.</span>
+					<span>The page may be still loading due to heavy traffic on our servers or the page is not supported by our proxy.</span>
 				</section>
 				
 				<section>
