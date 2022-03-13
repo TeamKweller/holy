@@ -61,7 +61,12 @@ class ObfuscateContext {
 		return real_classes[this.rand(real_classes.length)];
 	}
 	random(chars, char, i){
-		switch(this.rand(2)){
+		const r = this.rand(2);
+
+		switch(r){
+			default:
+				console.warn('Random for', r, 'not set...');
+				// eslint-disable-next-line
 			case 0:
 				return <s key={i} className={this.junk_class()}>{chars[chars.length - i]}</s>;
 			case 1:

@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import { createRef } from 'react';
 import SleepingComponent from './SleepingComponent.js';
 
 export default class TypeWriter extends SleepingComponent {
