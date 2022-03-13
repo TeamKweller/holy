@@ -9,12 +9,15 @@ export default class Support extends Component {
 	main = createRef();
 	input = createRef();
 	componentDidMount(){
+		console.log([...this.main.current.children]);
 		this.anchors.add('section > h1');	
 	}
 	on_input(){
 		const { value } = this.input.current;
 
 		for(let node of this.main.current.children){
+			if(node.className === 'note')continue;
+
 			if(node.textContent.toLowerCase().includes(value.toLowerCase())){
 				node.style.display = 'initial';
 			}else{
@@ -56,10 +59,10 @@ export default class Support extends Component {
 				
 				<section>
 					<h1>Is my information on the proxy secure?</h1>
-					<span>Your information is only as secure as the sites you are visiting on them. You can review our <Link to='/privacy'>Privacy Policy</Link>.</span>
+					<span>We do not collect any data, your information is only as secure as the sites you are visiting on them. For privacy concerns, you can review our <Link to='/privacy'>Privacy Policy</Link>.</span>
 				</section>
 				
-				<div className='note'>Not what you're looking for? <Link to='/contact'>Contact Us</Link>.</div>
+				<p className='note'>Not what you're looking for? <Link to='/contact'>Contact Us</Link>.</p>
 			</main>
 		</>);
 	}
