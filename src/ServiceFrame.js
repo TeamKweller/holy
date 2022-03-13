@@ -42,7 +42,7 @@ export default class ServiceFrame extends SleepingComponent {
 
 		this.last_title = title;
 
-		render(obfuscate(<>{this.last_query}</>), this.title.current);
+		render(obfuscate(<>{title}</>), this.title.current);
 	}
 	async componentDidMount(){
 		await this.boot.ready;
