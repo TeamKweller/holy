@@ -6,7 +6,6 @@ const rand = create(navigator.userAgent + global.location.origin);
 const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const char_class = chars[rand(chars.length)];
 
-const zwsp = '\u200b';
 const junk_classes = [];
 const real_classes = [];
 
@@ -42,8 +41,7 @@ export class ObfuscateStyle extends Component {
 	componentDidMount(){
 		const { sheet }  = this.style.current;
 		
-		sheet.insertRule(`s{text-decoration:none}`);
-		sheet.insertRule(`.${char_class}{white-space:nowrap}`);
+		sheet.insertRule(`.${char_class},.${char_class} *{text-decoration:none;white-space:nowrap}`);
 		sheet.insertRule(`.${junk_classes.join(',.')}{position:absolute;z-index:-10;opacity:0}`);
 		
 	}
@@ -100,19 +98,6 @@ export default function obfuscate(input){
 					content.push(context.random(chars, char, i));
 				}
 			}
-
-			/*if(i === word.length){
-				content = char;
-			}else{
-				content = <>
-					{zwsp}
-					<s className={fake_char}>{chars[chars.length - i]}</s>
-					<s className={real_char}>{char}</s>
-					<s className={fake_char}>{String.fromCharCode(word.charCodeAt(chars.length - i) ^ i)}</s>
-				</>;
-				
-				// '<s class="' + junk + '">' + junk + '</s><s class="' + fake_char + '">c</s><s class="' + real_char + '">' + char + '<s class="' + fake_char + '"></s></s><s class="' + fake_char + '"></s>';
-			}*/
 
 			output.push(<s key={i} className={char_class}>{content}</s>);
 		}
