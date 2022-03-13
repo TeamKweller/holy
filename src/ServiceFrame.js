@@ -146,8 +146,8 @@ export default class ServiceFrame extends SleepingComponent {
 		const load = () => {
 			URL.revokeObjectURL(obj_url);
 
-			this.icon.removeEventListener('load', load);
-			this.icon.removeEventListener('error', load);
+			this.icon.current.removeEventListener('load', load);
+			this.icon.current.removeEventListener('error', load);
 		};
 
 		this.icon.current.addEventListener('load', load);
