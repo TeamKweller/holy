@@ -61,7 +61,7 @@
 	}
 }
 
-#root[data-service="1"] {
+#root[data-service='1'] {
 	> * {
 		display: none;
 	}
@@ -71,14 +71,14 @@
 	}
 }
 
-#root[data-appearance="dark"] {
+#root[data-appearance='dark'] {
 	.service {
 		background: #000;
 		color: #fff;
 	}
 }
 
-#root[data-fullscreen="1"] {
+#root[data-fullscreen='1'] {
 	.service {
 		.buttons {
 			display: none;
