@@ -28,9 +28,9 @@ export default class Home extends Component {
 					<TypeWriter element={<h1 className='adjective'>placeholder</h1>} speed={50} delay={5000} strings={['More Secure.', 'More Private.', 'Uncensored.', 'Safer.', 'Easier', 'More Fun.']}></TypeWriter><br/>
 				</h1>
 				<div className='description'>SystemYA is a service that allows you to circumvent firewalls on locked down machines through in-page web proxies.</div>
-				<form className='search' onSubmit={this.search_submit.bind(this)}>
-					<input type='text' placeholder='Search the web' required autoComplete='off' list='home-fields' ref={this.input} onInput={this.on_input.bind(this)} />
-					<datalist id='home-fields' ref={this.fields} />
+				<form className='omnibox' onSubmit={this.search_submit.bind(this)}>
+					<input type='text' placeholder='Search the web' required autoComplete='off' list='home-omnibox' ref={this.input} onInput={this.on_input.bind(this)} />
+					<datalist id='home-omnibox' ref={this.fields} />
 					<button type='submit'><SearchSVG /></button>
 				</form>
 			</main>

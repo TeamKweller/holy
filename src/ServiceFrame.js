@@ -61,7 +61,9 @@ export default class ServiceFrame extends Component {
 			}
 		}
 	}
-	add_fields(datalist, fields){
+	add_fields(datalist, _fields){
+		const fields = [..._fields];
+
 		for(let i = 0; i < fields.length; i++){
 			fields[i] = <option key={fields[i]} value={fields[i]} />;
 		}

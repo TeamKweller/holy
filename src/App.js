@@ -77,7 +77,7 @@ class Layout extends Component {
 						<Link to='/support' className='entry text'><span>Support</span></Link>
 					</div>
 					<div className='shift-right'></div>
-					<SearchBar service_frame={this.service_frame} nav={this.nav} />
+					<SearchBar service_frame={this.service_frame} layout={{current:this}} />
 					<button className='lightswitch' onClick={this.lightswitch.bind(this)}><LightswitchSVG /></button>
 				</nav>
 				<Outlet />

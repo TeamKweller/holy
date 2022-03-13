@@ -155,7 +155,7 @@ nav {
 		margin-left: auto;
 	}
 
-	> .search-bar {
+	> .omnibox {
 		width: 100%;
 		padding: 6px 0px;
 		display: none;
@@ -257,7 +257,7 @@ nav[data-search='1'] {
 		display: none;
 	}
 
-	.logo, .search-bar {
+	.logo, .omnibox {
 		display: flex;
 	}
 
