@@ -1,10 +1,12 @@
+import root from './root.js';
+import GenericGlobeSVG from './Assets/generic-globe.svg';
+import SleepingComponent from './SleepingComponent';
 import { createRef } from 'react';
 import { ReactComponent as FullscreenSVG } from './Assets/frame-fullscreen.svg';
 import { ReactComponent as BackSVG } from './Assets/frame-back.svg';
-import GenericGlobeSVG from './Assets/generic-globe.svg';
 import { render } from 'react-dom';
-import root from './root.js';
-import SleepingComponent from './SleepingComponent';
+
+const local = global.location.hostname === 'localhost';
 
 const default_fields = [ 'google.com', 'invidio.xamh.de', 'wolframalpha.com', 'discord.com', 'reddit.com', '1v1.lol', 'krunker.io' ];
 
@@ -15,12 +17,11 @@ export default class ServiceFrame extends SleepingComponent {
 	icon = createRef();
 	// headless client for serviceworker
 	headless = createRef();
-	local = global.location.hostname === 'localhost';
+	last_query = '';
 	boot = new global.TOMPBoot({
 		directory: '/tomp/',
 		bare: this.local ? 'http://localhost:8001/' : '/bare/',
 	});
-	last_query = '';
 	search = new global.TOMPBoot.SearchBuilder('https://www.google.com/search?q=%s');
 	async query(input){
 		const query = this.search.query(input);

@@ -1,18 +1,41 @@
 import { Component, createRef } from 'react';
-import './obfuscate.scss';
+import { create } from 'random-seed';
 
-var checksum = str => { var hash = 5381, i = str.length; while(i)hash = (hash * 33) ^ str.charCodeAt(--i); return hash >>> 0; },
-	user_hash = checksum(navigator.userAgent + global.location.origin).toString(),
-	chars = 'abcdefghijklmnopqrstuvwxyz',
-	real_char = 'zb' + user_hash.slice(1, 2),
-	fake_char = 'zs' + user_hash.slice(2, 1),
-	char_class = 'z1' + user_hash.slice(1, 2),
-	zwsp = String.fromCharCode(0x200b),
-	junk_classes = [];
+const rand = create(navigator.userAgent + global.location.origin);
 
-for(let ind = 0; ind < user_hash.length; ind++){
-	junk_classes.push(chars[chars.length % (ind === 0 ? 1 : ind)] + user_hash.slice(ind - 1, 1));
+const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const char_class = chars[rand(chars.length)];
+
+const zwsp = '\u200b';
+const junk_classes = [];
+const real_classes = [];
+
+function char_in_use(char){
+	if(char_class === char){
+		return true;
+	}else if(junk_classes.includes(char)){
+		return true;
+	}else if(real_classes.includes(char)){
+		return true;
+	}
+
+	return false;
 }
+
+function populate_classes(classes){
+	while(classes.length < 7){
+		const char = chars[rand(chars.length)];
+	
+		if(char_in_use(char)){
+			continue;
+		}
+	
+		classes.push(char);
+	}
+}
+
+populate_classes(junk_classes);
+populate_classes(real_classes);
 
 export class ObfuscateStyle extends Component {
 	style = createRef();
@@ -21,7 +44,7 @@ export class ObfuscateStyle extends Component {
 		
 		sheet.insertRule(`s{text-decoration:none}`);
 		sheet.insertRule(`.${char_class}{white-space:nowrap}`);
-		sheet.insertRule(`.${fake_char},.${junk_classes.join(',.')}{position:absolute;z-index:-10;opacity:0}`);
+		sheet.insertRule(`.${junk_classes.join(',.')}{position:absolute;z-index:-10;opacity:0}`);
 		
 	}
 	render(){
@@ -29,26 +52,73 @@ export class ObfuscateStyle extends Component {
 	}
 };
 
-// obfuscate(<>string<>)
-export default function obfuscate(jsx){
-	const str = jsx.props.children;
+class ObfuscateContext {
+	constructor(text){
+		this.rand = create(text + navigator.userAgent + global.location.origin);
+	}
+	junk_class(rand){
+		return junk_classes[this.rand(junk_classes.length)];
+	}
+	real_class(rand){
+		return real_classes[this.rand(real_classes.length)];
+	}
+	random(chars, char, i){
+		switch(this.rand(2)){
+			case 0:
+				return <s key={i} className={this.junk_class()}>{chars[chars.length - i]}</s>;
+			case 1:
+				return <s key={i} className={this.junk_class()}>{String.fromCharCode(chars[chars.length - i - 1].charCodeAt() ^ i)}</s>;
+		}
+	}
+};
 
-	var output = '';
+/**
+ * @param {JSX.Element} input Text to be obfuscate  
+ * @returns {JSX.Element} Obfuscated
+*/
+export default function obfuscate(input){
+	const text = input.props.children;
+	const context = new ObfuscateContext(text);
+
+	const output = [];
 	
-	str.split(' ').forEach(word => {
-		word.split('').forEach((char, ind) => {
-			output += '<s class="' + char_class + '">';
+	for(let word of text.split(' ')){
+		const chars = word.split('');
+
+		for(let i = 0; i < chars.length; i++){
+			const char = chars[i];
+
+			let content = [];
 			
-			var junk = junk_classes[(junk_classes.length - 1) % (ind === 0 ? 1 : ind)];
+			const add_chars = context.rand.intBetween(1, 4);
+			const real_at_i = context.rand(add_chars);
 			
-			if(ind === word.length)output += char;
-			else output += zwsp + '<s class="' + junk + '">' + junk + '</s><s class="' + fake_char + '">c</s><s class="' + real_char + '">' + char + '<s class="' + fake_char + '"></s></s><s class="' + fake_char + '"></s>';
-			
-			output += '</s>';
-		});
-		
-		output += ' ';
-	});
+			for(let i = 0; i < add_chars; i++){
+				if(i === real_at_i){
+					content.push(<s key={i} className={context.real_class()}>{char}</s>);
+				}else{
+					content.push(context.random(chars, char, i));
+				}
+			}
+
+			/*if(i === word.length){
+				content = char;
+			}else{
+				content = <>
+					{zwsp}
+					<s className={fake_char}>{chars[chars.length - i]}</s>
+					<s className={real_char}>{char}</s>
+					<s className={fake_char}>{String.fromCharCode(word.charCodeAt(chars.length - i) ^ i)}</s>
+				</>;
+				
+				// '<s class="' + junk + '">' + junk + '</s><s class="' + fake_char + '">c</s><s class="' + real_char + '">' + char + '<s class="' + fake_char + '"></s></s><s class="' + fake_char + '"></s>';
+			}*/
+
+			output.push(<s key={i} className={char_class}>{content}</s>);
+		}
+
+		output.push(' ');
+	}
 	
 	return <>{output}</>;
 }

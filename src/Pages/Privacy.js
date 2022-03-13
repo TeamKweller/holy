@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import obfuscate from '../obfuscate.js';
 import root from '../root.js';
 
 export default class Contact extends Component {
@@ -8,7 +9,7 @@ export default class Contact extends Component {
 
 		return (
 			<main>
-				<p>SystemYA is owned and operated in Venezuela.</p>
+				<p>{obfuscate(<>SystemYA</>)} is owned and operated in Venezuela.</p>
 
 				<p>If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.</p>
 

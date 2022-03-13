@@ -10,12 +10,11 @@ import Contact from './Pages/Contact.js';
 import Privacy from './Pages/Privacy.js';
 import NotFound from './Pages/NotFound.js';
 import SearchBar from './SearchBar.js';
-import { ObfuscateStyle } from './obfuscate.js';
+import obfuscate, { ObfuscateStyle } from './obfuscate.js';
 import { ReactComponent as IconSVG } from './Assets/nav-icon.svg';
 import { ReactComponent as LightswitchSVG } from './Assets/nav-lightswitch.svg';
 // import { ThemeProvider } from 'styled-components';
 import root from './root.js';
-import obfuscate from './obfuscate';
 
 const themes = ['light','dark'];
 
