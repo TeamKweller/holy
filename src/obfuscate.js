@@ -109,7 +109,9 @@ export default function obfuscate(input){
 			output.push(<s key={`${wi}${ci}`} className={char_class}>{content}</s>);
 		}
 
-		output.push(' ');
+		if(wi !== words.length - 1){
+			output.push(' ');
+		}
 	}
 	
 	return <>{output}</>;
