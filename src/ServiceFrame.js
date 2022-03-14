@@ -221,7 +221,7 @@ export default class ServiceFrame extends SleepingComponent {
 		});
 	}
 	on_icon_error(event){
-		this.icon.current.src = GenericGlobeSVG;
+		this.state.icon = GenericGlobeSVG;
 	}
 	on_icon_load(event){
 		if(this.state.revoke_icon){
@@ -234,6 +234,7 @@ export default class ServiceFrame extends SleepingComponent {
 	}
 	close(){
 		this.setState({
+			src: '',
 			proxy: {
 				current: false,
 			},
