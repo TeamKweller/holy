@@ -7,7 +7,10 @@ class Item extends Component {
 	open(){
 		switch(this.props.target){
 			case'proxy':
-				this.props.layout.current.service_frame.current.query(this.props.src, this.props.name);
+				this.props.layout.current.service_frame.current.proxy(this.props.src, this.props.name);
+				break;
+			case'embed':
+				this.props.layout.current.service_frame.current.embed(this.props.src, this.props.name);
 				break;
 			default:
 				throw new TypeError(`Unrecognized target: ${this.props.target}`)

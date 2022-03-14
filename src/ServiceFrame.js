@@ -2,7 +2,7 @@ import root from './root.js';
 import process from 'process';
 import GenericGlobeSVG from './Assets/generic-globe.svg';
 import SleepingComponent from './SleepingComponent';
-import { createRef } from 'react';
+import { createRef, useState } from 'react';
 import { ReactComponent as FullscreenSVG } from './Assets/frame-fullscreen.svg';
 import { ReactComponent as BackSVG } from './Assets/frame-back.svg';
 import { render } from 'react-dom';
@@ -11,31 +11,49 @@ import obfuscate from './obfuscate.js';
 const default_fields = [ 'google.com', 'invidio.xamh.de', 'wolframalpha.com', 'discord.com', 'reddit.com', '1v1.lol', 'krunker.io' ];
 
 export default class ServiceFrame extends SleepingComponent {
-	proxy = createRef();
+	iframe = createRef();
 	container = createRef();
 	title = createRef();
 	icon = createRef();
+	state = {
+		title: '',
+		icon: GenericGlobeSVG,
+		src: 'about:blank',
+		embed: {
+			current: false,
+		},
+		proxy: {
+			current: false,
+		}
+	};
 	// headless client for serviceworker
 	headless = createRef();
-	async query(input, title = input){
-		const query = this.search.query(input);
-
+	/*async embed(input, title = input){
+		this.embedding = true;
+		const src = this.search.query(input);
 		root.dataset.service = 1;
-		this.container.current.dataset.proxy = 1;
-		this.title.current.textContent = query;
+		this.container.current.dataset.embed = 1;
+		this.title.current.textContent = src;
 		await this.boot.ready;
 		this.last_title = '';
 		this.query_title = title;
-		this.proxy.current.src = this.boot.html(query);
-	}
-	set_title(title){
-		if(this.last_title === title){
-			return;
-		}
-
-		this.last_title = title;
-
-		render(obfuscate(<>{title}</>), this.title.current);
+		this.iframe.current.src = src;
+	}*/
+	async proxy(input, title = input){
+		this.proxying = true;
+		const src = this.search.query(input);
+		root.dataset.service = 1;
+		this.container.current.dataset.proxy = 1;
+		this.setState({
+			title: src,
+			src: this.boot.html(src),
+			proxy: {
+				current: true,
+			},
+		});
+		await this.boot.ready;
+		this.last_title = '';
+		this.query_title = title;
 	}
 	async componentDidMount(){
 		let config = {
@@ -72,19 +90,18 @@ export default class ServiceFrame extends SleepingComponent {
 
 		this.ready = new Promise(resolve => {
 			this.headless.current.addEventListener('load', resolve);
+			this.headless.current.src = this.boot.config.directory;
 		});
 
-		this.headless.current.src = this.boot.config.directory;
 
 		await this.ready;
-
-		while(!this.unmounting){
-			if(this.proxy.current.src !== 'about:blank'){
+		/*while(!this.unmounting){
+			if(this.iframe.current.src !== 'about:blank'){
 				this.update_info();
 			}
 
 			await this.sleep(100);
-		}
+		}*/
 	}
 	async update_fields(datalist, input){
 		if(input.value === ''){
@@ -143,36 +160,6 @@ export default class ServiceFrame extends SleepingComponent {
 	// icon resolving
 	links_tried = new WeakMap();
 	origins_tried = new WeakSet();
-	update_info(){
-		// tomp didn't hook our call to new Function
-		const location = new this.proxy.current.contentWindow.Function('return location')();
-
-		if(location === this.proxy.current.contentWindow.location){
-			this.set_title(this.query_title);
-			
-			if(this.icon.current.src !== GenericGlobeSVG){
-				this.icon.current.src = GenericGlobeSVG;
-			}
-		}else{
-			const current_title = this.proxy.current.contentDocument.title;
-			
-			if(current_title === ''){
-				this.set_title(location.href);
-			}else{
-				this.set_title(current_title);
-			}
-
-			const selector = this.proxy.current.contentDocument.querySelector(`link[rel*='icon']`);
-
-			if(selector !== null && selector.href !== '' && (!this.links_tried.has(selector) || this.links_tried.get(selector) !== selector.href)){
-				this.load_icon_blob(this.boot.binary(selector.href));
-				this.links_tried.set(selector, selector.href);
-			}else if(!this.origins_tried.has(location)){
-				this.load_icon_blob(this.boot.binary(new URL('/favicon.ico', location)));
-				this.origins_tried.add(location);
-			}
-		}
-	}
 	// cant set image src to serviceworker url unless the page is a client
 	async load_icon_blob(url){
 		const outgoing = await this.headless.current.contentWindow.fetch(url);
@@ -194,10 +181,19 @@ export default class ServiceFrame extends SleepingComponent {
 		this.icon.current.src = GenericGlobeSVG;
 	}
 	close(){
+		this.embedding = false;
+		this.proxying = false;
 		root.dataset.service = 0;
 		this.container.current.dataset.proxy = 0;
 		this.container.current.dataset.theatre = 0;
-		this.proxy.current.src = 'about:blank';
+		this.setState({
+			proxy: {
+				current: false,
+			},
+			embed: {
+				current: false,
+			},
+		});
 	}
 	fullscreen(){
 		root.requestFullscreen();
@@ -207,14 +203,15 @@ export default class ServiceFrame extends SleepingComponent {
 			<div className='service' ref={this.container}>
 				<div className='buttons'>
 					<div className='button' onClick={this.close.bind(this)}><BackSVG /></div>
-					<img className='icon' alt='' onError={this.on_icon_error.bind(this)} ref={this.icon} />
-					<p className='title' ref={this.title} />
+					<img className='icon' alt='' src={this.state.icon} />
+					<p className='title'>{obfuscate(<>{this.state.title}</>)}</p>
 					<div className='shift-right'></div>
 					<div className='button' onClick={this.fullscreen.bind(this)}><FullscreenSVG /></div>
 				</div>
 				<iframe className='headless' title='headless' ref={this.headless}></iframe>
-				<iframe className='proxy' src='about:blank' title='proxy' onLoad={this.update_info.bind(this)} ref={this.proxy}></iframe>
+				<iframe className='proxy' src={this.state.src} title='proxy' ref={this.iframe}></iframe>
 			</div>
 		)
+		//  onLoad={this.update_info.bind(this)}
 	}
 };
