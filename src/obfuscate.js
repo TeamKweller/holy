@@ -4,46 +4,52 @@ import { create } from 'random-seed';
 const rand = create(navigator.userAgent + global.location.origin);
 
 const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const char_class = chars[rand(chars.length)];
 
-const junk_classes = [];
-const real_classes = [];
+let used_chars = '';
 
-function char_in_use(char){
-	if(char_class === char){
-		return true;
-	}else if(junk_classes.includes(char)){
-		return true;
-	}else if(real_classes.includes(char)){
-		return true;
-	}
-
-	return false;
-}
-
-function populate_classes(classes){
-	while(classes.length < 7){
+function unused_char(){
+	while(true){
 		const char = chars[rand(chars.length)];
 	
-		if(char_in_use(char)){
+		if(used_chars.includes(char)){
 			continue;
 		}
+
+		used_chars += char;
 	
-		classes.push(char);
+		return char;
 	}
 }
 
-populate_classes(junk_classes);
-populate_classes(real_classes);
+function classes(){
+	const classes = [];
+
+	for(let i = 0; i < 7; i++){
+		classes.push(unused_char());
+	}
+
+	return classes;
+}
+
+const junk_classes = classes();
+const real_classes = classes();
+
+const char_class = unused_char();
+const string_class = unused_char();
 
 export class ObfuscateStyle extends Component {
 	style = createRef();
 	componentDidMount(){
 		const { sheet }  = this.style.current;
 		
-		sheet.insertRule(`.${char_class},.${char_class} *{text-decoration:none;white-space:nowrap}`);
-		sheet.insertRule(`.${junk_classes.join(',.')}{position:absolute;z-index:-10;opacity:0}`);
-		
+		const junk_selector = [];
+
+		for(let junk of junk_classes){
+			junk_selector.push(`.${string_class} .${junk}`);
+		}
+
+		sheet.insertRule(`${junk_selector.join(',')}{position:absolute;z-index:-10;opacity:0}`);
+		sheet.insertRule(`.${string_class},.${string_class} s{text-decoration:none;white-space:nowrap}`);		
 	}
 	render(){
 		return <style ref={this.style}></style>
@@ -114,7 +120,7 @@ export default function obfuscate(input){
 		}
 	}
 	
-	return <>{output}</>;
+	return <s className={string_class}>{output}</s>;
 }
 
  

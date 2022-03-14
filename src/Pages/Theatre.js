@@ -7,7 +7,7 @@ class Item extends Component {
 	render(){
 		return (
 			<div className='item'>
-				<div className='front'></div>
+				<div className='front' style={{backgroundPosition:`${this.props.image[0] * data.image.width}px ${this.props.image[1] * data.image.height}`}}></div>
 				<div className='name'>{obfuscate(<>{this.props.name}</>)}</div>
 			</div>
 		);	
