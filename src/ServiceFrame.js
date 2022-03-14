@@ -11,13 +11,11 @@ import obfuscate from './obfuscate.js';
 const default_fields = [ 'google.com', 'invidio.xamh.de', 'wolframalpha.com', 'discord.com', 'reddit.com', '1v1.lol', 'krunker.io' ];
 
 export default class ServiceFrame extends SleepingComponent {
-	iframe = createRef();
-	container = createRef();
-	title = createRef();
-	icon = createRef();
 	state = {
 		title: '',
 		icon: GenericGlobeSVG,
+		// if icon is a blob: uri, revoke it once loaded
+		revoke_icon: false,
 		src: 'about:blank',
 		embed: {
 			current: false,
@@ -26,6 +24,8 @@ export default class ServiceFrame extends SleepingComponent {
 			current: false,
 		}
 	};
+	links_tried = new WeakMap();
+	iframe = createRef();
 	// headless client for serviceworker
 	headless = createRef();
 	/*async embed(input, title = input){
@@ -43,17 +43,15 @@ export default class ServiceFrame extends SleepingComponent {
 		this.proxying = true;
 		const src = this.search.query(input);
 		root.dataset.service = 1;
-		this.container.current.dataset.proxy = 1;
-		this.setState({
+		await this.setState({
 			title: src,
 			src: this.boot.html(src),
 			proxy: {
 				current: true,
+				src,
 			},
 		});
 		await this.boot.ready;
-		this.last_title = '';
-		this.query_title = title;
 	}
 	async componentDidMount(){
 		let config = {
@@ -95,13 +93,67 @@ export default class ServiceFrame extends SleepingComponent {
 
 
 		await this.ready;
-		/*while(!this.unmounting){
-			if(this.iframe.current.src !== 'about:blank'){
-				this.update_info();
+		
+		while(!this.unmounting){
+			if(this.state.proxy.current){
+				this.test_proxy_update();
 			}
 
 			await this.sleep(100);
-		}*/
+		}
+	}
+	test_proxy_update(){
+		// tomp didn't hook our call to new Function
+		const location = new this.iframe_window.Function('return location')();
+
+		const titles = [];
+
+		if(location === this.iframe_window.location){
+			titles.push(this.state.proxy.src);
+		}else{
+			const current_title = this.iframe_window.document.title;
+			
+			if(current_title === ''){
+				titles.push(location.href);
+			}else{
+				titles.push(current_title);
+			}
+
+			const selector = this.iframe_window.document.querySelector(`link[rel*='icon']`);
+
+			const icons = [];
+
+			if(selector !== null && selector.href !== ''){
+				icons.push(selector.href);
+			}else{
+				icons.push(new URL('/favicon.ico', location).href);
+			}
+
+			if(!this.links_tried.has(location)){
+				this.links_tried.set(location, new Set());
+			}
+
+			if(!this.links_tried.get(location).has(icons[0])){
+				this.links_tried.get(location).add(icons[0]);
+				this.load_icon(this.boot.binary(icons[0]));
+			}
+		}
+
+		this.setState({
+			title: titles[0],
+		})
+	}
+	/**
+	 * @returns {Window}
+	*/
+	get iframe_window(){
+		return this.iframe.current.contentWindow;
+	}
+	/**
+	 * @returns {fetch}
+	 */
+	get client_fetch(){
+		return this.headless.current.contentWindow.fetch.bind(undefined);
 	}
 	async update_fields(datalist, input){
 		if(input.value === ''){
@@ -144,7 +196,7 @@ export default class ServiceFrame extends SleepingComponent {
 	async omnibox_results(query){
 		await this.ready;
 		
-		const outgoing = await this.headless.current.contentWindow.fetch(this.boot.binary(`https://duckduckgo.com/ac/?` + new URLSearchParams({
+		const outgoing = await this.client_fetch(this.boot.binary(`https://duckduckgo.com/ac/?` + new URLSearchParams({
 			q: query,
 			kl: 'wt-wt',
 		})), {
@@ -161,31 +213,27 @@ export default class ServiceFrame extends SleepingComponent {
 	links_tried = new WeakMap();
 	origins_tried = new WeakSet();
 	// cant set image src to serviceworker url unless the page is a client
-	async load_icon_blob(url){
-		const outgoing = await this.headless.current.contentWindow.fetch(url);
-		const obj_url = URL.createObjectURL(await outgoing.blob());
+	async load_icon(icon){
+		const outgoing = await this.client_fetch(icon);
 
-		this.icon.current.src = obj_url;
-
-		const load = () => {
-			URL.revokeObjectURL(obj_url);
-
-			this.icon.current.removeEventListener('load', load);
-			this.icon.current.removeEventListener('error', load);
-		};
-
-		this.icon.current.addEventListener('load', load);
-		this.icon.current.addEventListener('error', load);
+		this.setState({
+			icon: URL.createObjectURL(await outgoing.blob()),
+			revoke_icon: true,
+		});
 	}
 	on_icon_error(event){
 		this.icon.current.src = GenericGlobeSVG;
 	}
+	on_icon_load(event){
+		if(this.state.revoke_icon){
+			this.setState({
+				revoke_icon: false,
+			});
+
+			URL.revokeObjectURL(this.state.icon);
+		}
+	}
 	close(){
-		this.embedding = false;
-		this.proxying = false;
-		root.dataset.service = 0;
-		this.container.current.dataset.proxy = 0;
-		this.container.current.dataset.theatre = 0;
 		this.setState({
 			proxy: {
 				current: false,
@@ -199,11 +247,23 @@ export default class ServiceFrame extends SleepingComponent {
 		root.requestFullscreen();
 	}
 	render() {
+		const dataset = {};
+
+		if(this.state.embed.current){
+			dataset.current = 'embed';
+			root.dataset.service = 1;	
+		}else if(this.state.proxy.current){
+			dataset.current = 'proxy';
+			root.dataset.service = 1;
+		}else{
+			delete root.dataset.service;
+		}
+
 		return (
-			<div className='service' ref={this.container}>
+			<div className='service' ref={this.container} dataset={dataset}>
 				<div className='buttons'>
 					<div className='button' onClick={this.close.bind(this)}><BackSVG /></div>
-					<img className='icon' alt='' src={this.state.icon} />
+					<img className='icon' alt='' src={this.state.icon} onError={this.on_icon_error.bind(this)} onLoad={this.on_icon_load.bind(this)} />
 					<p className='title'>{obfuscate(<>{this.state.title}</>)}</p>
 					<div className='shift-right'></div>
 					<div className='button' onClick={this.fullscreen.bind(this)}><FullscreenSVG /></div>
