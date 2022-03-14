@@ -5,9 +5,13 @@ import obfuscate from '../obfuscate.js';
 
 class Item extends Component {
 	render(){
+		const style = {
+			backgroundPosition:`${this.props.image[0] * data.image.width}px ${this.props.image[1] * data.image.height}px`
+		};
+		
 		return (
 			<div className='item'>
-				<div className='front' style={{backgroundPosition:`${this.props.image[0] * data.image.width}px ${this.props.image[1] * data.image.height}`}}></div>
+				<div className='front' style={style}></div>
 				<div className='name'>{obfuscate(<>{this.props.name}</>)}</div>
 			</div>
 		);	

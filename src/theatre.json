@@ -5,6 +5,91 @@
 	},
 	"categories": [
 		{
+			"name": "HTML5",
+			"base": "/theatre/HTML5/",
+			"items": [
+				{
+					"name": "Krunker",
+					"src": "https://krunker.io/",
+					"image": [9,0],
+					"target": "proxy"
+				},
+				{
+					"name": "1v1.LOL",
+					"src": "https://1v1.lol/",
+					"image": [10,0],
+					"target": "proxy"
+				},
+				{
+					"name": "Cookie Clicker",
+					"src": "Cookie Clicker/",
+					"image": [12,0],
+					"target": "embed"
+				}
+			]
+		},
+
+		{
+			"name": "Unity",
+			"base": "/theatre/Unity/",
+			"items": [
+				{
+					"name": "Duck Life",
+					"src": "Duck Life/",
+					"image": [5,0],
+					"target": "embed"
+				},
+				{
+					"name": "Duck Life 2",
+					"src": "Duck Life 2/",
+					"image": [4,0],
+					"target": "embed"
+				},
+				{
+					"name": "Duck Life 3",
+					"src": "Duck Life 3/",
+					"image": [3,0],
+					"target": "embed"
+				},
+				{
+					"name": "Duck Life 4",
+					"src": "Duck Life 4/",
+					"image": [2,0],
+					"target": "embed"
+				}
+			]
+		},
+		{
+			"name": "Ports",
+			"base": "/theatre/Ports/",
+			"items": [
+				{
+					"name": "Minecraft Classic",
+					"src": "Minecraft Classic/",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Super Mario 64",
+					"src": "Super Mario 64/",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Sonic 1",
+					"src": "Sonic/?data=1",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Sonic 1",
+					"src": "Sonic/?data=2",
+					"image": [0,0],
+					"target": "embed"
+				}
+			]
+		},
+		{
 			"name": "Game Boy Advance",
 			"base": "/theatre/GBA/",
 			"items": [
@@ -121,102 +206,6 @@
 					"src": "Super Mario Bros 3.nes",
 					"image": [0,0],
 					"target": "webretro.snes9x"
-				}
-			]
-		},
-		{
-			"name": "Ports",
-			"base": "/theatre/Ports/",
-			"items": [
-				{
-					"name": "Minecraft",
-					"src": "Minecraft/",
-					"image": [0,0],
-					"target": "embed"
-				},
-				{
-					"name": "Super Mario 64",
-					"src": "Super Mario 64/",
-					"image": [0,0],
-					"target": "embed"
-				},
-				{
-					"name": "Sonic 1",
-					"src": "Sonic/?data=1",
-					"image": [0,0],
-					"target": "embed"
-				}
-			]
-		},
-		{
-			"name": "Unity",
-			"base": "/theatre/Unity/",
-			"items": [
-				{
-					"name": "Duck Life 1",
-					"src": "Duck Life 1/",
-					"image": [0,0],
-					"target": "embed"
-				},
-				{
-					"name": "Duck Life 2",
-					"src": "Duck Life 2/",
-					"image": [0,0],
-					"target": "embed"
-				},
-				{
-					"name": "Duck Life 3",
-					"src": "Duck Life 3/",
-					"image": [0,0],
-					"target": "embed"
-				},
-				{
-					"name": "Duck Life 4",
-					"src": "Duck Life 4/",
-					"image": [0,0],
-					"target": "embed"
-				}
-			]
-		},
-		{
-			"name": "HTML5",
-			"base": "/theatre/HTML5/",
-			"items": [
-				{
-					"name": "Krunker",
-					"src": "https://krunker.io/",
-					"image": [0,0],
-					"target": "proxy"
-				},
-				{
-					"name": "1v1.LOL",
-					"src": "https://1v1.lol/",
-					"image": [0,0],
-					"target": "proxy"
-				},
-				{
-					"name": "Cookie Clicker",
-					"src": "Cookie Clicker/",
-					"image": [0,0],
-					"target": "embed"
-				},
-				{
-					"name": "Duck Life 2",
-					"src": "Duck Life 2/",
-					"image": [0,0],
-					"target": "embed"
-				},
-				{
-					"name": "Duck Life 3",
-					"src": "Duck Life 3/",
-					"image": [0,0],
-					"target": "embed"
-				},
-				{
-					"name": "Duck Life 4",
-					"src": "Duck Life 4/",
-					"image": [0,0],
-					"target": "embed"
 				}
 			]
 		}
