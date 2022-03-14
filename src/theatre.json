@@ -130,13 +130,19 @@
 			"items": [
 				{
 					"name": "Minecraft",
-					"src": "Minecraft",
+					"src": "Minecraft/",
 					"image": [0,0],
 					"target": "embed"
 				},
 				{
 					"name": "Super Mario 64",
-					"src": "Super Mario 64",
+					"src": "Super Mario 64/",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Sonic 1",
+					"src": "Sonic/?data=1",
 					"image": [0,0],
 					"target": "embed"
 				}
@@ -148,25 +154,67 @@
 			"items": [
 				{
 					"name": "Duck Life 1",
-					"src": "Duck Life 1",
+					"src": "Duck Life 1/",
 					"image": [0,0],
 					"target": "embed"
 				},
 				{
 					"name": "Duck Life 2",
-					"src": "Duck Life 2",
+					"src": "Duck Life 2/",
 					"image": [0,0],
 					"target": "embed"
 				},
 				{
 					"name": "Duck Life 3",
-					"src": "Duck Life 3",
+					"src": "Duck Life 3/",
 					"image": [0,0],
 					"target": "embed"
 				},
 				{
 					"name": "Duck Life 4",
-					"src": "Duck Life 4",
+					"src": "Duck Life 4/",
+					"image": [0,0],
+					"target": "embed"
+				}
+			]
+		},
+		{
+			"name": "HTML5",
+			"base": "/theatre/HTML5/",
+			"items": [
+				{
+					"name": "Krunker",
+					"src": "https://krunker.io/",
+					"image": [0,0],
+					"target": "proxy"
+				},
+				{
+					"name": "1v1.LOL",
+					"src": "https://1v1.lol/",
+					"image": [0,0],
+					"target": "proxy"
+				},
+				{
+					"name": "Cookie Clicker",
+					"src": "Cookie Clicker/",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Duck Life 2",
+					"src": "Duck Life 2/",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Duck Life 3",
+					"src": "Duck Life 3/",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Duck Life 4",
+					"src": "Duck Life 4/",
 					"image": [0,0],
 					"target": "embed"
 				}
