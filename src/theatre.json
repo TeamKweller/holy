@@ -1,0 +1,176 @@
+{
+	"image": {
+		"width": 200,
+		"height": 200
+	},
+	"categories": [
+		{
+			"name": "Game Boy Advance",
+			"base": "/theatre/GBA/",
+			"items": [
+				{
+					"name": "Super Mario Advance",
+					"src": "Super Mario Advance.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Super Mario Advance 2",
+					"src": "Super Mario Advance 2.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Mario Kart: Super Circuit",
+					"src": "Mario Kart: Super Circuit.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Red",
+					"src": "Pokemon Red.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Green",
+					"src": "Pokemon Green.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Blue",
+					"src": "Pokemon Blue.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Yellow",
+					"src": "Pokemon Yellow.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Gold",
+					"src": "Pokemon Gold.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Silver",
+					"src": "Pokemon Silver.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Crystal",
+					"src": "Pokemon Crystal.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Ruby",
+					"src": "Pokemon Ruby.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Sapphire",
+					"src": "Pokemon Sapphire.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Emerald",
+					"src": "Pokemon Emerald.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Fire Red",
+					"src": "Pokemon Fire Red.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				},
+				{
+					"name": "Pokemon Leaf Green",
+					"src": "Pokemon Leaf Green.gba",
+					"image": [0,0],
+					"target": "webretro.mgba"
+				}
+			]
+		},
+		{
+			"name": "Nintendo Entertainment System",
+			"base": "/theatre/NES/",
+			"items": [
+				{
+					"name": "Super Mario Bros",
+					"src": "Super Mario Bros.nes",
+					"image": [0,0],
+					"target": "webretro.snes9x"
+				},
+				{
+					"name": "Super Mario Bros 2",
+					"src": "Super Mario Bros 2.nes",
+					"image": [0,0],
+					"target": "webretro.snes9x"
+				},
+				{
+					"name": "Super Mario Bros 3",
+					"src": "Super Mario Bros 3.nes",
+					"image": [0,0],
+					"target": "webretro.snes9x"
+				}
+			]
+		},
+		{
+			"name": "Ports",
+			"base": "/theatre/Ports/",
+			"items": [
+				{
+					"name": "Minecraft",
+					"src": "Minecraft",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Super Mario 64",
+					"src": "Super Mario 64",
+					"image": [0,0],
+					"target": "embed"
+				}
+			]
+		},
+		{
+			"name": "Unity",
+			"base": "/theatre/Unity/",
+			"items": [
+				{
+					"name": "Duck Life 1",
+					"src": "Duck Life 1",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Duck Life 2",
+					"src": "Duck Life 2",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Duck Life 3",
+					"src": "Duck Life 3",
+					"image": [0,0],
+					"target": "embed"
+				},
+				{
+					"name": "Duck Life 4",
+					"src": "Duck Life 4",
+					"image": [0,0],
+					"target": "embed"
+				}
+			]
+		}
+	]
+}

@@ -60,7 +60,7 @@ class ObfuscateContext {
 	real_class(rand){
 		return real_classes[this.rand(real_classes.length)];
 	}
-	random(chars, char, i){
+	random(chars, char, i, ci){
 		const r = this.rand(2);
 
 		switch(r){
@@ -68,9 +68,9 @@ class ObfuscateContext {
 				console.warn('Random for', r, 'not set...');
 				// eslint-disable-next-line
 			case 0:
-				return <s key={i} className={this.junk_class()}>{chars[chars.length - i]}</s>;
+				return <s key={i} className={this.junk_class()}>{chars[chars.length - ci]}</s>;
 			case 1:
-				return <s key={i} className={this.junk_class()}>{String.fromCharCode(chars[chars.length - i - 1].charCodeAt() ^ i)}</s>;
+				return <s key={i} className={this.junk_class()}>{String.fromCharCode(chars[chars.length - ci -1].charCodeAt() ^ i)}</s>;
 		}
 	}
 };
@@ -102,7 +102,7 @@ export default function obfuscate(input){
 				if(i === real_at_i){
 					content.push(<s key={`${wi}${ci}${i}`} className={context.real_class()}>{char}</s>);
 				}else{
-					content.push(context.random(chars, char, i));
+					content.push(context.random(chars, char, i, ci));
 				}
 			}
 
