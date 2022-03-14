@@ -17,7 +17,7 @@ export default class ServiceFrame extends SleepingComponent {
 	icon = createRef();
 	// headless client for serviceworker
 	headless = createRef();
-	async query(input){
+	async query(input, title = input){
 		const query = this.search.query(input);
 
 		root.dataset.service = 1;
@@ -25,7 +25,7 @@ export default class ServiceFrame extends SleepingComponent {
 		this.title.current.textContent = query;
 		await this.boot.ready;
 		this.last_title = '';
-		this.last_query = query;
+		this.query_title = title;
 		this.proxy.current.src = this.boot.html(query);
 	}
 	set_title(title){
@@ -148,7 +148,7 @@ export default class ServiceFrame extends SleepingComponent {
 		const location = new this.proxy.current.contentWindow.Function('return location')();
 
 		if(location === this.proxy.current.contentWindow.location){
-			this.set_title(this.last_query);
+			this.set_title(this.query_title);
 			
 			if(this.icon.current.src !== GenericGlobeSVG){
 				this.icon.current.src = GenericGlobeSVG;

@@ -4,13 +4,22 @@ import data from '../theatre.json';
 import obfuscate from '../obfuscate.js';
 
 class Item extends Component {
+	open(){
+		switch(this.props.target){
+			case'proxy':
+				this.props.layout.current.service_frame.current.query(this.props.src, this.props.name);
+				break;
+			default:
+				throw new TypeError(`Unrecognized target: ${this.props.target}`)
+		}
+	}
 	render(){
 		const style = {
 			backgroundPosition:`${this.props.image[0] * data.image.width}px ${this.props.image[1] * data.image.height}px`
 		};
 		
 		return (
-			<div className='item'>
+			<div className='item' onClick={this.open.bind(this)}>
 				<div className='front' style={style}></div>
 				<div className='name'>{obfuscate(<>{this.props.name}</>)}</div>
 			</div>
@@ -25,7 +34,7 @@ class Category extends Component {
 		for(let i = 0; i < this.props.items.length; i++){
 			const item = this.props.items[i];
 
-			items.push(<Item key={i} name={item.name} src={new URL(item.src, this.props.base)} target={item.target} image={item.image} />)
+			items.push(<Item key={i} layout={this.props.layout} name={item.name} src={new URL(item.src, this.props.base)} target={item.target} image={item.image} />)
 		}
 
 		return (
@@ -48,7 +57,7 @@ export default class Theatre extends Component {
 		for(let i = 0; i < data.categories.length; i++){
 			const category = data.categories[i];
 
-			categories.push(<Category key={i} name={category.name} items={category.items} base={new URL(category.base, global.location)} />);
+			categories.push(<Category key={i} layout={this.props.layout} name={category.name} items={category.items} base={new URL(category.base, global.location)} />);
 		}
 
 		return (
