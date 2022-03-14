@@ -28,21 +28,21 @@ export default class ServiceFrame extends SleepingComponent {
 	iframe = createRef();
 	// headless client for serviceworker
 	headless = createRef();
-	/*async embed(input, title = input){
-		this.embedding = true;
-		const src = this.search.query(input);
-		root.dataset.service = 1;
-		this.container.current.dataset.embed = 1;
-		this.title.current.textContent = src;
+	async embed(src, title = src, icon = GenericGlobeSVG){
+		await this.setState({
+			title,
+			src,
+			embed: {
+				current: true,
+				src,
+			},
+		});
+	}
+	async proxy(input){
 		await this.boot.ready;
-		this.last_title = '';
-		this.query_title = title;
-		this.iframe.current.src = src;
-	}*/
-	async proxy(input, title = input){
-		this.proxying = true;
+		
 		const src = this.search.query(input);
-		root.dataset.service = 1;
+
 		await this.setState({
 			title: src,
 			src: this.boot.html(src),
@@ -51,7 +51,6 @@ export default class ServiceFrame extends SleepingComponent {
 				src,
 			},
 		});
-		await this.boot.ready;
 	}
 	async componentDidMount(){
 		let config = {
@@ -246,7 +245,7 @@ export default class ServiceFrame extends SleepingComponent {
 	fullscreen(){
 		root.requestFullscreen();
 	}
-	render() {
+	render(){
 		const dataset = {};
 
 		if(this.state.embed.current){
