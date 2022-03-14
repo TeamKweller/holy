@@ -12,6 +12,12 @@ class Item extends Component {
 			case'embed':
 				this.props.layout.current.service_frame.current.embed(this.props.src, this.props.name);
 				break;
+			case'webretro.mgba':
+				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.props.src)}&core=mgba`, this.props.name);
+				break;
+			case'webretro.snes9x':
+				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.props.src)}&core=snes9x`, this.props.name);
+				break;
 			default:
 				throw new TypeError(`Unrecognized target: ${this.props.target}`)
 		}
