@@ -47,6 +47,7 @@ export default class ServiceFrame extends SleepingComponent {
 		await this.setState({
 			title: src,
 			src: this.boot.html(src),
+			icon: GenericGlobeSVG,
 			proxy: {
 				current: true,
 				src,
