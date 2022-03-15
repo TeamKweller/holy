@@ -1,24 +1,21 @@
 #root[data-page='theatre'] {
 	> main {
 		> section {
-			> .container {
+			> .overflow {
+				display: none;
+			}
+
+			> .items {
 				padding: 10px;
 				background: var(--accent);
-				scrollbar-color: var(--accent);
 				width: 100%;
 				display: flex;
 				flex-direction: row;
-				align-items: center;
 				border-radius: 10px;
 				justify-content: space-around;
-				height: 250px;
+				height: 265px;
 				flex-wrap: wrap;
 				overflow: hidden;
-
-				[data-expanded='1'] {
-					overflow: initial;
-					height: initial;
-				}
 
 				> .item {
 					cursor: pointer;
@@ -46,6 +43,19 @@
 						border-top: 1px solid var(--border);
 					}
 				}
+			}
+		}
+
+		> section[data-expanded='1'] {
+			.items {
+				overflow: initial;
+				height: initial;
+			}
+		}
+
+		> section[data-overflowing='1'] {
+			> .overflow {
+				display: block;
 			}
 		}
 	}

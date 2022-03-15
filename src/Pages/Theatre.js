@@ -4,19 +4,29 @@ import data from '../theatre.json';
 import obfuscate from '../obfuscate.js';
 
 class Item extends Component {
+	constructor(props){
+		super(props);
+
+		this.state = {
+			name: this.props.name,
+			image: this.props.image,
+			target: this.props.target,
+			src: this.props.src,
+		}
+	}
 	open(){
 		switch(this.props.target){
 			case'proxy':
-				this.props.layout.current.service_frame.current.proxy(this.props.src, this.props.name);
+				this.props.layout.current.service_frame.current.proxy(this.state.src, this.state.name);
 				break;
 			case'embed':
-				this.props.layout.current.service_frame.current.embed(this.props.src, this.props.name);
+				this.props.layout.current.service_frame.current.embed(this.state.src, this.state.name);
 				break;
 			case'webretro.mgba':
-				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.props.src)}&core=mgba`, this.props.name);
+				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=mgba`, this.state.name);
 				break;
 			case'webretro.snes9x':
-				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.props.src)}&core=snes9x`, this.props.name);
+				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=snes9x`, this.state.name);
 				break;
 			default:
 				throw new TypeError(`Unrecognized target: ${this.props.target}`)
@@ -24,26 +34,30 @@ class Item extends Component {
 	}
 	render(){
 		const style = {
-			backgroundPosition:`${this.props.image[0] * data.image.width}px ${this.props.image[1] * data.image.height}px`
+			backgroundPosition:`${this.state.image[0] * data.image.width}px ${this.state.image[1] * data.image.height}px`
 		};
 		
 		return (
 			<div className='item' onClick={this.open.bind(this)}>
 				<div className='front' style={style}></div>
-				<div className='name'>{obfuscate(<>{this.props.name}</>)}</div>
+				<div className='name'>{obfuscate(<>{this.state.name}</>)}</div>
 			</div>
 		);	
 	}
 };
 
 class Category extends Component {
-	container = createRef();
-	state = {
-		overflowing: false,
-		expanded: false,
-	};
+	items = createRef();
 	constructor(props){
 		super(props);
+
+		this.state = {
+			overflowing: false,
+			expanded: false,
+			name: this.props.name,
+			items: this.props.items,
+			base: this.props.base,
+		};
 
 		this.resize = this.resize.bind(this);
 	}
@@ -60,7 +74,15 @@ class Category extends Component {
 		window.removeEventListener('resize', this.resize);
 	}
 	get overflowing(){
-		return this.container.current.clientHeight > this.container.current.scrollHeight;
+		const overflow = this.items.current.style.overflow;
+
+		this.items.current.style.overflow = 'hidden';
+		
+		const overflowing = this.items.current.clientHeight < this.items.current.scrollHeight;
+
+		this.items.current.style.overflow = overflow;
+
+		return overflowing;
 	}
 	overflow_click(){
 		this.setState({
@@ -70,16 +92,16 @@ class Category extends Component {
 	render(){
 		const items = [];
 
-		for(let i = 0; i < this.props.items.length; i++){
-			const item = this.props.items[i];
+		for(let i = 0; i < this.state.items.length; i++){
+			const item = this.state.items[i];
 
-			items.push(<Item key={i} layout={this.props.layout} name={item.name} src={new URL(item.src, this.props.base)} target={item.target} image={item.image} />)
+			items.push(<Item key={i} layout={this.props.layout} name={item.name} src={new URL(item.src, this.state.base)} target={item.target} image={item.image} />)
 		}
 
 		return (
 			<section data-overflowing={Number(this.state.overflowing)} data-expanded={Number(this.state.expanded)}>
-				<h1>{this.props.name}</h1>
-				<div className='container' ref={this.container}>{items}</div>
+				<h1>{this.state.name}</h1>
+				<div className='items' ref={this.items}>{items}</div>
 				<div className='overflow material-icons' onClick={this.overflow_click.bind(this)}>{this.state.expanded ? 'expand_more' : 'expand_less'}</div>
 			</section>
 		)
