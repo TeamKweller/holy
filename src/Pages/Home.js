@@ -33,7 +33,7 @@ export default class Home extends Component {
 					Your internet<br/>
 					<TypeWriter element={<h1 className='adjective'>placeholder</h1>} speed={50} delay={5000} strings={['More Secure.', 'More Private.', 'Uncensored.', 'Safer.', 'Easier', 'More Fun.']}></TypeWriter><br/>
 				</h1>
-				<div className='description'>{obfuscate(<>SystemYA</>)} is a service that allows you to circumvent firewalls on locked down machines through in-page web proxies.</div>
+				<div className='description'>{obfuscate(<>SystemYA</>)} is a service that allows you to circumvent firewalls on locked down machines through in-page {obfuscate(<>web proxies</>)}.</div>
 				<form className='omnibox' onSubmit={this.search_submit.bind(this)}>
 					<input type='text' placeholder='Search the web' required autoComplete='off' list='home-omnibox' ref={this.input} onInput={this.on_input.bind(this)} />
 					<datalist id='home-omnibox'>{this.state.omnibox_entries}</datalist>
