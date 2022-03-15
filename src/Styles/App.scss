@@ -5,6 +5,8 @@
 @use './Home.scss';
 @use './Theatre.scss';
 @use './Support.scss';
+$material-design-icons-font-directory-path: '~material-design-icons-iconfont/dist/fonts/';
+@import '~material-design-icons-iconfont/src/material-design-icons';
 
 html, body, #root {
 	margin: 0px;

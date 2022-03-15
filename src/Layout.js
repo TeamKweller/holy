@@ -11,6 +11,9 @@ import './Styles/App.scss';
 const themes = ['light','dark'];
 
 export default class Layout extends Component {
+	state = {
+		search: false,
+	};
 	nav = createRef();
 	search_bar = createRef();
 	service_frame = createRef();
@@ -57,7 +60,7 @@ export default class Layout extends Component {
 		return (
 			<>
 				<ObfuscateStyle />
-				<nav ref={this.nav}>
+				<nav ref={this.nav} data-search={Number(this.state.search)}>
 					<div className='collapse' onClick={this.collapse.bind(this)}>
 						<div>
 							<span></span>

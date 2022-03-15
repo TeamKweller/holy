@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, createRef } from 'react';
 import root from '../root.js';
 import data from '../theatre.json';
 import obfuscate from '../obfuscate.js';
@@ -37,6 +37,24 @@ class Item extends Component {
 };
 
 class Category extends Component {
+	container = createRef();
+	state = {
+		overflowing: false,
+		expanded: false,
+	};
+	componentDidMount(){
+		this.setState({
+			overflowing: this.overflowing,
+		});
+	}
+	get overflowing(){
+		return this.container.current.clientHeight > this.container.current.scrollHeight;
+	}
+	overflow_click(){
+		this.setState({
+			expanded: !this.state.expanded,
+		});
+	}
 	render(){
 		const items = [];
 
@@ -47,11 +65,10 @@ class Category extends Component {
 		}
 
 		return (
-			<section>
+			<section data-overflowing={Number(this.state.overflowing)} data-expanded={Number(this.state.expanded)}>
 				<h1>{this.props.name}</h1>
-				<div className='container'>
-					{items}
-				</div>
+				<div className='container' ref={this.container}>{items}</div>
+				<div className='overflow material-icons' onClick={this.overflow_click.bind(this)}>{this.state.expanded ? 'expand_more' : 'expand_less'}</div>
 			</section>
 		)
 	}

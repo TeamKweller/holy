@@ -2,7 +2,7 @@ import root from './root.js';
 import process from 'process';
 import GenericGlobeSVG from './Assets/generic-globe.svg';
 import SleepingComponent from './SleepingComponent';
-import { createRef, useState } from 'react';
+import { createRef } from 'react';
 import { ReactComponent as FullscreenSVG } from './Assets/frame-fullscreen.svg';
 import { ReactComponent as BackSVG } from './Assets/frame-back.svg';
 import { render } from 'react-dom';
@@ -208,9 +208,6 @@ export default class ServiceFrame extends SleepingComponent {
 			throw await outgoing.json();
 		}
 	}
-	// icon resolving
-	links_tried = new WeakMap();
-	origins_tried = new WeakSet();
 	// cant set image src to serviceworker url unless the page is a client
 	async load_icon(icon){
 		const outgoing = await this.client_fetch(icon);
@@ -247,20 +244,20 @@ export default class ServiceFrame extends SleepingComponent {
 		root.requestFullscreen();
 	}
 	render(){
-		const dataset = {};
+		let current;
 
 		if(this.state.embed.current){
-			dataset.current = 'embed';
+			current = 'embed';
 			root.dataset.service = 1;	
 		}else if(this.state.proxy.current){
-			dataset.current = 'proxy';
+			current = 'proxy';
 			root.dataset.service = 1;
 		}else{
 			delete root.dataset.service;
 		}
 
 		return (
-			<div className='service' ref={this.container} dataset={dataset}>
+			<div className='service' ref={this.container} data-current={current}>
 				<div className='buttons'>
 					<div className='button' onClick={this.close.bind(this)}><BackSVG /></div>
 					<img className='icon' alt='' src={this.state.icon} onError={this.on_icon_error.bind(this)} onLoad={this.on_icon_load.bind(this)} />
