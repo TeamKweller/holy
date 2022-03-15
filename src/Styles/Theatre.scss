@@ -3,7 +3,7 @@
 		> section {
 			position: relative;
 
-			> .overflow {
+			> .items-expand {
 				display: none;
 				border-radius: 50%;
 				width: 50px;
@@ -17,6 +17,7 @@
 				margin: 0 auto;
 				line-height: 50px;
 				text-align: center;
+				user-select: none;
 			}
 
 			> .items {
@@ -27,11 +28,11 @@
 				flex-direction: row;
 				border-radius: 10px;
 				justify-content: space-around;
-				height: 265px;
+				max-height: 265px;
 				padding-bottom: 30px;
 				flex-wrap: wrap;
 				overflow: hidden;
-
+				
 				> .item {
 					cursor: pointer;
 					user-select: none;
@@ -63,13 +64,12 @@
 
 		> section[data-expanded='1'] {
 			.items {
-				overflow: initial;
-				height: initial;
+				max-height: unset;
 			}
 		}
 
 		> section[data-overflowing='1'] {
-			> .overflow {
+			> .items-expand {
 				display: block;
 			}
 		}

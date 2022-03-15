@@ -48,6 +48,7 @@ class Item extends Component {
 
 class Category extends Component {
 	items = createRef();
+	container = createRef();
 	constructor(props){
 		super(props);
 
@@ -74,24 +75,23 @@ class Category extends Component {
 		window.removeEventListener('resize', this.resize);
 	}
 	get overflowing(){
-		const { expanded } = this.items.current.dataset;
+		const { expanded } = this.container.current.dataset;
 
-		this.items.current.dataset.expanded = '0';
+		this.container.current.dataset.expanded = '0';
 
 		const overflowing = this.items.current.clientHeight < this.items.current.scrollHeight;
 
-		this.items.current.dataset.expanded = expanded;
+		this.container.current.dataset.expanded = expanded;
 
 		return overflowing;
 	}
-	async overflow_click(event){
+	async expand(event){
 		await this.setState({
 			expanded: !this.state.expanded,
 		});
 
 		event.target.scrollIntoView({
 			block: 'start',
-			behavior: 'smooth',
 		});
 	}
 	render(){
@@ -104,10 +104,10 @@ class Category extends Component {
 		}
 
 		return (
-			<section data-overflowing={Number(this.state.overflowing)} data-expanded={Number(this.state.expanded)}>
+			<section data-overflowing={Number(this.state.overflowing)} data-expanded={Number(this.state.expanded)} ref={this.container}>
 				<h1>{this.state.name}</h1>
 				<div className='items' ref={this.items}>{items}</div>
-				<div className='overflow material-icons' onClick={this.overflow_click.bind(this)}>{this.state.expanded ? 'expand_more' : 'expand_less'}</div>
+				<div className='items-expand material-icons' onClick={this.expand.bind(this)}>{this.state.expanded ? 'expand_more' : 'expand_less'}</div>
 			</section>
 		)
 	}
