@@ -3,50 +3,73 @@ import { Component, createRef } from 'react';
 import { ReactComponent as SearchSVG } from '../Assets/nav-search.svg';
 import { Link } from 'react-router-dom';
 import obfuscate from '../obfuscate.js';
+import support from '../support.js';
 
 export default class Support extends Component {
 	main = createRef();
 	input = createRef();
-	on_input(){
-		const { value } = this.input.current;
+	state = {
+		search: '',
+	};
+	on_input(event){
+		this.setState({
+			search: event.target.value,
+		});
+	}
+	children_text(node){
+		const children = node.props.children;
 
-		for(let node of this.main.current.children){
-			if(node.className === 'note')continue;
-
-			if(node.textContent.toLowerCase().includes(value.toLowerCase())){
-				node.style.display = 'initial';
-			}else{
-				node.style.display = 'none';
+		if(typeof children === 'string'){
+			return children;
+		}else if(Array.isArray(children)){
+			let text = '';
+			
+			for(let child of children){
+				if(typeof child === 'string'){
+					text += child;
+				}else{
+					text += this.children_text(child);
+				}
 			}
+
+			return text;
+		}else{
+			return ' ';
 		}
 	}
 	render(){
 		root.dataset.page = 'support';
+
+		const qna = [];
+
+		for(let i = 0; i < support.qna.length; i++){
+			const { q, a } = support.qna[i];
+
+			const visible = this.children_text(q).toLowerCase().includes(this.state.search.toLowerCase());
+			const style = {};
+
+			if(!visible){
+				style.display = 'none';
+			}
+
+			qna.push(
+				<section key={i} style={style}>
+					<h1>{q}</h1>
+					<p>{a}</p>
+				</section>
+			);
+		}
 
 		return (<>
 			<form className='banner' onSubmit={event => event.preventDefault()}>
 				<h1>{obfuscate(<>SystemYA</>)} Knowledgebase</h1>
 				<div className='search'>
 					<span className='icon'><SearchSVG /></span>
-					<input className='bar' type='text' placeholder='Search' ref={this.input} onInput={this.on_input.bind(this)}></input>
+					<input className='bar' type='text' placeholder='Search' onInput={this.on_input.bind(this)}></input>
 				</div>
 			</form>
 			<main ref={this.main}>
-				<section>
-					<h1>My page does not function or work</h1>
-					<span>The page may be still loading due to heavy traffic on our servers or the page is not supported by our {obfuscate(<>proxy</>)}.</span>
-				</section>
-				
-				<section>
-					<h1>Can I host my own {obfuscate(<>proxy script</>)}?</h1>
-					<span>Yes. Our proxy scripts can be found on our <a href='https://github.com/sysce'>GitHub</a>.</span>
-				</section>
-				
-				<section>
-					<h1>Is my information on the {obfuscate(<>proxy</>)} secure?</h1>
-					<span>We do not collect any data, your information is only as secure as the sites you are visiting on them. For privacy concerns, you can review our <Link to='/privacy'>Privacy Policy</Link>.</span>
-				</section>
-				
+				{qna}
 				<p className='note'>Not what you're looking for? <Link to='/contact'>Contact Us</Link>.</p>
 			</main>
 		</>);
