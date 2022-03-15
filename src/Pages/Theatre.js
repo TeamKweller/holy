@@ -23,16 +23,16 @@ class Item extends Component {
 				this.props.layout.current.service_frame.current.embed(this.state.src, this.state.name);
 				break;
 			case'webretro.mgba':
-				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=mgba`, this.state.name);
+				this.props.layout.current.service_frame.current.embed(`/assets/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=mgba`, this.state.name);
 				break;
 			case'webretro.mupen64plus_next':
-				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=mupen64plus_next`, this.state.name);
+				this.props.layout.current.service_frame.current.embed(`/assets/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=mupen64plus_next`, this.state.name);
 				break;
 			case'webretro.snes9x':
-				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=snes9x`, this.state.name);
+				this.props.layout.current.service_frame.current.embed(`/assets/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=snes9x`, this.state.name);
 				break;
 			case'webretro.autodetect':
-				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=autodetect`, this.state.name);
+				this.props.layout.current.service_frame.current.embed(`/assets/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=autodetect`, this.state.name);
 				break;
 			default:
 				throw new TypeError(`Unrecognized target: ${this.props.target}`)
