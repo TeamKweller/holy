@@ -154,34 +154,6 @@ export default class ServiceFrame extends SleepingComponent {
 	get client_fetch(){
 		return this.headless.current.contentWindow.fetch.bind(undefined);
 	}
-	async update_fields(datalist, input){
-		if(input.value === ''){
-			this.add_fields(datalist, default_fields);
-		}else{
-			if(this.abort !== undefined){
-				this.abort.abort();
-			}
-			
-			this.abort = new AbortController();
-			
-			try{
-				const results = [];
-				
-				for(let { phrase } of await this.omnibox_results(input.value)){
-					results.push(phrase);
-				}
-
-				this.add_fields(datalist, results);
-			}catch(error){
-				// likely abort error
-				if(error.message === 'Failed to fetch'){
-					console.error('Error fetching TOMP/Bare server.');
-				}else if(error.message !== 'The user aborted a request.'){
-					throw error;
-				}
-			}
-		}
-	}
 	add_fields(datalist, _fields){
 		const fields = [..._fields];
 
@@ -192,21 +164,48 @@ export default class ServiceFrame extends SleepingComponent {
 		render(fields, datalist);
 		
 	}
-	async omnibox_results(query){
-		await this.ready;
+	async omnibox_entries(query){
+		const results = [];
 		
-		const outgoing = await this.client_fetch(this.boot.binary(`https://duckduckgo.com/ac/?` + new URLSearchParams({
-			q: query,
-			kl: 'wt-wt',
-		})), {
-			signal: this.abort.signal,	
-		});
+		if(query === ''){
+			results.push(...default_fields);
+		}else try{
+			await this.ready;
+		
+			if(this.abort !== undefined){
+				this.abort.abort();
+			}
+			
+			this.abort = new AbortController();
+			
+			const outgoing = await this.client_fetch(this.boot.binary(`https://duckduckgo.com/ac/?` + new URLSearchParams({
+				q: query,
+				kl: 'wt-wt',
+			})), {
+				signal: this.abort.signal,	
+			});
 
-		if(outgoing.ok){
-			return await outgoing.json();
-		}else{
-			throw await outgoing.json();
+			if(outgoing.ok){
+				for(let { phrase } of await outgoing.json()){
+					results.push(phrase);
+				}
+			}else{
+				throw await outgoing.json();
+			}
+		}catch(error){
+			// likely abort error
+			if(error.message === 'Failed to fetch'){
+				console.error('Error fetching TOMP/Bare server.');
+			}else if(error.message !== 'The user aborted a request.'){
+				throw error;
+			}
 		}
+
+		for(let i = 0; i < results.length; i++){
+			results[i] = <option key={i} value={results[i]} />;
+		}
+
+		return results;
 	}
 	// cant set image src to serviceworker url unless the page is a client
 	async load_icon(icon){

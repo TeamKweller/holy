@@ -9,8 +9,13 @@ export default class ProxyFrame extends Component {
 		await{};
 		this.on_input();
 	}
-	on_input(){
-		this.props.layout.current.service_frame.current.update_fields(this.fields.current, this.input.current);
+	state = {
+		omnibox_entries: [],
+	};
+	async on_input(){
+		this.setState({
+			omnibox_entries: await this.props.layout.current.service_frame.current.omnibox_entries(this.input.current.value),
+		})
 	}
 	search_submit(event){
 		event.preventDefault();
@@ -36,7 +41,7 @@ export default class ProxyFrame extends Component {
 			<>
 				<form name='nav-search' className='omnibox' onSubmit={this.search_submit.bind(this)}>
 					<input className='bar' placeholder='Search the web' list='nav-omnibox' onInput={this.on_input.bind(this)} ref={this.input} required></input>
-					<datalist id='nav-omnibox' ref={this.fields}></datalist>
+					<datalist id='nav-omnibox' ref={this.fields}>{this.state.omnibox_entries}</datalist>
 					<button className='submit' type='submit'><SearchSVG /></button>
 					<button className='cancel' onClick={this.close_search.bind(this)} type='button'><CancelSVG /></button>
 				</form>
