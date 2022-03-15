@@ -74,13 +74,13 @@ class Category extends Component {
 		window.removeEventListener('resize', this.resize);
 	}
 	get overflowing(){
-		const overflow = this.items.current.style.overflow;
+		const { expanded } = this.items.current.dataset;
 
-		this.items.current.style.overflow = 'hidden';
-		
+		this.items.current.dataset.expanded = '0';
+
 		const overflowing = this.items.current.clientHeight < this.items.current.scrollHeight;
 
-		this.items.current.style.overflow = overflow;
+		this.items.current.dataset.expanded = expanded;
 
 		return overflowing;
 	}
