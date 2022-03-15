@@ -265,7 +265,7 @@ export default class ServiceFrame extends SleepingComponent {
 					<div className='button' onClick={this.fullscreen.bind(this)}><span className='material-icons'>fullscreen</span></div>
 				</div>
 				<iframe className='headless' title='headless' ref={this.headless}></iframe>
-				<iframe className='proxy' src={this.state.src} title='proxy' ref={this.iframe}></iframe>
+				<iframe className='embed' src={this.state.src} title='embed' ref={this.iframe}></iframe>
 			</div>
 		)
 		//  onLoad={this.update_info.bind(this)}
