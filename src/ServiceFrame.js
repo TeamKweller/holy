@@ -32,6 +32,7 @@ export default class ServiceFrame extends SleepingComponent {
 		await this.setState({
 			title,
 			src,
+			icon,
 			embed: {
 				current: true,
 				src,
