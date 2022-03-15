@@ -84,9 +84,14 @@ class Category extends Component {
 
 		return overflowing;
 	}
-	overflow_click(){
-		this.setState({
+	async overflow_click(event){
+		await this.setState({
 			expanded: !this.state.expanded,
+		});
+
+		event.target.scrollIntoView({
+			block: 'start',
+			behavior: 'smooth',
 		});
 	}
 	render(){
