@@ -7,6 +7,7 @@ import { ReactComponent as SearchSVG } from '../Assets/nav-search.svg';
 export default class Home extends Component {
 	input = createRef();
 	async componentDidMount(){
+		(window.adsbygoogle = window.adsbygoogle || []).push({});
 		await{};
 		this.on_input();
 	}
@@ -39,6 +40,13 @@ export default class Home extends Component {
 					<datalist id='home-omnibox'>{this.state.omnibox_entries}</datalist>
 					<button type='submit'><SearchSVG /></button>
 				</form>
+				<ins className="adsbygoogle"
+					style={{display:'block'}}
+					data-ad-format="fluid"
+					data-ad-layout-key="-6t+ed+2i-1n-4w"
+					data-ad-client="ca-pub-8657917388020542"
+					data-ad-slot="2949039888"
+					data-adtest="on"></ins>
 			</main>
 		);
 	}
