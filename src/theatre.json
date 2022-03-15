@@ -6,7 +6,7 @@
 	"categories": [
 		{
 			"name": "HTML5",
-			"base": "/theatre/HTML5/",
+			"base": "/assets/theatre/HTML5/",
 			"items": [
 				{
 					"name": "Krunker",
@@ -31,7 +31,7 @@
 
 		{
 			"name": "Unity",
-			"base": "/theatre/Unity/",
+			"base": "/assets/theatre/Unity/",
 			"items": [
 				{
 					"name": "Duck Life",
@@ -61,7 +61,7 @@
 		},
 		{
 			"name": "Ports",
-			"base": "/theatre/Ports/",
+			"base": "/assets/theatre/Ports/",
 			"items": [
 				{
 					"name": "Minecraft Classic",
@@ -79,7 +79,7 @@
 		},
 		{
 			"name": "Game Boy Advance",
-			"base": "/theatre/GBA/",
+			"base": "/assets/theatre/GBA/",
 			"items": [
 				{
 					"name": "Super Mario Advance",
@@ -175,7 +175,7 @@
 		},
 		{
 			"name": "Sega Genesis",
-			"base": "/theatre/Genesis/",
+			"base": "/assets/theatre/Genesis/",
 			"items": [
 				{
 					"name": "Sonic The Hedgehog",
@@ -199,7 +199,7 @@
 		},
 		{
 			"name": "Nintendo Entertainment System",
-			"base": "/theatre/NES/",
+			"base": "/assets/theatre/NES/",
 			"items": [
 				{
 					"name": "Super Mario Bros",
