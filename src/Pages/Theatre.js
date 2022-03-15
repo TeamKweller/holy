@@ -91,12 +91,12 @@ class Category extends Component {
 
 		return overflowing;
 	}
-	async expand(event){
+	async expand(){
 		await this.setState({
 			expanded: !this.state.expanded,
 		});
 
-		event.target.scrollIntoView({
+		this.container.current.scrollIntoView({
 			block: 'start',
 		});
 	}
