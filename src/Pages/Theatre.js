@@ -42,10 +42,22 @@ class Category extends Component {
 		overflowing: false,
 		expanded: false,
 	};
-	componentDidMount(){
+	constructor(props){
+		super(props);
+
+		this.resize = this.resize.bind(this);
+	}
+	resize(){
 		this.setState({
 			overflowing: this.overflowing,
 		});
+	}
+	componentDidMount(){
+		this.resize();
+		window.addEventListener('resize', this.resize);
+	}
+	componentWillUnmount(){
+		window.removeEventListener('resize', this.resize);
 	}
 	get overflowing(){
 		return this.container.current.clientHeight > this.container.current.scrollHeight;
