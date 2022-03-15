@@ -204,19 +204,19 @@
 				{
 					"name": "Super Mario Bros",
 					"src": "Super Mario Bros.nes",
-					"image": [0,0],
+					"image": [0,4],
 					"target": "webretro.snes9x"
 				},
 				{
 					"name": "Super Mario Bros 2",
 					"src": "Super Mario Bros 2.nes",
-					"image": [0,0],
+					"image": [1,4],
 					"target": "webretro.snes9x"
 				},
 				{
 					"name": "Super Mario Bros 3",
 					"src": "Super Mario Bros 3.nes",
-					"image": [0,0],
+					"image": [2,4],
 					"target": "webretro.snes9x"
 				}
 			]
