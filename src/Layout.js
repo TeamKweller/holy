@@ -4,7 +4,6 @@ import SearchBar from './SearchBar.js';
 import obfuscate, { ObfuscateStyle } from './obfuscate.js';
 import { Component, createRef } from 'react';
 import { ReactComponent as IconSVG } from './Assets/nav-icon.svg';
-import { ReactComponent as LightswitchSVG } from './Assets/nav-lightswitch.svg';
 import { Outlet, Link } from 'react-router-dom';
 import './Styles/App.scss';
 
@@ -13,50 +12,62 @@ const themes = ['light','dark'];
 export default class Layout extends Component {
 	state = {
 		search: false,
+		fullscreen: this.get_fullscreen(),
+		theme: this.get_theme(),
 	};
 	nav = createRef();
 	search_bar = createRef();
 	service_frame = createRef();
-	get theme(){
+	last_theme = this.state.theme;
+	get_theme(){
 		if(!themes.includes(localStorage.getItem('theme'))){
 			localStorage.setItem('theme', themes[0]);
 		}
 
 		return localStorage.getItem('theme');
 	}
-	set theme(value){
+	set_theme(value){
+		if(this.last_theme === value){
+			return value;
+		}
+
 		if(!themes.includes(value)){
 			throw new RangeError('Bad theme');
 		}
 
 		localStorage.setItem('theme', value);
-		root.dataset.theme = value;
-
+		
 		return value;
 	}
-	get fullscreen(){
+	get_fullscreen(){
 		return document.fullscreenElement !== null;
 	}
 	componentDidMount(){
-		root.dataset.theme = this.theme;
-		
-		root.dataset.fullscreen = Number(this.fullscreen);
-
 		document.addEventListener('fullscreenchange', () => {
-			root.dataset.fullscreen = Number(this.fullscreen);
+			this.setState({
+				fullscreen: this.get_fullscreen(),
+			});
 		});
 	}
 	lightswitch(){
-		if(this.theme === 'light'){
-			this.theme = 'dark';
-		}else{
-			this.theme = 'light';
+		if(this.state.theme === 'light'){
+			this.setState({
+				theme: 'dark',
+			});
+		}else if(this.state.theme === 'dark'){
+			this.setState({
+				theme: 'light',
+			});
 		}
 	}
 	collapse(){
 		this.nav.current.dataset.collapsed ^= 1;
 	}
 	render(){
+		root.dataset.theme = this.state.theme;
+		root.dataset.fullscreen = Number(root.dataset.fullscreen);
+		this.set_theme(this.state.theme);
+
 		return (
 			<>
 				<ObfuscateStyle />
@@ -77,7 +88,7 @@ export default class Layout extends Component {
 					</div>
 					<div className='shift-right'></div>
 					<SearchBar service_frame={this.service_frame} layout={{current:this}} />
-					<button className='lightswitch' onClick={this.lightswitch.bind(this)}><LightswitchSVG /></button>
+					<button className='lightswitch' onClick={this.lightswitch.bind(this)}><span className='material-icons'>{this.state.theme === 'dark' ? 'light_mode' : 'dark_mode'}</span></button>
 				</nav>
 				<Outlet />
 				<ServiceFrame ref={this.service_frame} />

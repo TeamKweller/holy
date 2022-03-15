@@ -3,8 +3,6 @@ import process from 'process';
 import GenericGlobeSVG from './Assets/generic-globe.svg';
 import SleepingComponent from './SleepingComponent';
 import { createRef } from 'react';
-import { ReactComponent as FullscreenSVG } from './Assets/frame-fullscreen.svg';
-import { ReactComponent as BackSVG } from './Assets/frame-back.svg';
 import { render } from 'react-dom';
 import obfuscate from './obfuscate.js';
 
@@ -260,11 +258,11 @@ export default class ServiceFrame extends SleepingComponent {
 		return (
 			<div className='service' ref={this.container} data-current={current}>
 				<div className='buttons'>
-					<div className='button' onClick={this.close.bind(this)}><BackSVG /></div>
+					<div className='button' onClick={this.close.bind(this)}><span className='material-icons'>chevron_left</span></div>
 					<img className='icon' alt='' src={this.state.icon} onError={this.on_icon_error.bind(this)} onLoad={this.on_icon_load.bind(this)} />
 					<p className='title'>{obfuscate(<>{this.state.title}</>)}</p>
 					<div className='shift-right'></div>
-					<div className='button' onClick={this.fullscreen.bind(this)}><FullscreenSVG /></div>
+					<div className='button' onClick={this.fullscreen.bind(this)}><span className='material-icons'>fullscreen</span></div>
 				</div>
 				<iframe className='headless' title='headless' ref={this.headless}></iframe>
 				<iframe className='proxy' src={this.state.src} title='proxy' ref={this.iframe}></iframe>

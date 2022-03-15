@@ -115,7 +115,7 @@ nav {
 		padding: 0px 15px;
 		color: inherit;
 
-		> svg {
+		> svg, > .material-icons {
 			height: 25px;
 			width: 25px;
 			color: inherit;
@@ -173,7 +173,7 @@ nav {
 			justify-content: center;
 			align-items: center;
 
-			> svg {
+			> svg, > .material-icons {
 				height: 25px;
 				width: 25px;
 			}

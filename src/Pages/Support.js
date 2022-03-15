@@ -1,9 +1,9 @@
 import root from '../root.js';
+import obfuscate from '../obfuscate.js';
 import { Component, createRef } from 'react';
 import { ReactComponent as SearchSVG } from '../Assets/nav-search.svg';
 import { Link } from 'react-router-dom';
-import obfuscate from '../obfuscate.js';
-import support from '../support.js';
+import { qna } from '../support.js';
 
 export default class Support extends Component {
 	main = createRef();
@@ -40,10 +40,10 @@ export default class Support extends Component {
 	render(){
 		root.dataset.page = 'support';
 
-		const qna = [];
+		const sections = [];
 
-		for(let i = 0; i < support.qna.length; i++){
-			const { q, a } = support.qna[i];
+		for(let i = 0; i < qna.length; i++){
+			const { q, a } = qna[i];
 
 			const visible = this.children_text(q).toLowerCase().includes(this.state.search.toLowerCase());
 			const style = {};
@@ -52,7 +52,7 @@ export default class Support extends Component {
 				style.display = 'none';
 			}
 
-			qna.push(
+			sections.push(
 				<section key={i} style={style}>
 					<h1>{q}</h1>
 					<p>{a}</p>
@@ -69,7 +69,7 @@ export default class Support extends Component {
 				</div>
 			</form>
 			<main ref={this.main}>
-				{qna}
+				{sections}
 				<p className='note'>Not what you're looking for? <Link to='/contact'>Contact Us</Link>.</p>
 			</main>
 		</>);
