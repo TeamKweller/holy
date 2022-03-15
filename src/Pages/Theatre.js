@@ -25,8 +25,14 @@ class Item extends Component {
 			case'webretro.mgba':
 				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=mgba`, this.state.name);
 				break;
+			case'webretro.mupen64plus_next':
+				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=mupen64plus_next`, this.state.name);
+				break;
 			case'webretro.snes9x':
 				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=snes9x`, this.state.name);
+				break;
+			case'webretro.autodetect':
+				this.props.layout.current.service_frame.current.embed(`/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=autodetect`, this.state.name);
 				break;
 			default:
 				throw new TypeError(`Unrecognized target: ${this.props.target}`)
@@ -34,7 +40,7 @@ class Item extends Component {
 	}
 	render(){
 		const style = {
-			backgroundPosition:`${this.state.image[0] * data.image.width}px ${this.state.image[1] * data.image.height}px`
+			backgroundPosition:`${this.state.image[0] * data.image.width * -1}px ${this.state.image[1] * data.image.height * -1}px`
 		};
 		
 		return (
