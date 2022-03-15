@@ -88,7 +88,7 @@ export default class Layout extends Component {
 					</div>
 					<div className='shift-right'></div>
 					<SearchBar service_frame={this.service_frame} layout={{current:this}} />
-					<button className='lightswitch' onClick={this.lightswitch.bind(this)}><span className='material-icons'>{this.state.theme === 'dark' ? 'light_mode' : 'dark_mode'}</span></button>
+					<button className='lightswitch' onClick={this.lightswitch.bind(this)}><span className='material-icons'>{this.state.theme === 'dark' ? 'brightness_7' : 'brightness_4'}</span></button>
 				</nav>
 				<Outlet />
 				<ServiceFrame ref={this.service_frame} />
