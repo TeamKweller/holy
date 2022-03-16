@@ -16,7 +16,7 @@ export default class Home extends Component {
 	async on_input(){
 		this.setState({
 			omnibox_entries: await this.props.layout.current.service_frame.current.omnibox_entries(this.input.current.value),
-		})
+		});
 	}
 	search_submit(event){
 		event.preventDefault();

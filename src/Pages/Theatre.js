@@ -113,7 +113,7 @@ class Category extends Component {
 			<section data-overflowing={Number(this.state.overflowing)} data-expanded={Number(this.state.expanded)} ref={this.container}>
 				<h1>{this.state.name}</h1>
 				<div className='items' ref={this.items}>{items}</div>
-				<div className='items-expand material-icons' onClick={this.expand.bind(this)}>{this.state.expanded ? 'expand_more' : 'expand_less'}</div>
+				<div className='items-expand material-icons' onClick={this.expand.bind(this)}>{this.state.expanded ? 'expand_less' : 'expand_more'}</div>
 			</section>
 		)
 	}
