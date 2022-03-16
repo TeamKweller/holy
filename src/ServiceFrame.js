@@ -268,6 +268,5 @@ export default class ServiceFrame extends SleepingComponent {
 				<iframe className='embed' src={this.state.src} title='embed' ref={this.iframe}></iframe>
 			</div>
 		)
-		//  onLoad={this.update_info.bind(this)}
 	}
 };
