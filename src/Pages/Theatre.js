@@ -70,7 +70,7 @@ class Category extends Component {
 	}
 	resize(){
 		this.setState({
-			overflowing: this.overflowing,
+			overflowing: this.items.current.clientHeight < this.items.current.scrollHeight,
 		});
 	}
 	componentDidMount(){
@@ -79,17 +79,6 @@ class Category extends Component {
 	}
 	componentWillUnmount(){
 		window.removeEventListener('resize', this.resize);
-	}
-	get overflowing(){
-		const { expanded } = this.container.current.dataset;
-
-		this.container.current.dataset.expanded = '0';
-
-		const overflowing = this.items.current.clientHeight < this.items.current.scrollHeight;
-
-		this.container.current.dataset.expanded = expanded;
-
-		return overflowing;
 	}
 	async expand(){
 		await this.setState({

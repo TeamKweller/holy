@@ -65,7 +65,8 @@ export default class Layout extends Component {
 	}
 	render(){
 		root.dataset.theme = this.state.theme;
-		root.dataset.fullscreen = Number(root.dataset.fullscreen);
+		root.dataset.fullscreen = Number(this.state.fullscreen);
+		
 		this.set_theme(this.state.theme);
 
 		return (
