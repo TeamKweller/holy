@@ -10,6 +10,7 @@ html, body {
 }
 
 body {
+	font-family: Arial, Helvetica, sans-serif;
 	background: #111 url(bg_main.png);
 }
 
@@ -27,32 +28,26 @@ body {
 }
 
 .log {
-	font: Bold 18px Calibri;
 	color: #F67;
 	text-shadow: 1px 1px 5px rgba(0,0,0,.5);
 	position: absolute;
 	left: 10px;
-	bottom: 10px;
+	bottom: 30px;
+	font-weight: bold;
 }
 
-@media only screen and (min-width: 1078px) {
-	.canvas {
-		width: 62.5rem;
-		height: auto;
-	}
-}
 		</style>
 	</head>
 	<body>
 		<canvas width='1000' height='562' class='canvas'></canvas>
 		<span class='log'></span>
 		<script>
-var add_ele = (node_name, parent, attributes) => Object.assign(parent.appendChild(document.createElement(node_name)), attributes),
-	canvas = document.querySelector('.canvas'),
-	log = document.querySelector('.log'),
-	dupe = event => window.dispatchEvent(new event.constructor(event.type, Object.fromEntries(Object.getOwnPropertyNames(event.constructor.prototype).map(x => [ x, event[x] ])))),
-	Module = {
-		preRun: [ () => {
+const canvas = document.querySelector('.canvas');
+const log = document.querySelector('.log');
+
+window.Module = {
+	preRun: [
+		() => {
 			addRunDependency('load-idb');
 			FS.mkdir('/classicube');
 			FS.mount(IDBFS, {}, '/classicube');
@@ -60,46 +55,55 @@ var add_ele = (node_name, parent, attributes) => Object.assign(parent.appendChil
 				assert(!err); 
 				removeRunDependency('load-idb');
 			});
-		} ],
-		postRun: [],
-		arguments: [ 'No' ],
-		print: console.log,
-		printErr: console.error,
-		canvas: canvas,
-		setStatus: (...text) => log.innerHTML = text.join(' '),
-		totalDependencies: 0,
-		monitorRunDependencies(left){
-			this.totalDependencies = Math.max(this.totalDependencies, left);
-			Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
 		},
-	};
+	],
+	locateFile(path, prefix){
+		if(path === '/static/default.zip'){
+			return new URL('default.zip', location);
+		}
 
-canvas.addEventListener('webglcontextlost', () => location.reload());
-canvas.addEventListener('mousedown', () => canvas.requestPointerLock());
+		return prefix + path;
+	},
+	postRun: [],
+	arguments: [ 'steve' ],
+	print: console.log,
+	printErr: console.error,
+	canvas: canvas,
+	postException: false,
+	setStatus(...text){
+		if(this.postException){
+			text.unshift('[post-exception status]');
+		}
 
-if(parent.location != location){
+		log.textContent = text.join(' ');
+	},
+	totalDependencies: 0,
+	monitorRunDependencies(left){
+		this.totalDependencies = Math.max(this.totalDependencies, left);
+		Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+	},
+};
+
+if(parent.location !== location){
+	const dupe = event => window.dispatchEvent(new event.constructor(event.type, Object.fromEntries(Object.getOwnPropertyNames(event.constructor.prototype).map(x => [ x, event[x] ]))));
+
 	parent.addEventListener('keydown', dupe);
 	parent.addEventListener('keyup', dupe);
 }
 
-canvas.focus();
-
-canvas.addEventListener('webglcontextlost', event => location.reload());
-canvas.addEventListener('contentmenu', event => event.preventDefault());
-canvas.addEventListener('click', () => {
+document.addEventListener('click', () => {
 	window.focus();
 	canvas.focus();
-	window.__requestPointerLock(canvas);
 });
 
 Module.setStatus('Downloading...');
 
 window.addEventListener('error', err => {
 	Module.setStatus('Exception thrown, see JavaScript console');
-	Module.setStatus = (...text) => log.innerHTML = '[post-exception status] ' + text.join(' ');
+	Module.postException = true;
 });
 
-XMLHttpRequest.prototype.open = new Proxy(XMLHttpRequest.prototype.open, {
+/*XMLHttpRequest.prototype.open = new Proxy(XMLHttpRequest.prototype.open, {
 	apply(target, that, [ method, url, async, username, password ]){
 		url = new URL(url, location);
 		
@@ -109,8 +113,8 @@ XMLHttpRequest.prototype.open = new Proxy(XMLHttpRequest.prototype.open, {
 		
 		return Reflect.apply(target, that, [ method, url, async, username, password ]);
 	},
-});
+});*/
 		</script>
-		<script src='initwasm.js?a1'></script>
+		<script src='game.js'></script>
 	</body>
 </html>
