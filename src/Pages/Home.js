@@ -39,7 +39,14 @@ export default class Home extends Component {
 					<datalist id='home-omnibox'>{this.state.omnibox_entries}</datalist>
 					<button type='submit'><SearchSVG /></button>
 				</form>
-				<iframe data-aa="1960524" src="//ad.a-ads.com/1960524?size=970x250&background_color=gba(0,0,0,0)&text_color=000000" style="width:970px; height:250px; border:0px; padding:0; overflow:hidden; background-color: transparent;"></iframe>
+				<iframe title='ad' className='ad' data-aa='1960524' src='https://ad.a-ads.com/1960524?size=970x250&background_color=gba(0,0,0,0)&text_color=000000' style={{
+					width: '970px',
+					height: '250px',
+					border: '0px',
+					padding: '0px',
+					overflow: 'hidden',
+					backgroundColor: 'transparent',
+				}}></iframe>
 			</main>
 		);
 	}
