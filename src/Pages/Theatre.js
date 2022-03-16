@@ -95,10 +95,6 @@ class Category extends Component {
 		await this.setState({
 			expanded: !this.state.expanded,
 		});
-
-		this.container.current.scrollIntoView({
-			block: 'start',
-		});
 	}
 	render(){
 		const items = [];
