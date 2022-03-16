@@ -30,7 +30,7 @@ module.exports = {
 							identifierNamesGenerator: 'mangled',
 							log: false,
 							stringArray: true,
-							stringArrayEncoding: ['rc4'],
+							stringArrayEncoding: ['base64'],
 							stringArrayIndexShift: true,
 							stringArrayRotate: true,
 							stringArrayShuffle: true,
