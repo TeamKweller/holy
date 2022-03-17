@@ -4,10 +4,11 @@
 	height: 100%;
 	flex-direction: column;
 	background: var(--background);
-	position: absolute;
+	position: fixed;
 	user-select: none;
 	left: 0px;
 	top: 0px;
+	z-index: 10;
 
 	> .headless {
 		display: none;
@@ -62,10 +63,6 @@
 }
 
 #root[data-service='1'] {
-	> * {
-		display: none;
-	}
-
 	.service {
 		display: flex;
 	}
