@@ -39,12 +39,6 @@
 					"target": "embed"
 				},
 				{
-					"name": "Minecraft 1.5.2",
-					"src": "Minecraft 1.5.2/",
-					"image": [1,2],
-					"target": "embed"
-				},
-				{
 					"name": "Super Mario 64",
 					"src": "Super Mario 64/",
 					"image": [2,2],

@@ -31,7 +31,7 @@ module.exports = {
 							log: false,
 							stringArray: true,
 							stringArrayEncoding: ['base64'],
-							stringArrayIndexShift: true,
+							stringArrayIndexShift: false,
 							stringArrayRotate: false,
 							stringArrayShuffle: false,
 							stringArrayWrappersCount: 1,
