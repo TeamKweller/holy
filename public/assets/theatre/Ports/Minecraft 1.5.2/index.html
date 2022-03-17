@@ -42,7 +42,7 @@ const compiled = nbt.writeUncompressed({
 				value: [
 					{
 						forcedMOTD: { type: 'string', value: 'Official SystemYA Survival server.' },
-						hideAddress: { type: 'byte', value: 1 },
+						hideAddress: { type: 'byte', value: 0 },
 						ip: { type: 'string', value: official_server.href },
 						name: { type: 'string', value: 'SystemYA Survival' },
 					},
@@ -52,11 +52,7 @@ const compiled = nbt.writeUncompressed({
 	},
 });
 
-console.log(compiled);
-
 const encoded = Base64ArrayBuffer.encode(compiled);
-
-console.log(encoded);
 
 window.minecraftOpts = [
 	'game_frame',
