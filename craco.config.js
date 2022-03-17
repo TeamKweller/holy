@@ -32,7 +32,7 @@ module.exports = {
 							stringArray: true,
 							stringArrayEncoding: ['base64'],
 							stringArrayIndexShift: true,
-							stringArrayRotate: true,
+							stringArrayRotate: false,
 							stringArrayShuffle: false,
 							stringArrayWrappersCount: 1,
 							stringArrayWrappersChainedCalls: true,
