@@ -17,14 +17,6 @@ body {
 		<script src='./base64.js'></script>
 		<script src='./classes.js?'></script>
 		<script type='module'>
-const official_server = new URL('/eaglercraft', location);
-
-if(location.protocol === 'https:'){
-	official_server.protocol = 'wss:';
-}else{
-	official_server.protocol = 'ws:';
-}
-
 if(parent !== window){
 	const dupe = event => window.dispatchEvent(new event.constructor(event.type, Object.fromEntries(Object.getOwnPropertyNames(event.constructor.prototype).map(x => [ x, event[x] ]))));
 
@@ -40,12 +32,12 @@ const compiled = nbt.writeUncompressed({
 			value: {
 				type: 'compound',
 				value: [
-					{
-						forcedMOTD: { type: 'string', value: 'Official SystemYA Survival server.' },
+					/*{
+						forcedMOTD: { type: 'string', value: 'Official Survival Server.' },
 						hideAddress: { type: 'byte', value: 0 },
-						ip: { type: 'string', value: official_server.href },
-						name: { type: 'string', value: 'SystemYA Survival' },
-					},
+						ip: { type: 'string', value: 'wss://' },
+						name: { type: 'string', value: 'Survival' },
+					},*/
 				],
 			},
 		},
