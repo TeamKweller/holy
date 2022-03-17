@@ -8,16 +8,60 @@ body {
 	margin: 0px;
 	width: 100vw;
 	height: 100vh;
+	user-select: none;
 }
 		</style>
 	</head>
-	<body id="game_frame">
-		<script type="text/javascript" src="classes.js"></script>
-		<script>
+	<body id='game_frame'>
+		<script src='./nbt.js'></script>
+		<script src='./base64.js'></script>
+		<script src='./classes.js'></script>
+		<script type='module'>
+const official_server = new URL('/eaglercraft', location);
+
+if(location.protocol === 'https:'){
+	official_server.protocol = 'wss:';
+}else{
+	official_server.protocol = 'ws:';
+}
+
+if(parent !== window){
+	const dupe = event => window.dispatchEvent(new event.constructor(event.type, Object.fromEntries(Object.getOwnPropertyNames(event.constructor.prototype).map(x => [ x, event[x] ]))));
+
+	parent.addEventListener('keydown', dupe);
+	parent.addEventListener('keyup', dupe);
+}
+
+const compiled = nbt.writeUncompressed({
+	name: '',
+	value: {
+		servers: {
+			type: 'list',
+			value: {
+				type: 'compound',
+				value: [
+					{
+						forcedMOTD: { type: 'string', value: 'Official SystemYA Survival server.' },
+						hideAddress: { type: 'byte', value: 1 },
+						ip: { type: 'string', value: official_server.href },
+						name: { type: 'string', value: 'SystemYA Survival' },
+					},
+				],
+			},
+		},
+	},
+});
+
+console.log(compiled);
+
+const encoded = Base64ArrayBuffer.encode(compiled);
+
+console.log(encoded);
+
 window.minecraftOpts = [
-	"game_frame",
-	"assets.epk",
-	"CgAACQAHc2VydmVycwoAAAABCAACaXAAIHdzKHMpOi8vIChhZGRyZXNzIGhlcmUpOihwb3J0KSAvCAAEbmFtZQAIdGVtcGxhdGUBAAtoaWRlQWRkcmVzcwEIAApmb3JjZWRNT1REABl0aGlzIGlzIG5vdCBhIHJlYWwgc2VydmVyAAA="
+	'game_frame',
+	'assets.epk',
+	encoded,
 ];
 
 main();

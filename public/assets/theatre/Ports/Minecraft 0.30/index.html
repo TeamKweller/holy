@@ -84,7 +84,7 @@ window.Module = {
 	},
 };
 
-if(parent.location !== location){
+if(parent !== window){
 	const dupe = event => window.dispatchEvent(new event.constructor(event.type, Object.fromEntries(Object.getOwnPropertyNames(event.constructor.prototype).map(x => [ x, event[x] ]))));
 
 	parent.addEventListener('keydown', dupe);
