@@ -148,19 +148,19 @@
 			"items": [
 				{
 					"name": "Sonic The Hedgehog",
-					"src": "Sonic The Hedgehog.md",
+					"src": "Sonic The Hedgehog.smd",
 					"image": [0,5],
 					"target": "webretro"
 				},
 				{
 					"name": "Sonic The Hedgehog 2",
-					"src": "Sonic The Hedgehog 2.md",
+					"src": "Sonic The Hedgehog 2.smd",
 					"image": [1,5],
 					"target": "webretro"
 				},
 				{
 					"name": "Sonic The Hedgehog 3",
-					"src": "Sonic The Hedgehog 3.md",
+					"src": "Sonic The Hedgehog 3.smd",
 					"image": [0,0],
 					"target": "webretro"
 				}

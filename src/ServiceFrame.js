@@ -75,7 +75,7 @@ export default class ServiceFrame extends SleepingComponent {
 			config.loglevel = TOMPBoot.LOG_TRACE;
 			config.codec = TOMPBoot.CODEC_PLAIN;
 		}else{
-			config.bare = '/bare/';
+			config.bare = 'https://cdn.ra3.us/bare/';
 			config.loglevel = TOMPBoot.LOG_ERROR;
 			config.codec = TOMPBoot.CODEC_XOR;
 		}
