@@ -5,6 +5,36 @@
 	},
 	"categories": [
 		{
+			"name": "Social",
+			"base": "/assets/theatre/HTML5/",
+			"items": [
+				{
+					"name": "Discord",
+					"src": "https://discord.com/",
+					"image": [0,0],
+					"target": "proxy"
+				},
+				{
+					"name": "Reddit",
+					"src": "https://reddit.com/",
+					"image": [0,0],
+					"target": "proxy"
+				},
+				{
+					"name": "Youtube",
+					"src": "https://www.youtube.com/",
+					"image": [0,0],
+					"target": "proxy"
+				},
+				{
+					"name": "Invidious",
+					"src": "https://invidio.xamh.de/",
+					"image": [0,0],
+					"target": "proxy"
+				}
+			]
+		},
+		{
 			"name": "HTML5",
 			"base": "/assets/theatre/HTML5/",
 			"items": [

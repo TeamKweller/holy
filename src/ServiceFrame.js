@@ -6,8 +6,6 @@ import { createRef } from 'react';
 import { render } from 'react-dom';
 import obfuscate from './obfuscate.js';
 
-const default_fields = [ 'google.com', 'invidio.xamh.de', 'wolframalpha.com', 'discord.com', 'reddit.com', '1v1.lol', 'krunker.io' ];
-
 export default class ServiceFrame extends SleepingComponent {
 	state = {
 		title: '',
@@ -168,16 +166,18 @@ export default class ServiceFrame extends SleepingComponent {
 		const results = [];
 		
 		if(query === ''){
-			results.push(...default_fields);
-		}else try{
-			await this.ready;
+			return results;
+		}
 		
+		try{
+			await this.ready;
+
 			if(this.abort !== undefined){
 				this.abort.abort();
 			}
-			
+
 			this.abort = new AbortController();
-			
+
 			const outgoing = await this.client_fetch(this.boot.binary(`https://duckduckgo.com/ac/?` + new URLSearchParams({
 				q: query,
 				kl: 'wt-wt',
