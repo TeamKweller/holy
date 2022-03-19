@@ -191,7 +191,7 @@
 				{
 					"name": "Sonic The Hedgehog 3",
 					"src": "Sonic The Hedgehog 3.smd",
-					"image": [0,0],
+					"image": [2,5],
 					"target": "webretro"
 				}
 			]
