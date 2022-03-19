@@ -40,7 +40,7 @@ export default class ProxyFrame extends Component {
 		return (
 			<>
 				<form name='nav-search' className='omnibox' onSubmit={this.search_submit.bind(this)}>
-					<input className='bar' placeholder='Search the web' list='nav-omnibox' onInput={this.on_input.bind(this)} ref={this.input} required></input>
+					<input className='bar' placeholder='Search Google or type a URL' list='nav-omnibox' onInput={this.on_input.bind(this)} ref={this.input} required></input>
 					<datalist id='nav-omnibox' ref={this.fields}>{this.state.omnibox_entries}</datalist>
 					<button className='submit' type='submit'><SearchSVG /></button>
 					<button className='cancel' onClick={this.close_search.bind(this)} type='button'><CancelSVG /></button>

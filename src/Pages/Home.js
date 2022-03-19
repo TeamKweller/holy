@@ -35,7 +35,7 @@ export default class Home extends Component {
 				</h1>
 				<div className='description'>{obfuscate(<>SystemYA</>)} is a service that allows you to circumvent firewalls on locked down machines through in-page {obfuscate(<>web proxies</>)}.</div>
 				<form className='omnibox' onSubmit={this.search_submit.bind(this)}>
-					<input type='text' placeholder='Search the web' required autoComplete='off' list='home-omnibox' ref={this.input} onInput={this.on_input.bind(this)} />
+					<input type='text' placeholder='Search Google or type a URL' required autoComplete='off' list='home-omnibox' ref={this.input} onInput={this.on_input.bind(this)} />
 					<datalist id='home-omnibox'>{this.state.omnibox_entries}</datalist>
 					<button type='submit'><SearchSVG /></button>
 				</form>
