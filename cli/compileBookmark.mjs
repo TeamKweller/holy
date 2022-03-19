@@ -1,6 +1,4 @@
-import Builder from '../bookmark/Builder.js';
-import { cwd } from 'node:process';
-import { join, resolve } from 'node:path';
+import { join } from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';

@@ -1,4 +1,4 @@
-import Builder from '../bookmark/Builder.js';
+import Builder from '../bookmark/Builder.mjs';
 import { cwd } from 'node:process';
 import { resolve } from 'node:path';
 

@@ -1,11 +1,10 @@
 import { Component, createRef } from 'react';
-import { render } from 'react-dom';
 import obfuscate from '../obfuscate.js';
 import root from '../root.js';
 
 export default class Bookmark extends Component {
 	container = createRef();
-	componentDidMount(){
+	async componentDidMount(){
 		const shadow = this.container.current.attachShadow({ mode: 'closed' });
 
 		const cdn = 'https://cdn.jsdelivr.net/gh/sysce/-query/dist/-query.js';
@@ -23,7 +22,14 @@ export default class Bookmark extends Component {
 		const bookmark = `javascript:/*${comment}*/fetch(${escaped}).then(e=>e.text()).then(eval)/*${comment}*/`;
 		// const bookmark = `javascript:(async e=>eval(await(await(fetch(${cdn}))).text()))`;
 
-		render(<a style={{color:'red'}} href={bookmark} onClick={event=>event.preventDefault()}>Insta-Proxy</a>, shadow);
+		const anchor = document.createElement('a');
+		anchor.href = bookmark;
+		anchor.style.color = 'red';
+		anchor.addEventListener('click', event => event.preventDefault());
+		anchor.textContent = 'Insta-Proxy';
+		anchor.href = bookmark;
+
+		shadow.append(anchor);
 	}
 	render(){
 		root.dataset.page = 'bookmark';

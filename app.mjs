@@ -1,6 +1,6 @@
 import { Command } from 'commander';
-import buildBookmark from './cli/buildBookmark.js';
-import compileBookmark from './cli/compileBookmark.js';
+import buildBookmark from './cli/buildBookmark.mjs';
+import compileBookmark from './cli/compileBookmark.mjs';
 
 const program = new Command();
 
