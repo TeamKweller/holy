@@ -70,7 +70,7 @@ export default class Support extends Component {
 			</form>
 			<main ref={this.main}>
 				{sections}
-				<p className='note'>Not what you're looking for? <Link to='/contact'>Contact Us</Link>.</p>
+				<p className='note'>Not what you're looking for? <Link to='/contact.html'>Contact Us</Link>.</p>
 			</main>
 		</>);
 	}

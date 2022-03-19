@@ -21,22 +21,22 @@ export default class App extends Component {
 							<Home layout={this.layout} />
 						</Suspense>
 					} />
-					<Route path="theatre" element={
+					<Route path="/theatre.html" element={
 						<Suspense fallback={<></>}>
 							<Theatre layout={this.layout} />
 						</Suspense>
 					} />
-					<Route path="support" element={
+					<Route path="/support.html" element={
 						<Suspense fallback={<></>}>
 							<Support layout={this.layout} />
 						</Suspense>
 					} />
-					<Route path="contact" element={
+					<Route path="/contact.html" element={
 						<Suspense fallback={<></>}>
 							<Contact layout={this.layout} />
 						</Suspense>
 					} />
-					<Route path="privacy" element={
+					<Route path="/privacy.html" element={
 						<Suspense fallback={<></>}>
 							<Privacy layout={this.layout} />
 						</Suspense>

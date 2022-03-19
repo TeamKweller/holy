@@ -84,8 +84,8 @@ export default class Layout extends Component {
 					<Link to='/' className='entry logo'><IconSVG /></Link>
 					<div className='separator'></div>
 					<div className='collapsable'>
-						<Link to='/theatre' className='entry text'><span>Theatre</span></Link>
-						<Link to='/support' className='entry text'><span>Support</span></Link>
+						<Link to='/theatre.html' className='entry text'><span>Theatre</span></Link>
+						<Link to='/support.html' className='entry text'><span>Support</span></Link>
 					</div>
 					<div className='shift-right'></div>
 					<SearchBar service_frame={this.service_frame} layout={{current:this}} />
@@ -94,8 +94,8 @@ export default class Layout extends Component {
 				<Outlet />
 				<ServiceFrame ref={this.service_frame} />
 				<footer>
-					<Link to='/contact'>Contact</Link>
-					<Link to='/privacy'>Privacy Policy</Link>
+					<Link to='/contact.html'>Contact</Link>
+					<Link to='/privacy.html'>Privacy Policy</Link>
 					<span>{obfuscate(<>SystemYA</>)} {new Date().getUTCFullYear()}</span>
 				</footer>
 			</>

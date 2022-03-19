@@ -30,7 +30,7 @@ export default class Contact extends Component {
 
 				<p>Any (applicable) collected Personal Information is routinely wiped from applicable systems on (30) day intervals, as it is no longer relevant to maintaining or auditing our systems.</p>
 
-				<p>For any additional information or clarification regarding the privacy policy, contact information is available from our <Link to='/contact'>contact page</Link>.</p>
+				<p>For any additional information or clarification regarding the privacy policy, contact information is available from our <Link to='/contact.html'>contact page</Link>.</p>
 			</main>
 		);
 	}
