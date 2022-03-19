@@ -54,91 +54,91 @@
 					"name": "Super Mario Advance",
 					"src": "Super Mario Advance.gba",
 					"image": [0,6],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Super Mario Advance 2",
 					"src": "Super Mario Advance 2.gba",
 					"image": [1,6],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Mario Kart: Super Circuit",
 					"src": "Mario Kart: Super Circuit.gba",
 					"image": [2,6],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Red",
 					"src": "Pokemon Red.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Green",
 					"src": "Pokemon Green.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Blue",
 					"src": "Pokemon Blue.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Yellow",
 					"src": "Pokemon Yellow.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Gold",
 					"src": "Pokemon Gold.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Silver",
 					"src": "Pokemon Silver.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Crystal",
 					"src": "Pokemon Crystal.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Ruby",
 					"src": "Pokemon Ruby.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Sapphire",
 					"src": "Pokemon Sapphire.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Emerald",
 					"src": "Pokemon Emerald.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Fire Red",
 					"src": "Pokemon Fire Red.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				},
 				{
 					"name": "Pokemon Leaf Green",
 					"src": "Pokemon Leaf Green.gba",
 					"image": [0,0],
-					"target": "webretro.mgba"
+					"target": "webretro"
 				}
 			]
 		},
@@ -150,19 +150,19 @@
 					"name": "Sonic The Hedgehog",
 					"src": "Sonic The Hedgehog.md",
 					"image": [0,5],
-					"target": "webretro.autodetect"
+					"target": "webretro"
 				},
 				{
 					"name": "Sonic The Hedgehog 2",
 					"src": "Sonic The Hedgehog 2.md",
 					"image": [1,5],
-					"target": "webretro.autodetect"
+					"target": "webretro"
 				},
 				{
 					"name": "Sonic The Hedgehog 3",
 					"src": "Sonic The Hedgehog 3.md",
 					"image": [0,0],
-					"target": "webretro.autodetect"
+					"target": "webretro"
 				}
 			]
 		},
@@ -174,19 +174,19 @@
 					"name": "Super Mario Bros",
 					"src": "Super Mario Bros.nes",
 					"image": [0,4],
-					"target": "webretro.snes9x"
+					"target": "webretro"
 				},
 				{
 					"name": "Super Mario Bros 2",
 					"src": "Super Mario Bros 2.nes",
 					"image": [1,4],
-					"target": "webretro.snes9x"
+					"target": "webretro"
 				},
 				{
 					"name": "Super Mario Bros 3",
 					"src": "Super Mario Bros 3.nes",
 					"image": [2,4],
-					"target": "webretro.snes9x"
+					"target": "webretro"
 				}
 			]
 		},
