@@ -17,4 +17,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 file(GLOB_RECURSE sources ${PROJECT_SOURCE_DIR} ./source/*.cpp)
 
 add_executable(client ${sources})
-set_target_properties(client PROPERTIES LINK_FLAGS "-s FETCH")
+set_target_properties(client PROPERTIES LINK_FLAGS "--bind -s FETCH")

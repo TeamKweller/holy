@@ -1,9 +1,9 @@
 import root from './root.js';
-import process from 'process';
 import GenericGlobeSVG from './Assets/generic-globe.svg';
 import SleepingComponent from './SleepingComponent';
 import { createRef } from 'react';
 import { render } from 'react-dom';
+import process from 'process';
 import obfuscate from './obfuscate.js';
 
 export default class ServiceFrame extends SleepingComponent {

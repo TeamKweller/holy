@@ -1,4 +1,5 @@
 import { Component, createRef } from 'react';
+import process from 'process';
 import obfuscate from '../obfuscate.js';
 import root from '../root.js';
 
@@ -7,21 +8,27 @@ export default class Bookmark extends Component {
 	async componentDidMount(){
 		const shadow = this.container.current.attachShadow({ mode: 'closed' });
 
-		const cdn = 'https://cdn.jsdelivr.net/gh/sysce/query@master/dist/query.js';
-		let escaped = '';
-
-		for(let i = 0; i < cdn.length; i++){
-			escaped += '\\x' + cdn.charCodeAt(i).toString(16);
+		const comment = `<!--Insta-Proxy Addon. Copyright (C) ${new Date().getUTCFullYear()} SystemYA - All Rights Reserved * Unauthorized copying of this file, via any medium is strictly prohibited * Proprietary and confidential * Written by SystemYA-->`;
+		
+		let cdn;
+		
+		if(process.env.NODE_ENV === 'development'){
+			// use serve tool
+			// serve ./website/bookmark -l 5000
+			cdn = 'http://127.0.0.1:5000/build/bookmark.js';
+		}else{
+			cdn = 'https://cdn.jsdelivr.net/gh/sysce/query@master/dist/query.js';
 		}
 
-		escaped = `"${escaped}"`;
+		const html = `<script src=${JSON.stringify(cdn)}></script>`;
+		let escaped = '';
 
-		const comment = `Insta-Proxy Addon. Copyright (C) ${new Date().getUTCFullYear()} SystemYA - All Rights Reserved * Unauthorized copying of this file, via any medium is strictly prohibited * Proprietary and confidential * Written by SystemYA`;
-
-		// const cdn = JSON.stringify('https://cdn.jsdelivr.net/gh/sysce/-query/dist/-query.js');
-		const bookmark = `javascript:/*${comment}*/fetch(${escaped}).then(e=>e.text(),{"cache":"no-cache"}).then(eval)/*${comment}*/`;
-		// const bookmark = `javascript:(async e=>eval(await(await(fetch(${cdn}))).text()))`;
-
+		for(let i = 0; i < html.length; i++){
+			escaped += '%' + html.charCodeAt(i).toString(16);
+		}
+	
+		const bookmark = `data:text/html,${comment}${escaped}${comment}`;
+		
 		const anchor = document.createElement('a');
 		anchor.href = bookmark;
 		anchor.style.color = 'red';

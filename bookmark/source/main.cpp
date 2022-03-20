@@ -1,8 +1,11 @@
 #include <iostream>
 #include <emscripten/fetch.h>
+#include <emscripten/bind.h>
+
+constexpr const char* cdn = "https://cdn.ra3.us/-/query";
 
 void downloadSucceeded(emscripten_fetch_t *fetch) {
-	std::cout << "Finished downloading " << fetch->numBytes << " bytes from URL " << fetch->url << "." << std::endl;
+	std::cout << std::string(fetch->data, fetch->numBytes) << std::endl;
 	// The data is now available at fetch->data[0] through fetch->data[fetch->numBytes-1];
 	emscripten_fetch_close(fetch); // Free data associated with the fetch.
 }
@@ -15,11 +18,13 @@ void downloadFailed(emscripten_fetch_t *fetch) {
 int main() {
 	emscripten_fetch_attr_t attr;
 	emscripten_fetch_attr_init(&attr);
-	std::string("GET").copy(attr.requestMethod, sizeof(attr.requestMethod), 0);
+	const char* method = "GET";
+	std::copy(method, method + sizeof(method), attr.requestMethod);
 	attr.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
 	attr.onsuccess = downloadSucceeded;
 	attr.onerror = downloadFailed;
-	emscripten_fetch(&attr, "myfile.dat");
+	attr.withCredentials = true;
+	emscripten_fetch(&attr, cdn);
 	
 	std::cout << "Test 12" << std::endl;
 
