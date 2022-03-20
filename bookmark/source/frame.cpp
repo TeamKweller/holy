@@ -20,6 +20,10 @@ EM_JS(void, register_listener, (Frame* pointer), {
 	});
 
 	frame.addEventListener('load', event => {
+		if(!frame.hasAttribute('src')){
+			return;
+		}
+
 		ping = true;
 		pong = false;
 		frame.contentWindow.postMessage('ip-client-ping');
