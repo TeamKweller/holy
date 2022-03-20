@@ -11,7 +11,7 @@ Frame* frame;
 
 using emscripten::val;
 
-void downloadSucceeded(emscripten_fetch_t* fetch) {
+void download_succeeded(emscripten_fetch_t* fetch) {
 	val parsed = val::global("JSON").call<val>("parse", val(std::string(fetch->data, fetch->numBytes)));
 
 	// The data is now available at fetch->data[0] through fetch->data[fetch->numBytes-1];
@@ -24,14 +24,12 @@ void downloadSucceeded(emscripten_fetch_t* fetch) {
 	frame->load("https://" + parsed["host"].as<std::string>());
 }
 
-void downloadFailed(emscripten_fetch_t* fetch) {
+void download_failed(emscripten_fetch_t* fetch) {
 	val parsed = val::global("JSON").call<val>("parse", val(std::string(fetch->data, fetch->numBytes)));
 
 	emscripten_fetch_close(fetch);
 
-	std::string message = parsed["message"].as<std::string>();
-
-	frame->display_error("Unable to find a proxy.", message);
+	frame->display_error("Unable to find a proxy.", parsed["message"].as<std::string>(), parsed["code"].as<std::string>());
 }
 
 int main() {
@@ -44,8 +42,8 @@ int main() {
 	const char* method = "GET";
 	std::copy(method, method + sizeof(method), attr.requestMethod);
 	attr.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
-	attr.onsuccess = downloadSucceeded;
-	attr.onerror = downloadFailed;
+	attr.onsuccess = download_succeeded;
+	attr.onerror = download_failed;
 	attr.withCredentials = true;
 	emscripten_fetch(&attr, cdn);
 

@@ -1,6 +1,8 @@
 #include "frame.h"
 #include <iostream>
 #include <emscripten.h>
+#include <chrono>
+#include "date.h"
 
 using emscripten::val;
 
@@ -63,7 +65,9 @@ void Frame::load_html(std::string html) {
 	frame.call<void>("removeAttribute", val("src"));
 }
 
-void Frame::display_error(std::string title, std::string message){
+void Frame::display_error(std::string title, std::string message, std::string code){
+	std::string time = date::format("%D %T %Z\n", floor<std::chrono::milliseconds>(std::chrono::system_clock::now()));
+
 	load_html(R"(<!DOCTYPE HTML>
 <html>
 	<head>
@@ -74,7 +78,11 @@ void Frame::display_error(std::string title, std::string message){
 		<h1>)" + title + R"(</h1>
 		<hr />
 		<p>)" + message + R"(</p>
-		<p>Try again later. If this error still occurs, contact this service's administrator.</p>
+		<p>Try again later. If this error still occurs, contact this service's administrator and mention the details below:</p>
+		<p>
+		Error Code: )" + code + R"(<br />
+		Time: )" + time + R"(
+		</p>
 	</body>
 </html>)");
 }
