@@ -21,10 +21,6 @@ void download_succeeded(emscripten_fetch_t* fetch) {
 	// The data is now available at fetch->data[0] through fetch->data[fetch->numBytes-1];
 	emscripten_fetch_close(fetch);  // Free data associated with the fetch.
 
-	if (fetch->status >= 300) {
-		
-	}
-
 	frame->load("https://" + parsed["host"].as<std::string>());
 }
 
