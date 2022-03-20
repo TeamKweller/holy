@@ -6,6 +6,12 @@ export default async function buildBookmark(output, { development, watch }){
 	output = resolve(cwd(), output);
 	const builder = new Builder(output, development);
 	console.log('Created builder. Output will go to', output);
+	
+	if(development){
+		console.log('Building for DEVELOPMENT');
+	}else{
+		console.log('Building for PRODUCTION');
+	}
 
 	if(watch){
 		console.info('Watching directory for changes');

@@ -5,7 +5,7 @@ import compileBookmark from './cli/compileBookmark.mjs';
 const program = new Command();
 
 program
-.command('buildBookmark')
+.command('build-bookmark')
 .description('Builds the bookmark script')
 .argument('[output]', 'Output directory', './')
 .option('--d, --development', 'If the result shouldn\'t be optimized for production')
@@ -14,7 +14,7 @@ program
 ;
 
 program
-.command('compileBookmark')
+.command('compile-bookmark')
 .description('Compiles the bookmark source')
 .option('--d, --development', 'If the result shouldn\'t be optimized for production')
 .action(compileBookmark)

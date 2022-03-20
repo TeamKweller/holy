@@ -19,6 +19,12 @@ async function spawnp(...args){
 }
 
 export default async function compileBookmark({ development }){
+	if(development){
+		console.log('Compiling for DEVELOPMENT');
+	}else{
+		console.log('Compiling for PRODUCTION');
+	}
+
 	try{
 		await mkdir(join(bookmark, 'build'));
 	}catch(error){
@@ -27,12 +33,12 @@ export default async function compileBookmark({ development }){
 		}
 	}
 
-	await spawnp('emcmake', [ 'cmake', '../' ], {
+	await spawnp('emcmake', [ 'cmake', '../', ...(development ? ['-D', 'CMAKE_BUILD_TYPE=Debug'] : []) ], {
 		cwd: join(bookmark, 'build'),
 		stdio: 'inherit',
 	});	
 
-	await spawnp('emmake', [ 'make', ...(development ? ['-DCMAKE_BUILD_TYPE=Debug'] : []) ], {
+	await spawnp('emmake', [ 'make' ], {
 		cwd: join(bookmark, 'build'),
 		stdio: 'inherit',
 	});	
