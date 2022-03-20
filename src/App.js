@@ -8,7 +8,7 @@ const Support = lazy(() => import(/* webpackPrefetch: true */ './Pages/Support.j
 const Contact = lazy(() => import(/* webpackPrefetch: true */ './Pages/Contact.js'));
 const Privacy = lazy(() => import(/* webpackPrefetch: true */ './Pages/Privacy.js'));
 const NotFound = lazy(() => import(/* webpackPrefetch: true */ './Pages/NotFound.js'));
-const Bookmark = lazy(() => import(/* webpackPrefetch: true */ './Pages/Bookmark.js'));
+// const Bookmark = lazy(() => import(/* webpackPrefetch: true */ './Pages/Bookmark.js'));
 
 // https://reactrouter.com/docs/en/v6/getting-started/overview
 export default class App extends Component {
@@ -42,11 +42,13 @@ export default class App extends Component {
 							<Privacy layout={this.layout} />
 						</Suspense>
 					} />
+					{/*
 					<Route path="/bookmark.html" element={
 						<Suspense fallback={<></>}>
 							<Bookmark layout={this.layout} />
 						</Suspense>
 					} />
+					*/}
 					<Route path="*" element={
 						<Suspense fallback={<></>}>
 							<NotFound layout={this.layout} />

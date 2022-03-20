@@ -62,8 +62,10 @@ void fetch() {
 }
 
 int main() {
-	frame = new Frame([]() {
-		std::cerr << "ERROR " << std::endl;
+	frame = new Frame([](bool loaded) {
+		if(!loaded){
+			std::cerr << "Failure loading" << std::endl;
+		}
 	});
 
 	fetch();

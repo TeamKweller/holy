@@ -22,7 +22,7 @@ EM_JS(void, register_listener, (Frame* pointer), {
 	frame.addEventListener('load', event => {
 		ping = true;
 		pong = false;
-		frame.postMessage('ip-client-ping');
+		frame.contentWindow.postMessage('ip-client-ping');
 
 		setTimeout(() => {
 			if(!pong){
@@ -41,17 +41,17 @@ EM_JS(emscripten::EM_VAL, get_module_handle, (), {
 void callback(val _frame,  bool loaded) {
 	Frame* frame = reinterpret_cast<Frame*>(_frame.as<uint32_t>());
 
-	frame->on_error();
+	frame->load_callback(loaded);
 }
 
 EMSCRIPTEN_BINDINGS(frame) {
 	emscripten::function("callback", &callback);
 }
 
-Frame::Frame(std::function<void()> _on_error)
+Frame::Frame(std::function<void(bool)> _load_callback)
     : document(val::global("document"))
     , frame(document.call<val>("createElement", val("iframe")))
-    , on_error(_on_error) {
+    , load_callback(_load_callback) {
 	val module = val::take_ownership(get_module_handle());
 
 	module.set("frame", frame);
