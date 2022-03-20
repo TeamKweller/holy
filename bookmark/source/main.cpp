@@ -49,12 +49,11 @@ void fetch_proxy() {
 
 		if (response->status >= 300) {
 			frame->display_error("Unable to find a proxy.", parsed["message"].as<std::string>(), verbose_error_code(response, parsed));
-			return;
+		}else{
+			frame->load("https://" + parsed["host"].as<std::string>());
 		}
 
 		emscripten_fetch_close(response);
-
-		frame->load("https://" + parsed["host"].as<std::string>());
 	}, [](emscripten_fetch_t* response) {
 		frame->display_error("Unable to find a proxy.", "An unknown network error occured", "NET_UNKNOWN_" + std::to_string(response->status));
 
@@ -62,46 +61,26 @@ void fetch_proxy() {
 	});
 }
 
-void report_download_failed(emscripten_fetch_t* fetch) {
-	val parsed = val::take_ownership(json_parse(fetch->data, fetch->numBytes));
-
-	if (parsed.isUndefined()) {
-		frame->display_error("Unable to request new proxy.", "An unknown network error occured", "NET_UNKNOWN_" + std::to_string(fetch->status));
-	} else {
-		std::string code;
-		if (parsed.hasOwnProperty("code")) {
-			code = parsed["code"].as<std::string>();
-		} else if (parsed.hasOwnProperty("error")) {
-			code = parsed["error"].as<std::string>();
-		} else {
-			code = "NET_UNKNOWN_" + std::to_string(fetch->status);
-		}
-
-		frame->display_error("Unable to request new proxy.", parsed["message"].as<std::string>(), code);
-	}
-
-	emscripten_fetch_close(fetch);
-}
-
-void report_download_succeeded(emscripten_fetch_t* fetch) {
-	if (fetch->status >= 300) {
-		report_download_failed(fetch);
-		return;
-	}
-
-	fetch_proxy();
-}
-
 void report_proxy() {
 	frame->load_html("<h3>Proxy didn't load! Requesting new one...</h3>");
-	emscripten_fetch_attr_t attr;
-	emscripten_fetch_attr_init(&attr);
-	strcpy(attr.requestMethod, "DELETE");
-	attr.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
-	attr.onsuccess = report_download_succeeded;
-	attr.onerror = report_download_failed;
-	attr.withCredentials = true;
-	emscripten_fetch(&attr, cdn);
+	emscripten_fetch_attr_t attribute = new_fetch_attribute();
+	strcpy(attribute.requestMethod, "DELETE");
+	attribute.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
+	attribute.withCredentials = true;
+	fetch(cdn, attribute, [](emscripten_fetch_t* response){
+		if (response->status >= 300) {
+			val parsed = val::take_ownership(json_parse(response->data, response->numBytes));
+			frame->display_error("Unable to request new proxy.", parsed["message"].as<std::string>(), verbose_error_code(response, parsed));
+		}else{
+			fetch_proxy();
+		}
+
+		emscripten_fetch_close(response);
+	}, [](emscripten_fetch_t* response){
+		frame->display_error("Unable to request new proxy.", "An unknown network error occured", "NET_UNKNOWN_" + std::to_string(response->status));
+
+		emscripten_fetch_close(response);
+	});
 }
 
 int main() {
