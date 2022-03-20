@@ -6,14 +6,17 @@ using emscripten::val;
 
 EM_JS(void, register_listener, (Frame* pointer), {
 	const { frame } = Module;
-	Module.callback(pointer);
+
+	frame.addEventListener('error', event => {
+		Module.callback(pointer, event);
+	});
 });
 
 EM_JS(emscripten::EM_VAL, get_module_handle, (), {
 	return Emval.toHandle(Module);
 });
 
-void callback(val _frame){
+void callback(val _frame, val error){
 	Frame* frame = reinterpret_cast<Frame*>(_frame.as<uint32_t>());
 	
 	frame->on_error();
@@ -24,7 +27,7 @@ void Frame::on_error(){
 }
 
 EMSCRIPTEN_BINDINGS(frame) {
-	emscripten::function("callback", &callback, emscripten::allow_raw_pointers());
+	emscripten::function("callback", &callback);
 }
 
 Frame::Frame()
@@ -58,4 +61,20 @@ void Frame::load(std::string url) {
 void Frame::load_html(std::string html) {
 	frame.call<void>("setAttribute", val("srcdoc"), val(html));
 	frame.call<void>("removeAttribute", val("src"));
+}
+
+void Frame::display_error(std::string title, std::string message){
+	load_html(R"(<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1"/>
+	</head>
+	<body>
+		<h1>)" + title + R"(</h1>
+		<hr />
+		<p>)" + message + R"(</p>
+		<p>Try again later. If this error still occurs, contact this service's administrator.</p>
+	</body>
+</html>)");
 }
