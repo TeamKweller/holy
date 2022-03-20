@@ -69,8 +69,11 @@ export default class Builder {
 					rules: [
 						{
 							test: module => module.resource === join(__dirname, 'build', 'client.js'),
-							modify: (src, path) =>
-								`export default function loadModule(Module){${src}}`,
+							modify: (src, path) => {
+								src = src.replace(/require\(/g, 'undefined(');
+								src = `export default function loadModule(Module){${src}}`;
+								return src;
+							},
 						}
 					]
 				}),

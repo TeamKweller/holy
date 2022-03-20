@@ -21,7 +21,7 @@ int main() {
 	attr.onerror = downloadFailed;
 	emscripten_fetch(&attr, "myfile.dat");
 	
-	std::cout << "Test" << std::endl;
+	std::cout << "Test 12" << std::endl;
 
 	return 0;
 }
