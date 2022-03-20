@@ -4,10 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.js';
 import root from './root.js';
 
-window.addEventListener('message', ({ data, source }) => {
+window.addEventListener('message', ({ data, ports }) => {
 	if(data === 'ip-client-ping'){
-		console.log(source, data);
-		source.postMessage('ip-client-pong');
+		console.log(ports, data);
+		ports[0].postMessage('ip-client-pong');
 	}
 });
 

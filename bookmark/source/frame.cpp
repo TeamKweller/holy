@@ -11,7 +11,11 @@ EM_JS(void, register_listener, (Frame* pointer), {
 	let ping = false;
 	let pong = false;
 
-	window.addEventListener('message', ({ data }) => {
+	const channel = new MessageChannel();
+
+	channel.port1.addEventListener('message', ({ data }) => {
+		console.log(data, ping);
+
 		if(data === 'ip-client-pong' && ping){
 			pong = true;
 			ping = false;
@@ -26,7 +30,14 @@ EM_JS(void, register_listener, (Frame* pointer), {
 
 		ping = true;
 		pong = false;
-		frame.contentWindow.postMessage('ip-client-ping');
+
+		try{
+			frame.contentWindow.postMessage('ip-client-ping', '*', [channel.port2]);
+		}catch(error){
+			console.error(error);
+			Module.callback(pointer, false);
+			return;
+		}
 
 		setTimeout(() => {
 			if(!pong){
