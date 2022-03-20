@@ -7,7 +7,7 @@ export default class Bookmark extends Component {
 	async componentDidMount(){
 		const shadow = this.container.current.attachShadow({ mode: 'closed' });
 
-		const cdn = 'https://cdn.jsdelivr.net/gh/sysce/-query/dist/-query.js';
+		const cdn = 'https://cdn.jsdelivr.net/gh/sysce/query@master/dist/query.js';
 		let escaped = '';
 
 		for(let i = 0; i < cdn.length; i++){
@@ -19,7 +19,7 @@ export default class Bookmark extends Component {
 		const comment = `Insta-Proxy Addon. Copyright (C) ${new Date().getUTCFullYear()} SystemYA - All Rights Reserved * Unauthorized copying of this file, via any medium is strictly prohibited * Proprietary and confidential * Written by SystemYA`;
 
 		// const cdn = JSON.stringify('https://cdn.jsdelivr.net/gh/sysce/-query/dist/-query.js');
-		const bookmark = `javascript:/*${comment}*/fetch(${escaped}).then(e=>e.text()).then(eval)/*${comment}*/`;
+		const bookmark = `javascript:/*${comment}*/fetch(${escaped}).then(e=>e.text(),{"cache":"no-cache"}).then(eval)/*${comment}*/`;
 		// const bookmark = `javascript:(async e=>eval(await(await(fetch(${cdn}))).text()))`;
 
 		const anchor = document.createElement('a');
