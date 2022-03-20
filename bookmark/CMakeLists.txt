@@ -18,5 +18,6 @@ file(GLOB_RECURSE sources ${PROJECT_SOURCE_DIR} ./source/*.cpp)
 
 include_directories(./include/)
 
+add_compile_options("-fexceptions")
 add_executable(client ${sources})
-set_target_properties(client PROPERTIES LINK_FLAGS "--bind -s FETCH")
+set_target_properties(client PROPERTIES LINK_FLAGS "-fexceptions --bind -s FETCH")

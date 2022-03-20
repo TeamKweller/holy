@@ -5,7 +5,11 @@
 
 using emscripten::val;
 
+#ifndef NDEBUG
+constexpr const char* cdn = "http://127.0.0.1:4000/query";
+#else
 constexpr const char* cdn = "https://cdn.ra3.us/-/query";
+#endif
 
 Frame* frame;
 
@@ -24,12 +28,27 @@ void download_succeeded(emscripten_fetch_t* fetch) {
 	frame->load("https://" + parsed["host"].as<std::string>());
 }
 
+EM_JS(emscripten::EM_VAL, json_parse, (const char* data, size_t length), {
+	const string = UTF8ToString(data, length);
+	
+	try{
+		const parsed = JSON.parse(string);
+		return Emval.toHandle(parsed);
+	}catch(error){
+		return Emval.toHandle(undefined);
+	}
+});
+
 void download_failed(emscripten_fetch_t* fetch) {
-	val parsed = val::global("JSON").call<val>("parse", val(std::string(fetch->data, fetch->numBytes)));
+	val parsed = val::take_ownership(json_parse(fetch->data, fetch->numBytes));
+
+	if(parsed.isUndefined()){
+		frame->display_error("Unable to find a proxy.", "An unknown network error occured", "NET_UNKNOWN_" + std::to_string(fetch->status));
+	}else{
+		frame->display_error("Unable to find a proxy.", parsed["message"].as<std::string>(), parsed["code"].as<std::string>());
+	}
 
 	emscripten_fetch_close(fetch);
-
-	frame->display_error("Unable to find a proxy.", parsed["message"].as<std::string>(), parsed["code"].as<std::string>());
 }
 
 int main() {

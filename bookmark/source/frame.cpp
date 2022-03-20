@@ -1,5 +1,4 @@
 #include "frame.h"
-#include <iostream>
 #include <emscripten.h>
 #include <chrono>
 #include "date.h"
@@ -25,7 +24,7 @@ void callback(val _frame, val error){
 }
 
 void Frame::on_error(){
-	std::cout << "on error" << std::endl;
+	
 }
 
 EMSCRIPTEN_BINDINGS(frame) {
