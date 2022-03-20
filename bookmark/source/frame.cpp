@@ -5,36 +5,53 @@
 
 using emscripten::val;
 
+// clang-format off
 EM_JS(void, register_listener, (Frame* pointer), {
-	const { frame } = Module;
+	const {frame} = Module;
+	let ping = false;
+	let pong = false;
 
-	frame.addEventListener('error', event => {
-		Module.callback(pointer, event);
+	window.addEventListener('message', ({ data }) => {
+		if(data === 'ip-client-pong' && ping){
+			pong = true;
+			ping = false;
+			Module.callback(pointer, true);
+		}
+	});
+
+	frame.addEventListener('load', event => {
+		ping = true;
+		pong = false;
+		frame.postMessage('ip-client-ping');
+
+		setTimeout(() => {
+			if(!pong){
+				ping = false;
+				Module.callback(pointer, false);
+			}
+		}, 8e3);
 	});
 });
+// clang-format on
 
 EM_JS(emscripten::EM_VAL, get_module_handle, (), {
 	return Emval.toHandle(Module);
 });
 
-void callback(val _frame, val error){
+void callback(val _frame,  bool loaded) {
 	Frame* frame = reinterpret_cast<Frame*>(_frame.as<uint32_t>());
-	
-	frame->on_error();
-}
 
-void Frame::on_error(){
-	
+	frame->on_error();
 }
 
 EMSCRIPTEN_BINDINGS(frame) {
 	emscripten::function("callback", &callback);
 }
 
-Frame::Frame()
+Frame::Frame(std::function<void()> _on_error)
     : document(val::global("document"))
-    , frame(document.call<val>("createElement", val("iframe"))) {
-	
+    , frame(document.call<val>("createElement", val("iframe")))
+    , on_error(_on_error) {
 	val module = val::take_ownership(get_module_handle());
 
 	module.set("frame", frame);
@@ -64,7 +81,7 @@ void Frame::load_html(std::string html) {
 	frame.call<void>("removeAttribute", val("src"));
 }
 
-void Frame::display_error(std::string title, std::string message, std::string code){
+void Frame::display_error(std::string title, std::string message, std::string code) {
 	std::string time = date::format("%D %T %Z\n", floor<std::chrono::milliseconds>(std::chrono::system_clock::now()));
 
 	load_html(R"(<!DOCTYPE HTML>
@@ -74,13 +91,17 @@ void Frame::display_error(std::string title, std::string message, std::string co
 		<meta name="viewport" content="width=device-width,initial-scale=1"/>
 	</head>
 	<body>
-		<h1>)" + title + R"(</h1>
+		<h1>)" +
+	          title + R"(</h1>
 		<hr />
-		<p>)" + message + R"(</p>
+		<p>)" +
+	          message + R"(</p>
 		<p>Try again later. If this error still occurs, contact this service's administrator and mention the details below:</p>
 		<p>
-		Error Code: )" + code + R"(<br />
-		Time: )" + time + R"(
+		Error Code: )" +
+	          code + R"(<br />
+		Time: )" +
+	          time + R"(
 		</p>
 	</body>
 </html>)");

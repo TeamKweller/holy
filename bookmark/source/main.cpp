@@ -26,11 +26,11 @@ void download_succeeded(emscripten_fetch_t* fetch) {
 
 EM_JS(emscripten::EM_VAL, json_parse, (const char* data, size_t length), {
 	const string = UTF8ToString(data, length);
-	
-	try{
+
+	try {
 		const parsed = JSON.parse(string);
 		return Emval.toHandle(parsed);
-	}catch(error){
+	} catch (error) {
 		return Emval.toHandle(undefined);
 	}
 });
@@ -38,18 +38,16 @@ EM_JS(emscripten::EM_VAL, json_parse, (const char* data, size_t length), {
 void download_failed(emscripten_fetch_t* fetch) {
 	val parsed = val::take_ownership(json_parse(fetch->data, fetch->numBytes));
 
-	if(parsed.isUndefined()){
+	if (parsed.isUndefined()) {
 		frame->display_error("Unable to find a proxy.", "An unknown network error occured", "NET_UNKNOWN_" + std::to_string(fetch->status));
-	}else{
+	} else {
 		frame->display_error("Unable to find a proxy.", parsed["message"].as<std::string>(), parsed["code"].as<std::string>());
 	}
 
 	emscripten_fetch_close(fetch);
 }
 
-int main() {
-	frame = new Frame();
-
+void fetch() {
 	frame->load_html("<h3>Finding the best proxy...</h3>");
 
 	emscripten_fetch_attr_t attr;
@@ -61,6 +59,14 @@ int main() {
 	attr.onerror = download_failed;
 	attr.withCredentials = true;
 	emscripten_fetch(&attr, cdn);
+}
+
+int main() {
+	frame = new Frame([]() {
+		std::cerr << "ERROR " << std::endl;
+	});
+
+	fetch();
 
 	return 0;
 }
