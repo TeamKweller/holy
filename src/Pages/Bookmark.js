@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 
 export default class Bookmark extends Component {
 	container = createRef();
-	async componentDidMount(){
+	componentDidMount(){
 		{
 			const comment = `<!--Insta-Proxy Addon. Copyright (C) ${new Date().getUTCFullYear()} SystemYA - All Rights Reserved * Unauthorized copying of this file, via any medium is strictly prohibited * Proprietary and confidential * Written by SystemYA-->`;
 		
@@ -38,6 +38,9 @@ export default class Bookmark extends Component {
 		render(obfuscate(<>Download Insta-Proxy</>), anchor);
 
 		this.container.current.append(anchor);
+	}
+	componentWillUnmount(){
+		URL.revokeObjectURL(this.file);
 	}
 	render(){
 		root.dataset.page = 'bookmark';
