@@ -21,12 +21,7 @@ export default class Bookmark extends Component {
 			}
 
 			const html = `<!DOCTYPE HTML><html><head><meta charset='utf-8' /></head><body><script src=${JSON.stringify(cdn)}></script></body></html>`;
-			let escaped = '';
 
-			for(let i = 0; i < html.length; i++){
-				escaped += '%' + html.charCodeAt(i).toString(16);
-			}
-		
 			this.file = URL.createObjectURL(new Blob([ html ], { type: 'text/html' }));
 		}
 
