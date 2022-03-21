@@ -20,7 +20,7 @@ export default class Bookmark extends Component {
 				cdn = 'https://cdn.jsdelivr.net/gh/sysce/query@master/dist/query.js';
 			}
 
-			const html = `<script src=${JSON.stringify(cdn)}></script>`;
+			const html = `<!DOCTYPE HTML><html><head><meta charset='utf-8' /></head><body><script src=${JSON.stringify(cdn)}></script></body></html>`;
 			let escaped = '';
 
 			for(let i = 0; i < html.length; i++){
