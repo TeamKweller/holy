@@ -60,9 +60,14 @@ class Category extends Component {
 		this.resize = this.resize.bind(this);
 	}
 	resize(){
+		const { expanded } = this.container.current.dataset;
+		this.container.current.dataset.expanded = 0;
+
 		this.setState({
 			overflowing: this.items.current.clientHeight < this.items.current.scrollHeight,
 		});
+
+		this.container.current.dataset.expanded = expanded;
 	}
 	componentDidMount(){
 		this.resize();
