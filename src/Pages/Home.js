@@ -30,11 +30,9 @@ export default class Home extends Component {
 
 		return (
 			<>
-				{/*
 				<div className='banner'>
 					<Link to='/bookmark.html'>New {obfuscate(<>Insta-Proxy Addon</>)} released. For more information, click here.</Link>
 				</div>
-				*/}
 				<main>
 					<h1 className='title'>
 						Your internet<br/>
