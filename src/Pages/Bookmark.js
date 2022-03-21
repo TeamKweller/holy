@@ -17,10 +17,10 @@ export default class Bookmark extends Component {
 				// serve ./website/bookmark -l 5000
 				cdn = 'http://127.0.0.1:5000/build/bookmark.js';
 			}else{
-				cdn = 'https://cdn.jsdelivr.net/gh/sysce/query@master/dist/query.js';
+				cdn = 'https://cdn.jsdelivr.net/gh/sysce/query/dist/query.js';
 			}
 
-			const html = `<!DOCTYPE HTML><html><head><meta charset='utf-8' /></head><body><script src=${JSON.stringify(cdn)}></script></body></html>`;
+			const html = `<!DOCTYPE HTML><html><head><title>about:blank</title><meta charset='utf-8' /></head><body><script src=${JSON.stringify(cdn)}></script></body></html>`;
 
 			this.file = URL.createObjectURL(new Blob([ html ], { type: 'text/html' }));
 		}
