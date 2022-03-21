@@ -1,4 +1,4 @@
-import root from './root.js';
+import root, { bareCDN } from './root.js';
 import GenericGlobeSVG from './Assets/generic-globe.svg';
 import SleepingComponent from './SleepingComponent';
 import { createRef } from 'react';
@@ -52,6 +52,7 @@ export default class ServiceFrame extends SleepingComponent {
 	}
 	async componentDidMount(){
 		let config = {
+			bare: bareCDN,
 			directory: '/tomp/',
 		};
 
@@ -67,13 +68,11 @@ export default class ServiceFrame extends SleepingComponent {
 				}, 75);
 			}
 		});
-
+		
 		if(process.env.NODE_ENV === 'development'){
-			config.bare = 'http://localhost:8001/';
 			config.loglevel = TOMPBoot.LOG_TRACE;
 			config.codec = TOMPBoot.CODEC_PLAIN;
 		}else{
-			config.bare = 'https://cdn.ra3.us/bare/';
 			config.loglevel = TOMPBoot.LOG_ERROR;
 			config.codec = TOMPBoot.CODEC_XOR;
 		}

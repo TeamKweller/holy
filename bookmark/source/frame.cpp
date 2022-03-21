@@ -2,49 +2,25 @@
 #include <emscripten.h>
 #include <chrono>
 #include "date.h"
+#include "fetch.h"
+#include "main.h"
 
 using emscripten::val;
+using namespace std::string_literals;
 
 // clang-format off
-EM_JS(void, register_listener, (Frame* pointer), {
-	const {frame} = Module;
-	let ping = false;
-	let pong = false;
-
-	const channel = new MessageChannel();
-
-	channel.port1.addEventListener('message', ({ data }) => {
-		console.log(data, ping);
-
-		if(data === 'ip-client-pong' && ping){
-			pong = true;
-			ping = false;
-			Module.callback(pointer, true);
-		}
-	});
+EM_JS(void, register_listener, (Frame* pointer, const char* _property, size_t _property_length), {
+	const property = UTF8ToString(_property, _property_length);
+	const frame = Module[property];
 
 	frame.addEventListener('load', event => {
 		if(!frame.hasAttribute('src')){
 			return;
 		}
 
-		ping = true;
-		pong = false;
-
-		try{
-			frame.contentWindow.postMessage('ip-client-ping', '*', [channel.port2]);
-		}catch(error){
-			console.error(error);
-			Module.callback(pointer, false);
-			return;
-		}
-
 		setTimeout(() => {
-			if(!pong){
-				ping = false;
-				Module.callback(pointer, false);
-			}
-		}, 8e3);
+			Module.callback(pointer);
+		}, 2e3);
 	});
 });
 // clang-format on
@@ -53,14 +29,27 @@ EM_JS(emscripten::EM_VAL, get_module_handle, (), {
 	return Emval.toHandle(Module);
 });
 
-void callback(val _frame,  bool loaded) {
-	Frame* frame = reinterpret_cast<Frame*>(_frame.as<uint32_t>());
-
-	frame->load_callback(loaded);
+void callback(val _frame) {
+	reinterpret_cast<Frame*>(_frame.as<uint32_t>())->callback();
 }
 
 EMSCRIPTEN_BINDINGS(frame) {
 	emscripten::function("callback", &callback);
+}
+
+void Frame::callback(){
+	emscripten_fetch_attr_t attribute = new_fetch_attribute();
+	strcpy(attribute.requestMethod, "GET");
+	attribute.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
+	attribute.withCredentials = true;
+	
+	fetch(queryCDN + "/tracker?id="s + id, attribute, [&](emscripten_fetch_t* response){
+		val parsed = val::global("JSON").call<val>("parse", val(std::string(response->data, response->numBytes)));
+
+		bool accessed = parsed["accessed"].as<bool>();
+
+		load_callback(accessed);
+	});
 }
 
 Frame::Frame(std::function<void(bool)> _load_callback)
@@ -69,9 +58,10 @@ Frame::Frame(std::function<void(bool)> _load_callback)
     , load_callback(_load_callback) {
 	val module = val::take_ownership(get_module_handle());
 
-	module.set("frame", frame);
-	register_listener(this);
-	module.delete_("frame");
+	std::string property = "frame";
+	module.set(property, frame);
+	register_listener(this, property.data(), property.size());
+	module.delete_(property);
 
 	val style = frame["style"];
 
@@ -86,9 +76,21 @@ Frame::Frame(std::function<void(bool)> _load_callback)
 	document["documentElement"].call<void>("append", frame);
 }
 
-void Frame::load(std::string url) {
+void Frame::load(std::string host) {
+	emscripten_fetch_attr_t attribute = new_fetch_attribute();
+	strcpy(attribute.requestMethod, "POST");
+	attribute.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
+	attribute.withCredentials = true;
+
+	fetch(queryCDN + "/tracker"s, attribute, [&,host](emscripten_fetch_t* response){
+		id = std::string(response->data, response->numBytes);
+		std::string url = "https://" + host + "/?id=" + id;
+	
+		frame.call<void>("setAttribute", val("src"), val(url));
+	});
+
+	frame.call<void>("removeAttribute", val("src"));
 	frame.call<void>("removeAttribute", val("srcdoc"));
-	frame.call<void>("setAttribute", val("src"), val(url));
 }
 
 void Frame::load_html(std::string html) {

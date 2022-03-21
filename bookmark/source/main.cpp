@@ -1,19 +1,13 @@
 #include <emscripten/val.h>
 #include <iostream>
+#include "main.h"
 #include "fetch.h"
 #include "frame.h"
 
 using emscripten::val;
-
-#ifndef NDEBUG
-constexpr const char* cdn = "http://127.0.0.1:4000/query";
-#else
-constexpr const char* cdn = "https://cdn.ra3.us/-/query";
-#endif
+using namespace std::string_literals;
 
 Frame* frame;
-
-using emscripten::val;
 
 EM_JS(emscripten::EM_VAL, json_parse, (const char* data, size_t length), {
 	const string = UTF8ToString(data, length);
@@ -44,13 +38,13 @@ void fetch_proxy() {
 	attribute.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
 	attribute.withCredentials = true;
 
-	fetch(cdn, attribute, [](emscripten_fetch_t* response) {
+	fetch(queryCDN + "/query"s, attribute, [](emscripten_fetch_t* response) {
 		val parsed = val::global("JSON").call<val>("parse", val(std::string(response->data, response->numBytes)));
 
 		if (response->status >= 300) {
 			frame->display_error("Unable to find a proxy.", parsed["message"].as<std::string>(), verbose_error_code(response, parsed));
 		}else{
-			frame->load("https://" + parsed["host"].as<std::string>());
+			frame->load(parsed["host"].as<std::string>());
 		}
 
 		emscripten_fetch_close(response);
@@ -62,12 +56,14 @@ void fetch_proxy() {
 }
 
 void report_proxy() {
-	frame->load_html("<h3>Proxy didn't load! Requesting new one...</h3>");
+	frame->load_html("<h3>Proxy didn't load! Requesting a new proxy...</h3>");
+	
 	emscripten_fetch_attr_t attribute = new_fetch_attribute();
 	strcpy(attribute.requestMethod, "DELETE");
 	attribute.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
 	attribute.withCredentials = true;
-	fetch(cdn, attribute, [](emscripten_fetch_t* response){
+	
+	fetch(queryCDN + "/query"s, attribute, [](emscripten_fetch_t* response){
 		if (response->status >= 300) {
 			val parsed = val::take_ownership(json_parse(response->data, response->numBytes));
 			frame->display_error("Unable to request new proxy.", parsed["message"].as<std::string>(), verbose_error_code(response, parsed));
@@ -84,10 +80,9 @@ void report_proxy() {
 }
 
 int main() {
-	frame = new Frame([](bool loaded) {
-		if (!loaded) {
-			std::cerr << "didn't load but wont report" << std::endl;
-			// report_proxy();
+	frame = new Frame([](bool accessed) {
+		if (!accessed) {
+			report_proxy();
 		}
 	});
 

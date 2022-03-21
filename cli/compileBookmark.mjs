@@ -33,7 +33,7 @@ export default async function compileBookmark({ development }){
 		}
 	}
 
-	await spawnp('emcmake', [ 'cmake', '../', ...(development ? ['-D', 'CMAKE_BUILD_TYPE=Debug'] : []) ], {
+	await spawnp('emcmake', [ 'cmake', '../', '-D', development ? 'CMAKE_BUILD_TYPE=Debug' : 'CMAKE_BUILD_TYPE=Release' ], {
 		cwd: join(bookmark, 'build'),
 		stdio: 'inherit',
 	});	
