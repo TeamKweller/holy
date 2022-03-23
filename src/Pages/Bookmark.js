@@ -8,8 +8,6 @@ export default class Bookmark extends Component {
 	container = createRef();
 	componentDidMount(){
 		{
-			const comment = `<!--Insta-Proxy Addon. Copyright (C) ${new Date().getUTCFullYear()} SystemYA - All Rights Reserved * Unauthorized copying of this file, via any medium is strictly prohibited * Proprietary and confidential * Written by SystemYA-->`;
-		
 			let cdn;
 
 			if(process.env.NODE_ENV === 'development'){
