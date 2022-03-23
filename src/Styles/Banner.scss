@@ -1,15 +1,14 @@
 #root {
 	> .banner {
-		display: display;
+		position: relative;
 		width: 100%;
-		height: var(--nav-height);
-		background: var(--blue);
 		text-align: center;
+		display: block;
+		background: var(--blue);
+		padding: 15px 0px;
 
-		> a {
-			display: inline;
+		> * {
 			color: var(--slate-text);
-			line-height: var(--nav-height);
 		}
 	}
 }

@@ -49,7 +49,9 @@ export class ObfuscateStyle extends Component {
 		}
 
 		sheet.insertRule(`${junk_selector.join(',')}{position:absolute;z-index:-10;opacity:0}`);
-		sheet.insertRule(`.${string_class},.${string_class} s{text-decoration:none;white-space:nowrap}`);		
+		sheet.insertRule(`.${string_class},.${string_class} s{text-decoration:none}`);
+		sheet.insertRule(`.${string_class}>s{display:inline-block}`);
+		
 	}
 	render(){
 		return <style ref={this.style}></style>
@@ -96,6 +98,8 @@ export default function obfuscate(input){
 		const word = words[wi];
 		const chars = word.split('');
 
+		const added = [];
+
 		for(let ci = 0; ci < chars.length; ci++){
 			const char = chars[ci];
 
@@ -112,8 +116,10 @@ export default function obfuscate(input){
 				}
 			}
 
-			output.push(<s key={`${wi}${ci}`} className={char_class}>{content}</s>);
+			added.push(<s key={`${wi}${ci}`} className={char_class}>{content}</s>);
 		}
+
+		output.push(<s key={`${wi}`}>{added}</s>)
 
 		if(wi !== words.length - 1){
 			output.push(' ');
