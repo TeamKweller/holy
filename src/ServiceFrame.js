@@ -50,7 +50,13 @@ export default class ServiceFrame extends SleepingComponent {
 			},
 		});
 	}
+	focus_listener(){
+		this.iframe.current.contentWindow.focus();
+	}
+	focus_listener = this.focus_listener.bind(this);
 	async componentDidMount(){
+		window.addEventListener('focus', this.focus_listener);
+
 		let config = {
 			bare: bareCDN,
 			directory: '/tomp/',
@@ -97,6 +103,10 @@ export default class ServiceFrame extends SleepingComponent {
 
 			await this.sleep(100);
 		}
+	}
+	async componentWillUnmount(){
+		window.removeEventListener('focus', this.focus_listener);
+		super.componentWillUnmount();
 	}
 	test_proxy_update(){
 		// tomp didn't hook our call to new Function
