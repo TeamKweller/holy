@@ -14,10 +14,12 @@ export default class Layout extends Component {
 		search: false,
 		fullscreen: this.get_fullscreen(),
 		theme: this.get_theme(),
+		expanded: false,
 	};
 	nav = createRef();
 	search_bar = createRef();
 	service_frame = createRef();
+	collapsable = createRef();
 	last_theme = this.state.theme;
 	get_theme(){
 		if(!themes.includes(localStorage.getItem('theme'))){
@@ -42,12 +44,30 @@ export default class Layout extends Component {
 	get_fullscreen(){
 		return document.fullscreenElement !== null;
 	}
-	componentDidMount(){
-		document.addEventListener('fullscreenchange', () => {
-			this.setState({
-				fullscreen: this.get_fullscreen(),
-			});
+	listen_fullscreen(){
+		this.setState({
+			fullscreen: this.get_fullscreen(),
 		});
+	}
+	listen_click(event){
+		if(this.collapsable.current.contains(event.target)){
+			this.setState({
+				expanded: false,
+			});
+		}
+	}
+	constructor(props){
+		super(props);
+		this.listen_fullscreen = this.listen_fullscreen.bind(this);
+		this.listen_click = this.listen_click.bind(this);
+	}
+	componentDidMount(){
+		document.addEventListener('fullscreenchange', this.listen_fullscreen);
+		document.addEventListener('click', this.listen_click);
+	}
+	componentWillUnmount(){
+		document.removeEventListener('fullscreenchange', this.listen_fullscreen);
+		document.removeEventListener('click', this.listen_click);
 	}
 	lightswitch(){
 		if(this.state.theme === 'light'){
@@ -60,9 +80,6 @@ export default class Layout extends Component {
 			});
 		}
 	}
-	collapse(){
-		this.nav.current.dataset.collapsed ^= 1;
-	}
 	render(){
 		root.dataset.theme = this.state.theme;
 		root.dataset.fullscreen = Number(this.state.fullscreen);
@@ -72,8 +89,8 @@ export default class Layout extends Component {
 		return (
 			<>
 				<ObfuscateStyle />
-				<nav ref={this.nav} data-search={Number(this.state.search)}>
-					<div className='collapse' onClick={this.collapse.bind(this)}>
+				<nav ref={this.nav} data-expanded={Number(this.state.expanded)} data-search={Number(this.state.search)}>
+					<div className='expand' onClick={() => this.setState({ expanded: !this.state.expanded })}>
 						<div>
 							<span></span>
 							<span></span>
@@ -83,7 +100,7 @@ export default class Layout extends Component {
 					</div>
 					<Link to='/' className='entry logo'><IconSVG /></Link>
 					<div className='separator'></div>
-					<div className='collapsable'>
+					<div className='collapsable' ref={this.collapsable}>
 						<Link to='/theatre.html' className='entry text'><span>Theatre</span></Link>
 						<Link to='/support.html' className='entry text'><span>Support</span></Link>
 					</div>

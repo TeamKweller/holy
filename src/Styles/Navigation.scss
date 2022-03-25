@@ -16,10 +16,11 @@ nav {
 		width: 100%;
 	}
 
-	> .collapse {
+	> .expand {
 		position: relative;
 		display: none;
 		padding: 15px;
+		cursor: pointer;
 
 		> div {
 			width: 30px;
@@ -58,7 +59,7 @@ nav {
 	}
 
 	@media only screen and (max-width: 500px) {
-		> .collapse {
+		> .expand {
 			display: flex;
 		}
 
@@ -219,8 +220,8 @@ nav {
 }
 
 @media only screen and (max-width: 500px) {
-	nav[data-collapsed='1'] {
-		> *:not(.collapse) {
+	nav[data-expanded='1'] {
+		> *:not(.expand) {
 			display: none;
 		}
 
@@ -228,7 +229,7 @@ nav {
 			display: flex;
 		}
 
-		> .collapse span {
+		> .expand span {
 			&:nth-child(1) {
 				top: 10;
 				width: 0%;
@@ -262,7 +263,7 @@ nav[data-search='1'] {
 	}
 
 	@media only screen and (max-width: 500px) {
-		.logo, .collapse {
+		.logo, .expand {
 			display: none;
 		}
 	}
