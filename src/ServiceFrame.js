@@ -53,7 +53,11 @@ export default class ServiceFrame extends SleepingComponent {
 	focus_listener(){
 		this.iframe.current.contentWindow.focus();
 	}
-	focus_listener = this.focus_listener.bind(this);
+	constructor(props){
+		super(props);
+
+		this.focus_listener = this.focus_listener.bind(this);
+	}
 	async componentDidMount(){
 		window.addEventListener('focus', this.focus_listener);
 
