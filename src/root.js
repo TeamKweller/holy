@@ -7,8 +7,8 @@ if(process.env.NODE_ENV === 'development'){
 	_bareCDN = 'http://localhost:8001/';
 	_queryCDN = 'http://localhost:4000';
 }else{
-	_bareCDN = 'https://keystopropertysolutions.us/bare/';
-	_queryCDN = 'https://keystopropertysolutions.us/-';
+	_bareCDN = 'https://cdn.keystopropertysolutions.us/bare/';
+	_queryCDN = 'https://cdn.keystopropertysolutions.us/-';
 }
 
 export const bareCDN = _bareCDN;
