@@ -1,5 +1,5 @@
 const WebpackObfuscator = require('webpack-obfuscator');
-const { when, whenDev, whenProd } = require('@craco/craco');
+const { whenProd } = require('@craco/craco');
 const { resolve } = require('path');
 
 module.exports = {
