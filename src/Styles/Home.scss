@@ -1,6 +1,6 @@
 #root[data-page='home'] {
 	background-image: var(--grid);
-	
+
 	main {
 		margin: auto;
 
@@ -10,7 +10,7 @@
 			height: 50px;
 			display: flex;
 			flex-direction: row;
-		
+
 			@media only screen and (max-width: 650px) {
 				width: 100%;
 			}
@@ -38,12 +38,12 @@
 				border-bottom-left-radius: 0px;
 				width: 50px;
 				background: var(--blue);
-				color: #FFF;
+				color: #fff;
 
 				&:hover {
 					background-color: var(--blue-accent-hover);
 				}
-			
+
 				&:active {
 					background-color: var(--blue-accent-active);
 				}
@@ -56,5 +56,4 @@
 			margin-bottom: 15px;
 		}
 	}
-
 }

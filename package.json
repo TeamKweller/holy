@@ -23,13 +23,22 @@
 		"webpack": "^5.70.0",
 		"webpack-obfuscator": "^3.5.1"
 	},
+	"devDependencies": {
+		"husky": "^7.0.4",
+		"lint-staged": "^12.3.7",
+		"prettier": "2.6.0"
+	},
+	"lint-staged": {
+		"*.{js,json}": "prettier --write"
+	},
 	"scripts": {
 		"build-tomp": "node ./node_modules/tomp/app.js build ./public/tomp/",
 		"build-bookmark": "node ./app.js compileBookmark; node ./app.js buildBookmark ./bookmark/build/",
 		"start": "NODE_ENV=development craco start",
 		"build": "NODE_ENV=production craco build",
 		"test": "craco test",
-		"eject": "craco eject"
+		"eject": "craco eject",
+		"prepare": "husky install"
 	},
 	"eslintConfig": {
 		"extends": [

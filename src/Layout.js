@@ -7,7 +7,7 @@ import { ReactComponent as IconSVG } from './Assets/nav-icon.svg';
 import { Outlet, Link } from 'react-router-dom';
 import './Styles/App.scss';
 
-const themes = ['light','dark'];
+const themes = ['light', 'dark'];
 
 export default class Layout extends Component {
 	state = {
@@ -21,76 +21,83 @@ export default class Layout extends Component {
 	service_frame = createRef();
 	collapsable = createRef();
 	last_theme = this.state.theme;
-	get_theme(){
-		if(!themes.includes(localStorage.getItem('theme'))){
+	get_theme() {
+		if (!themes.includes(localStorage.getItem('theme'))) {
 			localStorage.setItem('theme', themes[0]);
 		}
 
 		return localStorage.getItem('theme');
 	}
-	set_theme(value){
-		if(this.last_theme === value){
+	set_theme(value) {
+		if (this.last_theme === value) {
 			return value;
 		}
 
-		if(!themes.includes(value)){
+		if (!themes.includes(value)) {
 			throw new RangeError('Bad theme');
 		}
 
 		localStorage.setItem('theme', value);
-		
+
 		return value;
 	}
-	get_fullscreen(){
+	get_fullscreen() {
 		return document.fullscreenElement !== null;
 	}
-	listen_fullscreen(){
+	listen_fullscreen() {
 		this.setState({
 			fullscreen: this.get_fullscreen(),
 		});
 	}
-	listen_click(event){
-		if(this.collapsable.current.contains(event.target)){
+	listen_click(event) {
+		if (this.collapsable.current.contains(event.target)) {
 			this.setState({
 				expanded: false,
 			});
 		}
 	}
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.listen_fullscreen = this.listen_fullscreen.bind(this);
 		this.listen_click = this.listen_click.bind(this);
 	}
-	componentDidMount(){
+	componentDidMount() {
 		document.addEventListener('fullscreenchange', this.listen_fullscreen);
 		document.addEventListener('click', this.listen_click);
 	}
-	componentWillUnmount(){
+	componentWillUnmount() {
 		document.removeEventListener('fullscreenchange', this.listen_fullscreen);
 		document.removeEventListener('click', this.listen_click);
 	}
-	lightswitch(){
-		if(this.state.theme === 'light'){
+	lightswitch() {
+		if (this.state.theme === 'light') {
 			this.setState({
 				theme: 'dark',
 			});
-		}else if(this.state.theme === 'dark'){
+		} else if (this.state.theme === 'dark') {
 			this.setState({
 				theme: 'light',
 			});
 		}
 	}
-	render(){
+	render() {
 		root.dataset.theme = this.state.theme;
 		root.dataset.fullscreen = Number(this.state.fullscreen);
-		
+
 		this.set_theme(this.state.theme);
 
 		return (
 			<>
 				<ObfuscateStyle />
-				<nav ref={this.nav} data-expanded={Number(this.state.expanded)} data-search={Number(this.state.search)}>
-					<div className='expand' onClick={() => this.setState({ expanded: !this.state.expanded })}>
+				<nav
+					ref={this.nav}
+					data-expanded={Number(this.state.expanded)}
+					data-search={Number(this.state.search)}
+				>
+					<div
+						className="expand"
+						onClick={() => this.setState({ expanded: !this.state.expanded })}
+					>
 						<div>
 							<span></span>
 							<span></span>
@@ -98,24 +105,39 @@ export default class Layout extends Component {
 							<span></span>
 						</div>
 					</div>
-					<Link to='/' className='entry logo'><IconSVG /></Link>
-					<div className='separator'></div>
-					<div className='collapsable' ref={this.collapsable}>
-						<Link to='/theatre.html' className='entry text'><span>Theatre</span></Link>
-						<Link to='/support.html' className='entry text'><span>Support</span></Link>
+					<Link to="/" className="entry logo">
+						<IconSVG />
+					</Link>
+					<div className="separator"></div>
+					<div className="collapsable" ref={this.collapsable}>
+						<Link to="/theatre.html" className="entry text">
+							<span>Theatre</span>
+						</Link>
+						<Link to="/support.html" className="entry text">
+							<span>Support</span>
+						</Link>
 					</div>
-					<div className='shift-right'></div>
-					<SearchBar service_frame={this.service_frame} layout={{current:this}} />
-					<button className='lightswitch' onClick={this.lightswitch.bind(this)}><span className='material-icons'>{this.state.theme === 'dark' ? 'brightness_7' : 'brightness_4'}</span></button>
+					<div className="shift-right"></div>
+					<SearchBar
+						service_frame={this.service_frame}
+						layout={{ current: this }}
+					/>
+					<button className="lightswitch" onClick={this.lightswitch.bind(this)}>
+						<span className="material-icons">
+							{this.state.theme === 'dark' ? 'brightness_7' : 'brightness_4'}
+						</span>
+					</button>
 				</nav>
 				<Outlet />
 				<ServiceFrame ref={this.service_frame} />
 				<footer>
-					<Link to='/contact.html'>Contact</Link>
-					<Link to='/privacy.html'>Privacy Policy</Link>
-					<span>{obfuscate(<>SystemYA</>)} {new Date().getUTCFullYear()}</span>
+					<Link to="/contact.html">Contact</Link>
+					<Link to="/privacy.html">Privacy Policy</Link>
+					<span>
+						{obfuscate(<>SystemYA</>)} {new Date().getUTCFullYear()}
+					</span>
 				</footer>
 			</>
 		);
 	}
-};
+}

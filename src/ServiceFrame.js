@@ -18,13 +18,13 @@ export default class ServiceFrame extends SleepingComponent {
 		},
 		proxy: {
 			current: false,
-		}
+		},
 	};
 	links_tried = new WeakMap();
 	iframe = createRef();
 	// headless client for serviceworker
 	headless = createRef();
-	async embed(src, title = src, icon = GenericGlobeSVG){
+	async embed(src, title = src, icon = GenericGlobeSVG) {
 		await this.setState({
 			title,
 			src,
@@ -35,9 +35,9 @@ export default class ServiceFrame extends SleepingComponent {
 			},
 		});
 	}
-	async proxy(input){
+	async proxy(input) {
 		await this.boot.ready;
-		
+
 		const src = this.search.query(input);
 
 		await this.setState({
@@ -50,15 +50,15 @@ export default class ServiceFrame extends SleepingComponent {
 			},
 		});
 	}
-	focus_listener(){
+	focus_listener() {
 		this.iframe.current.contentWindow.focus();
 	}
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		this.focus_listener = this.focus_listener.bind(this);
 	}
-	async componentDidMount(){
+	async componentDidMount() {
 		window.addEventListener('focus', this.focus_listener);
 
 		let config = {
@@ -67,28 +67,30 @@ export default class ServiceFrame extends SleepingComponent {
 		};
 
 		const TOMPBoot = await new Promise(resolve => {
-			if(global.TOMPBoot){
+			if (global.TOMPBoot) {
 				resolve(global.TOMPBoot);
-			}else{
+			} else {
 				const interval = setInterval(() => {
-					if(typeof global.TOMPBoot === 'function'){
+					if (typeof global.TOMPBoot === 'function') {
 						resolve(global.TOMPBoot);
 						clearInterval(interval);
 					}
 				}, 75);
 			}
 		});
-		
-		if(process.env.NODE_ENV === 'development'){
+
+		if (process.env.NODE_ENV === 'development') {
 			config.loglevel = TOMPBoot.LOG_TRACE;
 			config.codec = TOMPBoot.CODEC_PLAIN;
-		}else{
+		} else {
 			config.loglevel = TOMPBoot.LOG_ERROR;
 			config.codec = TOMPBoot.CODEC_XOR;
 		}
 
 		this.boot = new TOMPBoot(config);
-		this.search = new TOMPBoot.SearchBuilder('https://www.google.com/search?q=%s');
+		this.search = new TOMPBoot.SearchBuilder(
+			'https://www.google.com/search?q=%s'
+		);
 
 		await this.boot.ready;
 
@@ -97,53 +99,53 @@ export default class ServiceFrame extends SleepingComponent {
 			this.headless.current.src = this.boot.config.directory;
 		});
 
-
 		await this.ready;
-		
-		while(!this.unmounting){
-			if(this.state.proxy.current){
+
+		while (!this.unmounting) {
+			if (this.state.proxy.current) {
 				this.test_proxy_update();
 			}
 
 			await this.sleep(100);
 		}
 	}
-	async componentWillUnmount(){
+	async componentWillUnmount() {
 		window.removeEventListener('focus', this.focus_listener);
 		super.componentWillUnmount();
 	}
-	test_proxy_update(){
+	test_proxy_update() {
 		// tomp didn't hook our call to new Function
 		const location = new this.iframe_window.Function('return location')();
 
 		const titles = [];
 
-		if(location === this.iframe_window.location){
+		if (location === this.iframe_window.location) {
 			titles.push(this.state.proxy.src);
-		}else{
+		} else {
 			const current_title = this.iframe_window.document.title;
-			
-			if(current_title === ''){
+
+			if (current_title === '') {
 				titles.push(location.href);
-			}else{
+			} else {
 				titles.push(current_title);
 			}
 
-			const selector = this.iframe_window.document.querySelector(`link[rel*='icon']`);
+			const selector =
+				this.iframe_window.document.querySelector(`link[rel*='icon']`);
 
 			const icons = [];
 
-			if(selector !== null && selector.href !== ''){
+			if (selector !== null && selector.href !== '') {
 				icons.push(selector.href);
-			}else{
+			} else {
 				icons.push(new URL('/favicon.ico', location).href);
 			}
 
-			if(!this.links_tried.has(location)){
+			if (!this.links_tried.has(location)) {
 				this.links_tried.set(location, new Set());
 			}
 
-			if(!this.links_tried.get(location).has(icons[0])){
+			if (!this.links_tried.get(location).has(icons[0])) {
 				this.links_tried.get(location).add(icons[0]);
 				this.load_icon(this.boot.binary(icons[0]));
 			}
@@ -151,77 +153,82 @@ export default class ServiceFrame extends SleepingComponent {
 
 		this.setState({
 			title: titles[0],
-		})
+		});
 	}
 	/**
 	 * @returns {Window}
-	*/
-	get iframe_window(){
+	 */
+	get iframe_window() {
 		return this.iframe.current.contentWindow;
 	}
 	/**
 	 * @returns {fetch}
 	 */
-	get client_fetch(){
+	get client_fetch() {
 		return this.headless.current.contentWindow.fetch.bind(undefined);
 	}
-	add_fields(datalist, _fields){
+	add_fields(datalist, _fields) {
 		const fields = [..._fields];
 
-		for(let i = 0; i < fields.length; i++){
+		for (let i = 0; i < fields.length; i++) {
 			fields[i] = <option key={fields[i]} value={fields[i]} />;
 		}
-		
+
 		render(fields, datalist);
-		
 	}
-	async omnibox_entries(query){
+	async omnibox_entries(query) {
 		const results = [];
-		
-		if(query === ''){
+
+		if (query === '') {
 			return results;
 		}
-		
-		try{
+
+		try {
 			await this.ready;
 
-			if(this.abort !== undefined){
+			if (this.abort !== undefined) {
 				this.abort.abort();
 			}
 
 			this.abort = new AbortController();
 
-			const outgoing = await this.client_fetch(this.boot.binary(`https://duckduckgo.com/ac/?` + new URLSearchParams({
-				q: query,
-				kl: 'wt-wt',
-			})), {
-				signal: this.abort.signal,	
-			});
+			const outgoing = await this.client_fetch(
+				this.boot.binary(
+					`https://duckduckgo.com/ac/?` +
+						new URLSearchParams({
+							q: query,
+							kl: 'wt-wt',
+						})
+				),
+				{
+					signal: this.abort.signal,
+				}
+			);
 
-			if(outgoing.ok){
-				for(let { phrase } of await outgoing.json()){
+			if (outgoing.ok) {
+				for (let { phrase } of await outgoing.json()) {
 					results.push(phrase);
 				}
-			}else{
+			} else {
 				throw await outgoing.json();
 			}
-		}catch(error){
+		} catch (error) {
 			// likely abort error
-			if(error.message === 'Failed to fetch'){
+			if (error.message === 'Failed to fetch') {
 				console.error('Error fetching TOMP/Bare server.');
-			}else if(error.message !== 'The user aborted a request.'){
+			} else if (error.message !== 'The user aborted a request.') {
 				throw error;
 			}
 		}
 
-		for(let i = 0; i < results.length; i++){
+		for (let i = 0; i < results.length; i++) {
 			results[i] = <option key={i} value={results[i]} />;
 		}
 
 		return results;
 	}
 	// cant set image src to serviceworker url unless the page is a client
-	async load_icon(icon){
+	async load_icon(icon) {
 		const outgoing = await this.client_fetch(icon);
 
 		this.setState({
@@ -229,11 +236,11 @@ export default class ServiceFrame extends SleepingComponent {
 			revoke_icon: true,
 		});
 	}
-	on_icon_error(event){
+	on_icon_error(event) {
 		this.state.icon = GenericGlobeSVG;
 	}
-	on_icon_load(event){
-		if(this.state.revoke_icon){
+	on_icon_load(event) {
+		if (this.state.revoke_icon) {
 			this.setState({
 				revoke_icon: false,
 			});
@@ -241,7 +248,7 @@ export default class ServiceFrame extends SleepingComponent {
 			URL.revokeObjectURL(this.state.icon);
 		}
 	}
-	close(){
+	close() {
 		this.setState({
 			src: '',
 			proxy: {
@@ -252,34 +259,53 @@ export default class ServiceFrame extends SleepingComponent {
 			},
 		});
 	}
-	fullscreen(){
+	fullscreen() {
 		root.requestFullscreen();
 	}
-	render(){
+	render() {
 		let current;
 
-		if(this.state.embed.current){
+		if (this.state.embed.current) {
 			current = 'embed';
-			root.dataset.service = 1;	
-		}else if(this.state.proxy.current){
+			root.dataset.service = 1;
+		} else if (this.state.proxy.current) {
 			current = 'proxy';
 			root.dataset.service = 1;
-		}else{
+		} else {
 			delete root.dataset.service;
 		}
 
 		return (
-			<div className='service' ref={this.container} data-current={current}>
-				<div className='buttons'>
-					<div className='button' onClick={this.close.bind(this)}><span className='material-icons'>chevron_left</span></div>
-					<img className='icon' alt='' src={this.state.icon} onError={this.on_icon_error.bind(this)} onLoad={this.on_icon_load.bind(this)} />
-					<p className='title'>{obfuscate(<>{this.state.title}</>)}</p>
-					<div className='shift-right'></div>
-					<div className='button' onClick={this.fullscreen.bind(this)}><span className='material-icons'>fullscreen</span></div>
+			<div className="service" ref={this.container} data-current={current}>
+				<div className="buttons">
+					<div className="button" onClick={this.close.bind(this)}>
+						<span className="material-icons">chevron_left</span>
+					</div>
+					<img
+						className="icon"
+						alt=""
+						src={this.state.icon}
+						onError={this.on_icon_error.bind(this)}
+						onLoad={this.on_icon_load.bind(this)}
+					/>
+					<p className="title">{obfuscate(<>{this.state.title}</>)}</p>
+					<div className="shift-right"></div>
+					<div className="button" onClick={this.fullscreen.bind(this)}>
+						<span className="material-icons">fullscreen</span>
+					</div>
 				</div>
-				<iframe className='headless' title='headless' ref={this.headless}></iframe>
-				<iframe className='embed' src={this.state.src} title='embed' ref={this.iframe}></iframe>
+				<iframe
+					className="headless"
+					title="headless"
+					ref={this.headless}
+				></iframe>
+				<iframe
+					className="embed"
+					src={this.state.src}
+					title="embed"
+					ref={this.iframe}
+				></iframe>
 			</div>
-		)
+		);
 	}
-};
+}

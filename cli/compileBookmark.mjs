@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 
 const bookmark = join(__dirname, '..', 'bookmark');
 
-async function spawnp(...args){
+async function spawnp(...args) {
 	const process = spawn(...args);
 
 	return new Promise((resolve, reject) => {
@@ -18,28 +18,37 @@ async function spawnp(...args){
 	});
 }
 
-export default async function compileBookmark({ development }){
-	if(development){
+export default async function compileBookmark({ development }) {
+	if (development) {
 		console.log('Compiling for DEVELOPMENT');
-	}else{
+	} else {
 		console.log('Compiling for PRODUCTION');
 	}
 
-	try{
+	try {
 		await mkdir(join(bookmark, 'build'));
-	}catch(error){
-		if(error.code !== 'EEXIST'){
+	} catch (error) {
+		if (error.code !== 'EEXIST') {
 			throw error;
 		}
 	}
 
-	await spawnp('emcmake', [ 'cmake', '../', '-D', development ? 'CMAKE_BUILD_TYPE=Debug' : 'CMAKE_BUILD_TYPE=Release' ], {
-		cwd: join(bookmark, 'build'),
-		stdio: 'inherit',
-	});	
+	await spawnp(
+		'emcmake',
+		[
+			'cmake',
+			'../',
+			'-D',
+			development ? 'CMAKE_BUILD_TYPE=Debug' : 'CMAKE_BUILD_TYPE=Release',
+		],
+		{
+			cwd: join(bookmark, 'build'),
+			stdio: 'inherit',
+		}
+	);
 
-	await spawnp('emmake', [ 'make' ], {
+	await spawnp('emmake', ['make'], {
 		cwd: join(bookmark, 'build'),
 		stdio: 'inherit',
-	});	
+	});
 }

@@ -4,7 +4,7 @@ import data from '../theatre.json';
 import obfuscate from '../obfuscate.js';
 
 class Item extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		this.state = {
@@ -12,41 +12,54 @@ class Item extends Component {
 			image: this.props.image,
 			target: this.props.target,
 			src: this.props.src,
-		}
+		};
 	}
-	open(){
-		switch(this.props.target){
-			case'proxy':
-				this.props.layout.current.service_frame.current.proxy(this.state.src, this.state.name);
+	open() {
+		switch (this.props.target) {
+			case 'proxy':
+				this.props.layout.current.service_frame.current.proxy(
+					this.state.src,
+					this.state.name
+				);
 				break;
-			case'embed':
-				this.props.layout.current.service_frame.current.embed(this.state.src, this.state.name);
+			case 'embed':
+				this.props.layout.current.service_frame.current.embed(
+					this.state.src,
+					this.state.name
+				);
 				break;
-			case'webretro':
-				this.props.layout.current.service_frame.current.embed(`/assets/theatre/WebRetro/?rom=${encodeURIComponent(this.state.src)}&core=autodetect`, this.state.name);
+			case 'webretro':
+				this.props.layout.current.service_frame.current.embed(
+					`/assets/theatre/WebRetro/?rom=${encodeURIComponent(
+						this.state.src
+					)}&core=autodetect`,
+					this.state.name
+				);
 				break;
 			default:
-				throw new TypeError(`Unrecognized target: ${this.props.target}`)
+				throw new TypeError(`Unrecognized target: ${this.props.target}`);
 		}
 	}
-	render(){
+	render() {
 		const style = {
-			backgroundPosition:`${this.state.image[0] * data.image.width * -1}px ${this.state.image[1] * data.image.height * -1}px`
+			backgroundPosition: `${this.state.image[0] * data.image.width * -1}px ${
+				this.state.image[1] * data.image.height * -1
+			}px`,
 		};
-		
+
 		return (
-			<div className='item' onClick={this.open.bind(this)}>
-				<div className='front' style={style}></div>
-				<div className='name'>{obfuscate(<>{this.state.name}</>)}</div>
+			<div className="item" onClick={this.open.bind(this)}>
+				<div className="front" style={style}></div>
+				<div className="name">{obfuscate(<>{this.state.name}</>)}</div>
 			</div>
-		);	
+		);
 	}
-};
+}
 
 class Category extends Component {
 	items = createRef();
 	container = createRef();
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		this.state = {
@@ -59,70 +72,104 @@ class Category extends Component {
 
 		this.resize = this.resize.bind(this);
 	}
-	resize(){
+	resize() {
 		const { expanded } = this.container.current.dataset;
 		this.container.current.dataset.expanded = 0;
 
 		this.setState({
-			overflowing: this.items.current.clientHeight < this.items.current.scrollHeight,
+			overflowing:
+				this.items.current.clientHeight < this.items.current.scrollHeight,
 		});
 
 		this.container.current.dataset.expanded = expanded;
 	}
-	componentDidMount(){
+	componentDidMount() {
 		this.resize();
 		window.addEventListener('resize', this.resize);
 	}
-	componentWillUnmount(){
+	componentWillUnmount() {
 		window.removeEventListener('resize', this.resize);
 	}
-	async expand(){
+	async expand() {
 		await this.setState({
 			expanded: !this.state.expanded,
 		});
 	}
-	render(){
+	render() {
 		const items = [];
 
-		for(let i = 0; i < this.state.items.length; i++){
+		for (let i = 0; i < this.state.items.length; i++) {
 			const item = this.state.items[i];
 
-			items.push(<Item key={i} layout={this.props.layout} name={item.name} src={new URL(item.src, this.state.base)} target={item.target} image={item.image} />)
+			items.push(
+				<Item
+					key={i}
+					layout={this.props.layout}
+					name={item.name}
+					src={new URL(item.src, this.state.base)}
+					target={item.target}
+					image={item.image}
+				/>
+			);
 		}
 
 		return (
-			<section data-overflowing={Number(this.state.overflowing)} data-expanded={Number(this.state.expanded)} ref={this.container}>
+			<section
+				data-overflowing={Number(this.state.overflowing)}
+				data-expanded={Number(this.state.expanded)}
+				ref={this.container}
+			>
 				<h1>{this.state.name}</h1>
-				<div className='items' ref={this.items}>{items}</div>
-				<div className='items-expand material-icons' onClick={this.expand.bind(this)}>{this.state.expanded ? 'expand_less' : 'expand_more'}</div>
+				<div className="items" ref={this.items}>
+					{items}
+				</div>
+				<div
+					className="items-expand material-icons"
+					onClick={this.expand.bind(this)}
+				>
+					{this.state.expanded ? 'expand_less' : 'expand_more'}
+				</div>
 			</section>
-		)
+		);
 	}
-};
+}
 
 export default class Theatre extends Component {
-	render(){
+	render() {
 		root.dataset.page = 'theatre';
-		
+
 		const categories = [];
 
-		for(let i = 0; i < data.categories.length; i++){
+		for (let i = 0; i < data.categories.length; i++) {
 			const category = data.categories[i];
 
-			categories.push(<Category key={i} layout={this.props.layout} name={category.name} items={category.items} base={new URL(category.base, global.location)} />);
+			categories.push(
+				<Category
+					key={i}
+					layout={this.props.layout}
+					name={category.name}
+					items={category.items}
+					base={new URL(category.base, global.location)}
+				/>
+			);
 		}
 
 		return (
 			<>
-				<div className='banner'>
-					<span>{obfuscate(<>
-						The following titles were moved: Pokemon Red =&gt; Pokemon Fire Red, Pokemon Green =&gt; Pokemon Leaf Green. You can export your saved data on the original titles and import them in the renamed ones.
-					</>)}</span>
+				<div className="banner">
+					<span>
+						{obfuscate(
+							<>
+								The following titles were moved: Pokemon Red =&gt; Pokemon Fire
+								Red, Pokemon Green =&gt; Pokemon Leaf Green. You can export your
+								saved data on the original titles and import them in the renamed
+								ones.
+							</>
+						)}
+					</span>
 				</div>
-				<main>
-					{categories}
-				</main>
+				<main>{categories}</main>
 			</>
 		);
 	}
-};
+}

@@ -13,7 +13,7 @@
 			height: 30px;
 			display: flex;
 		}
-		
+
 		> .search > .icon {
 			position: absolute;
 			width: 20px;
@@ -24,7 +24,7 @@
 			left: 0px;
 			color: var(--subtle);
 		}
-		
+
 		> .search > .bar {
 			width: 100%;
 			padding-left: 32px;
@@ -38,16 +38,16 @@
 			background: var(--background);
 			color: var(--subtle);
 		}
-		
+
 		> .search > .bar:hover {
 			border-color: var(--blue);
 		}
-		
+
 		> .search > .bar:focus {
-			box-shadow: 0 0 0 .125rem var(--blue);
+			box-shadow: 0 0 0 0.125rem var(--blue);
 			border-color: var(--blue);
 		}
-		
+
 		> .search {
 			width: 410px;
 			margin: auto;

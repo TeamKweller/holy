@@ -4,19 +4,22 @@ const { resolve } = require('path');
 
 module.exports = {
 	webpack: {
-		...whenProd(() => ({
-			devtool: false,
-		}), {}),
-		configure(config){
+		...whenProd(
+			() => ({
+				devtool: false,
+			}),
+			{}
+		),
+		configure(config) {
 			if (config.mode === 'production') {
 				config.devtool = false;
-				
+
 				config.module.rules.push({
 					test: /\.js$/,
 					enforce: 'post',
 					exclude: [
-						resolve(__dirname, 'node_modules'),	
-						resolve(__dirname, 'src', 'App.js'),	
+						resolve(__dirname, 'node_modules'),
+						resolve(__dirname, 'src', 'App.js'),
 					],
 					use: {
 						loader: WebpackObfuscator.loader,
@@ -45,7 +48,7 @@ module.exports = {
 				});
 			}
 
-			return config
+			return config;
 		},
 	},
 };

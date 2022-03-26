@@ -33,7 +33,7 @@
 				padding-bottom: 30px;
 				flex-wrap: wrap;
 				overflow: hidden;
-				
+
 				&::after {
 					display: none;
 					content: '';
@@ -46,7 +46,7 @@
 					border-bottom-left-radius: 10px;
 					border-bottom-right-radius: 10px;
 				}
-				
+
 				> .item {
 					cursor: pointer;
 					user-select: none;
@@ -87,14 +87,15 @@
 		> section[data-expanded='1'] {
 			> .items {
 				max-height: unset;
-			
+
 				&::after {
 					display: none;
 				}
 			}
 		}
 
-		> section[data-expanded='1'], > section[data-overflowing='1'] {
+		> section[data-expanded='1'],
+		> section[data-overflowing='1'] {
 			> .items-expand {
 				display: block;
 			}
