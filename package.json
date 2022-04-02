@@ -1,5 +1,5 @@
 {
-	"name": "systemya-website",
+	"name": "holyunblocker-website",
 	"version": "0.0.1",
 	"dependencies": {
 		"@craco/craco": "^7.0.0-alpha.3",
