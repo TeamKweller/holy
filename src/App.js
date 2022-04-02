@@ -18,9 +18,6 @@ const Privacy = lazy(() =>
 const NotFound = lazy(() =>
 	import(/* webpackPrefetch: true */ './Pages/NotFound.js')
 );
-const Bookmark = lazy(() =>
-	import(/* webpackPrefetch: true */ './Pages/Bookmark.js')
-);
 
 // https://reactrouter.com/docs/en/v6/getting-started/overview
 export default class App extends Component {
@@ -66,14 +63,6 @@ export default class App extends Component {
 						element={
 							<Suspense fallback={<></>}>
 								<Privacy layout={this.layout} />
-							</Suspense>
-						}
-					/>
-					<Route
-						path="/bookmark.html"
-						element={
-							<Suspense fallback={<></>}>
-								<Bookmark layout={this.layout} />
 							</Suspense>
 						}
 					/>
