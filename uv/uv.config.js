@@ -1,17 +1,17 @@
+/* eslint-disable */
 {
-	/* eslint-disable */
+	function format(env) {
+		const { host, hostname, protocol } = location;
 
-	let bare;
-
-	if (location.hostname === 'localhost') {
-		bare = 'http://localhost:8001/';
-	} else {
-		bare = `https://uv.${location.host}/`;
+		return env
+			.replace('%{location.host}', host)
+			.replace('%{location.hostname}', hostname)
+			.replace('%{location.protocol}', protocol);
 	}
 
 	self.__uv$config = {
 		prefix: '/uv/service/',
-		bare,
+		bare: format(process.env.REACT_APP_BARE_API),
 		encodeUrl: Ultraviolet.codec.xor.encode,
 		decodeUrl: Ultraviolet.codec.xor.decode,
 		handler: '/uv/uv.handler.js',
