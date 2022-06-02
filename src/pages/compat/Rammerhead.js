@@ -5,6 +5,12 @@ import { RH_API } from '../../consts.js';
 import { Obfuscated } from '../../obfuscate.js';
 import { RammerheadAPI, StrShuffler } from '../../RammerheadAPI.js';
 
+function patch(url) {
+	// url = _rhsEPrcb://bqhQko.tHR/
+	// remove slash
+	return url.replace(/(^.*?:\/)\//, '$1');
+}
+
 export default function Rammerhead(props) {
 	useEffect(() => {
 		void (async function () {
@@ -60,9 +66,9 @@ export default function Rammerhead(props) {
 
 				global.location.replace(
 					new URL(
-						`${session}/${shuffler.shuffle(
+						`${session}/${patch(shuffler.shuffle(
 							props.compat_layout.current.destination
-						)}`,
+						))}`,
 						RH_API
 					)
 				);
