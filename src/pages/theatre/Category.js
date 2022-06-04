@@ -77,8 +77,10 @@ export default function Category(props) {
 					sort = 'name';
 					break;
 				default:
-					console.warn('Unknown sort', settings.sort);
-					break;
+					return set_settings({
+						...settings,
+						sort: 'Most Popular',
+					});
 			}
 
 			try {
@@ -107,7 +109,7 @@ export default function Category(props) {
 		})();
 
 		return () => abort.abort();
-	}, [page, props.category, settings.sort]);
+	}, [page, props.category, set_settings, settings, settings.sort]);
 
 	if (error) {
 		return (
