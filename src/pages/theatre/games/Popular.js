@@ -1,17 +1,15 @@
 import '../../../styles/TheatreCategory.scss';
-
-import { ArrowForward } from '@mui/icons-material';
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { ItemList, TheatreAPI } from '../../../TheatreCommon.js';
+import { ThemeLink } from '../../../ThemeElements.js';
 import { DB_API } from '../../../consts.js';
 import isAbortError from '../../../isAbortError.js';
 import { Obfuscated } from '../../../obfuscate.js';
 import resolveRoute from '../../../resolveRoute.js';
-import { ItemList, TheatreAPI } from '../../../TheatreCommon.js';
-import { ThemeLink } from '../../../ThemeElements.js';
 import SearchBar from '../Search.js';
 import categories from './categories.js';
+import { ArrowForward } from '@mui/icons-material';
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const LIMIT = 8;
 const loading_categories = {
@@ -19,7 +17,7 @@ const loading_categories = {
 	entries: [],
 };
 
-for (let category in categories) {
+for (const category in categories) {
 	for (let i = 0; i < LIMIT; i++) {
 		loading_categories.entries.push({
 			id: i,
@@ -75,7 +73,7 @@ export default function Popular() {
 					Try again by clicking{' '}
 					<a
 						href="i:"
-						onClick={event => {
+						onClick={(event) => {
 							event.preventDefault();
 							global.location.reload();
 						}}
@@ -100,20 +98,20 @@ export default function Popular() {
 
 	const _categories = {};
 
-	for (let category in categories) {
+	for (const category in categories) {
 		_categories[category] = [];
 	}
 
-	for (let item of data.entries) {
+	for (const item of data.entries) {
 		_categories[item.category].push(item);
 	}
 
 	const jsx_categories = [];
 
-	for (let id in _categories) {
+	for (const id in _categories) {
 		let name;
 
-		for (let i in categories) {
+		for (const i in categories) {
 			if (id === i) {
 				name = categories[i].name;
 			}

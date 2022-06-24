@@ -1,19 +1,17 @@
 import '../styles/Proxy.scss';
-
-import { NorthWest, Search } from '@mui/icons-material';
-import BareClient from 'bare-client';
-import clsx from 'clsx';
-import { createRef, useMemo, useRef, useState } from 'react';
-
+import SearchBuilder from '../SearchBuilder.js';
+import ServiceFrame from '../ServiceFrame.js';
+import { ThemeInputBar, ThemeLink } from '../ThemeElements.js';
 import { BARE_API } from '../consts.js';
 import engines from '../engines.js';
 import isAbortError from '../isAbortError';
 import { Obfuscated } from '../obfuscate.js';
 import resolveRoute from '../resolveRoute.js';
-import SearchBuilder from '../SearchBuilder.js';
-import ServiceFrame from '../ServiceFrame.js';
 import textContent from '../textContent.js';
-import { ThemeInputBar, ThemeLink } from '../ThemeElements.js';
+import { NorthWest, Search } from '@mui/icons-material';
+import BareClient from 'bare-client';
+import clsx from 'clsx';
+import { createRef, useMemo, useRef, useState } from 'react';
 
 function SearchBar(props) {
 	const input = useRef();
@@ -33,7 +31,7 @@ function SearchBar(props) {
 
 	let engine;
 
-	for (let _engine of engines) {
+	for (const _engine of engines) {
 		if (_engine.format === format) {
 			engine = _engine;
 			break;
@@ -72,7 +70,7 @@ function SearchBar(props) {
 				if (outgoing.ok) {
 					const text = await outgoing.text();
 
-					for (let [, phrase] of text.matchAll(
+					for (const [, phrase] of text.matchAll(
 						/<span class="sa_tm_text">(.*?)<\/span>/g
 					)) {
 						entries.push(phrase);
@@ -155,11 +153,11 @@ function SearchBar(props) {
 				className="omnibox"
 				data-suggested={Number(render_suggested)}
 				data-focused={Number(input_focused)}
-				onSubmit={event => {
+				onSubmit={(event) => {
 					event.preventDefault();
 					search_submit();
 				}}
-				onBlur={event => {
+				onBlur={(event) => {
 					if (!form.current.contains(event.relatedTarget)) {
 						set_input_focused(false);
 					}
@@ -191,7 +189,7 @@ function SearchBar(props) {
 							last_input.current = 'input';
 							set_last_select(-1);
 						}}
-						onKeyDown={event => {
+						onKeyDown={(event) => {
 							let prevent_default = true;
 
 							switch (event.code) {
@@ -201,7 +199,7 @@ function SearchBar(props) {
 								case 'ArrowDown':
 								case 'ArrowUp':
 									{
-										let last_i = last_select;
+										const last_i = last_select;
 
 										let next;
 

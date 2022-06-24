@@ -45,7 +45,7 @@ export function ObfuscateLayout() {
 	useEffect(() => {
 		const { sheet } = style.current;
 
-		for (let junk of junk_classes) {
+		for (const junk of junk_classes) {
 			sheet.insertRule(
 				`.${string_class} .${junk}{position:absolute;z-index:-10;opacity:0}`
 			);
@@ -54,7 +54,7 @@ export function ObfuscateLayout() {
 		// word
 		sheet.insertRule(`.${string_class}>span{display:inline-block}`);
 
-		for (let ellipsis of ellipsis_classes) {
+		for (const ellipsis of ellipsis_classes) {
 			sheet.insertRule(`.${string_class} .${ellipsis}{display:inline}`);
 		}
 	}, []);
@@ -118,7 +118,7 @@ export const ObfuscatedText = memo(function ObfuscatedText(props) {
 		for (let ci = 0; ci < chars.length; ci++) {
 			const char = chars[ci];
 
-			let content = [];
+			const content = [];
 
 			const add_chars = context.rand.intBetween(1, 2);
 			const real_at_i = context.rand(add_chars);
@@ -182,7 +182,7 @@ export const Obfuscated = memo(function Obfuscated(props) {
 				children = [children];
 			}
 
-			let max = children.length;
+			const max = children.length;
 			for (let i = 0; i < max; i++) {
 				// append in reverse order
 				const child = children[max - i - 1];
@@ -203,7 +203,7 @@ export function ObfuscatedA(props) {
 		// eslint-disable-next-line jsx-a11y/anchor-is-valid
 		<span
 			{...attributes}
-			onMouseUp={event => {
+			onMouseUp={(event) => {
 				if (event.button === 1) {
 					if (typeof onMouseUp === 'function') {
 						onMouseUp(event);
@@ -214,7 +214,7 @@ export function ObfuscatedA(props) {
 					window.open(href, '_blank');
 				}
 			}}
-			onClick={event => {
+			onClick={(event) => {
 				if (typeof onClick === 'function') {
 					onClick(event);
 				}

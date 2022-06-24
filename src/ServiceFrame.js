@@ -1,5 +1,9 @@
 import './styles/Service.scss';
-
+import { Notification } from './Notifications.js';
+import resolve_proxy from './ProxyResolver.js';
+import { BARE_API } from './consts.js';
+import { decryptURL, encryptURL } from './cryptURL.js';
+import { Obfuscated } from './obfuscate.js';
 import {
 	ChevronLeft,
 	Fullscreen,
@@ -17,12 +21,6 @@ import {
 	useState,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
-import { BARE_API } from './consts.js';
-import { decryptURL, encryptURL } from './cryptURL.js';
-import { Notification } from './Notifications.js';
-import { Obfuscated } from './obfuscate.js';
-import resolve_proxy from './ProxyResolver.js';
 
 export default forwardRef(function ServiceFrame(props, ref) {
 	const iframe = useRef();
@@ -110,8 +108,6 @@ export default forwardRef(function ServiceFrame(props, ref) {
 
 			const { contentWindow } = iframe.current;
 
-			let location;
-
 			// * didn't hook our call to new Function
 			try {
 				set_last_src(contentWindow.location.href);
@@ -120,7 +116,7 @@ export default forwardRef(function ServiceFrame(props, ref) {
 				return;
 			}
 
-			location = new contentWindow.Function('return location')();
+			const location = new contentWindow.Function('return location')();
 
 			let title;
 
@@ -166,11 +162,7 @@ export default forwardRef(function ServiceFrame(props, ref) {
 	);
 
 	useEffect(() => {
-		let interval;
-
-		test_proxy_update();
-
-		interval = setInterval(test_proxy_update, 50);
+		const interval = setInterval(test_proxy_update, 50);
 		test_proxy_update();
 		return () => clearInterval(interval);
 	}, [test_proxy_update]);

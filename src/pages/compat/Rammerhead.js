@@ -1,9 +1,8 @@
-import Cookies from 'js-cookie';
-import { useEffect } from 'react';
-
+import { RammerheadAPI, StrShuffler } from '../../RammerheadAPI.js';
 import { RH_API } from '../../consts.js';
 import { Obfuscated } from '../../obfuscate.js';
-import { RammerheadAPI, StrShuffler } from '../../RammerheadAPI.js';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 function patch(url) {
 	// url = _rhsEPrcb://bqhQko.tHR/

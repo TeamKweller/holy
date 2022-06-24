@@ -1,11 +1,9 @@
 import './styles/ThemeElements.scss';
-
+import { ObfuscatedA } from './obfuscate.js';
 import { ExpandMore } from '@mui/icons-material';
 import clsx from 'clsx';
 import { forwardRef, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import { ObfuscatedA } from './obfuscate.js';
 
 export function ThemeButton(props) {
 	const { children, className, ...attributes } = props;
@@ -98,7 +96,7 @@ export const ThemeSelect = forwardRef(function ThemeSelect(props, ref) {
 
 	let default_selected = 0;
 
-	for (let child of children) {
+	for (const child of children) {
 		if (child.type === 'option') {
 			const option = {
 				name: child.props.children,
@@ -154,15 +152,15 @@ export const ThemeSelect = forwardRef(function ThemeSelect(props, ref) {
 			className={clsx('theme-select', className)}
 			data-open={Number(open)}
 			ref={container}
-			onKeyDown={event => {
+			onKeyDown={(event) => {
 				let prevent_default = true;
 
 				switch (event.code) {
 					case 'ArrowDown':
 					case 'ArrowUp':
 						{
-							let last_i = last_select;
-							let last_i_available = available_options.indexOf(
+							const last_i = last_select;
+							const last_i_available = available_options.indexOf(
 								[...available_options].sort(
 									(a, b) => Math.abs(a - last_i) - Math.abs(b - last_i)
 								)[0]
@@ -223,7 +221,7 @@ export const ThemeSelect = forwardRef(function ThemeSelect(props, ref) {
 					event.preventDefault();
 				}
 			}}
-			onBlur={event => {
+			onBlur={(event) => {
 				if (!event.target.contains(event.relatedTarget)) {
 					set_open(false);
 				}

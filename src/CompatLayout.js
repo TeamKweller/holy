@@ -1,6 +1,9 @@
 import './styles/Compat.scss';
 import './styles/ThemeElements.scss';
-
+import { ThemeA, ThemeLink } from './ThemeElements.js';
+import { decryptURL } from './cryptURL.js';
+import { ObfuscateLayout, Obfuscated } from './obfuscate.js';
+import resolveRoute from './resolveRoute.js';
 import {
 	forwardRef,
 	useEffect,
@@ -9,11 +12,6 @@ import {
 	useState,
 } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-
-import { decryptURL } from './cryptURL.js';
-import { ObfuscateLayout, Obfuscated } from './obfuscate.js';
-import resolveRoute from './resolveRoute.js';
-import { ThemeA, ThemeLink } from './ThemeElements.js';
 
 function load_script(src) {
 	const script = document.createElement('script');
@@ -44,7 +42,7 @@ function create_promise_external() {
 }
 
 export const ScriptsOrder = forwardRef(function ScriptsOrder(props, ref) {
-	let [promise, promise_external] = useMemo(create_promise_external, []);
+	const [promise, promise_external] = useMemo(create_promise_external, []);
 
 	useImperativeHandle(ref, () => ({
 		promise,
@@ -55,7 +53,7 @@ export const ScriptsOrder = forwardRef(function ScriptsOrder(props, ref) {
 		const scripts = [];
 
 		void (async function () {
-			for (let child of props.children) {
+			for (const child of props.children) {
 				if (child.type !== Script) {
 					continue;
 				}
@@ -76,7 +74,7 @@ export const ScriptsOrder = forwardRef(function ScriptsOrder(props, ref) {
 
 		return () => {
 			abort.abort();
-			for (let script of scripts) {
+			for (const script of scripts) {
 				script.remove();
 			}
 		};
@@ -86,7 +84,7 @@ export const ScriptsOrder = forwardRef(function ScriptsOrder(props, ref) {
 });
 
 export const Script = forwardRef(function Script(props, ref) {
-	let [promise, promise_external] = useMemo(create_promise_external, []);
+	const [promise, promise_external] = useMemo(create_promise_external, []);
 
 	useImperativeHandle(ref, () => ({
 		promise,
@@ -149,7 +147,7 @@ export default forwardRef(function CompatLayout(props, ref) {
 						Try again by clicking{' '}
 						<ThemeA
 							href="i:"
-							onClick={event => {
+							onClick={(event) => {
 								event.preventDefault();
 								global.location.reload();
 							}}
